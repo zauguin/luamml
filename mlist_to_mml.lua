@@ -3,6 +3,8 @@ local stretchy = require'stretchy'
 
 local properties = node.get_properties_table()
 
+local kern_t, glue_t = node.id'kern', node.id'glue'
+
 local noad_t, accent_t, style_t, choice_t = node.id'noad', node.id'accent', node.id'style', node.id'choice'
 local radical_t, fraction_t, fence_t = node.id'radical', node.id'fraction', node.id'fence'
 
@@ -202,9 +204,20 @@ local function fence_to_table(fence, sub, cur_style)
   return delim
 end
 
+local function space_to_table(amount, sub, cur_style)
+  if amount == 0 then return end
+  -- FIXME: What does MathML do in subscripts etc.? Probably we have to "unscale" in the non mu case...
+  if sub == 99 then -- TODO magic number
+    return {[0] = 'mspace', width = string.format("%.2fem", amount/18)}
+  else
+    return {[0] = 'mspace', width = string.format("%.2fem", amount/tex.sp'1em')}
+  end
+end
+
 function nodes_to_table(head, cur_style)
   local t = {[0] = "mrow"}
   local result = t
+  local nonscript
   for n, id, sub in node.traverse(head) do
     local props = properties[n] props = props and props.mathml_table
     if props then
@@ -236,9 +249,22 @@ function nodes_to_table(head, cur_style)
       t[#t+1] = fraction_to_table(n, sub, cur_style)
     elseif id == fence_t then
       t[#t+1] = fence_to_table(n, sub, cur_style)
+    elseif id == kern_t then
+      if not nonscript then
+        t[#t+1] = space_to_table(n.kern, sub, cur_style)
+      end
+    elseif id == glue_t then
+      if cur_style >= 4 or not nonscript then
+        if sub == 98 then -- TODO magic number
+          nonscript = true
+        else
+          t[#t+1] = space_to_table(n.width, sub, cur_style)
+        end
+      end
     else
       t[#t+1] = {[0] = 'tex:TODO', other = n}
     end
+    nonscript = nil
   end
   return result
 end
