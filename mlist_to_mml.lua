@@ -28,7 +28,7 @@ local function kernel_to_table(kernel, cur_style)
     local char = kernel.char
     local elem = char >= 0x30 and char < 0x39 and 'mn' or 'mi'
     local fam = kernel.fam
-    return {[0] = elem, utf8.char(kernel.char), ['tex:family'] = fam ~= 0 and fam or nil }
+    return {[0] = elem, utf8.char(kernel.char), ['tex:family'] = fam ~= 0 and fam or nil, mathvariant = char < 0x10000 and 'normal' or nil }
   elseif id == sub_box_t then
     return {[0] = 'mi', {[0] = 'mglyph', ['tex:box'] = kernel.list}}
   elseif id == sub_mlist_t then
@@ -64,6 +64,7 @@ local function noad_to_table(noad, sub, cur_style)
       -- TODO
     else
       nucleus[0] = 'mo'
+      if nucleus.mathvariant == 'normal' then nucleus.mathvariant = nil end
     end
     nucleus['tex:class'] = class
 
@@ -101,6 +102,7 @@ local function accent_to_table(accent, sub, cur_style)
   local bot_acc = kernel_to_table(accent.bot_accent, cur_style)
   if top_acc then
     top_acc[0] = 'mo'
+    if top_acc.mathvariant == 'normal' then top_acc.mathvariant = nil end
     if sub & 1 == 1 then
       top_acc.stretchy = 'false'
     end
@@ -108,6 +110,7 @@ local function accent_to_table(accent, sub, cur_style)
   end
   if bot_acc then
     bot_acc[0] = 'mo'
+    if bot_acc.mathvariant == 'normal' then bot_acc.mathvariant = nil end
     if sub & 2 == 2 then
       bot_acc.stretchy = 'false'
     end
