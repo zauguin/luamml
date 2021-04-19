@@ -1,3 +1,5 @@
+local remap_comb = require'remap_comb'
+
 local noad_t, accent_t, style_t, choice_t = node.id'noad', node.id'accent', node.id'style', node.id'choice'
 local radical_t, fraction_t, fence_t = node.id'radical', node.id'fraction', node.id'fence'
 
@@ -102,12 +104,14 @@ local function accent_to_table(accent, sub, cur_style)
     if sub & 1 == 1 then
       top_acc.stretchy = 'false'
     end
+    top_acc[1] = remap_comb[top_acc[1]] or top_acc[1]
   end
   if bot_acc then
     bot_acc[0] = 'mo'
     if sub & 2 == 2 then
       bot_acc.stretchy = 'false'
     end
+    bot_acc[1] = remap_comb[bot_acc[1]] or bot_acc[1]
   end
   return {[0] = top_acc and (bot_acc and 'munderover' or 'mover') or 'munder',
     nucleus,
