@@ -14,6 +14,16 @@ local noad_sub = node.subtypes'noad'
 local radical_sub = node.subtypes'radical'
 local fence_sub = node.subtypes'fence'
 
+local remap_lookup = setmetatable({}, {__index = function(t, k)
+  local ch = utf8.char(k & 0x1FFFFF)
+  t[k] = ch
+  return ch
+end})
+local digit_map = {["0"] = true, ["1"] = true,
+     ["2"] = true, ["3"] = true, ["4"] = true,
+     ["5"] = true, ["6"] = true, ["7"] = true,
+     ["8"] = true, ["9"] = true,}
+
 local nodes_to_table
 
 local function sub_style(s) return s//4*2+5 end
@@ -25,7 +35,8 @@ local function delim_to_table(delim)
   local props = properties[delim] props = props and props.mathml_table
   if props then return props end
   local fam = delim.small_fam
-  return {[0] = 'mo', utf8.char(delim.small_char), ['tex:family'] = fam ~= 0 and fam or nil, stretchy = not stretchy[delim.small_char] or nil }
+  local char = remap_lookup[fam << 21 | delim.small_char]
+  return {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = not stretchy[char] or nil }
 end
 
 -- Like kernel_to_table but always a math_char_t. Also creating a mo and potentially remapping to handle combining chars
@@ -36,9 +47,9 @@ local function acc_to_table(acc, cur_style, stretch)
   if acc.id ~= math_char_t then
     error'confusion'
   end
-  local char = utf8.char(acc.char)
-  char = remap_comb[char] or char
   local fam = acc.fam
+  local char = remap_lookup[fam << 21 | acc.char]
+  char = remap_comb[char] or char
   if stretch ~= not stretchy[char] then -- Handle nil gracefully in stretchy
     stretch = nil
   end
@@ -51,10 +62,14 @@ local function kernel_to_table(kernel, cur_style)
   if props then return props end
   local id = kernel.id
   if id == math_char_t then
-    local char = kernel.char
-    local elem = char >= 0x30 and char < 0x39 and 'mn' or 'mi'
     local fam = kernel.fam
-    return {[0] = elem, utf8.char(char), ['tex:family'] = fam ~= 0 and fam or nil, mathvariant = char < 0x10000 and 'normal' or nil }
+    local char = remap_lookup[fam << 21 | kernel.char]
+    local elem = digit_map[char] and 'mn' or 'mi'
+    return {[0] = elem,
+      char,
+      ['tex:family'] = fam ~= 0 and fam or nil,
+      mathvariant = #char == 1 and utf8.codepoint(char) < 0x10000 and 'normal' or nil
+    }
   elseif id == sub_box_t then
     return {[0] = 'mi', {[0] = 'mglyph', ['tex:box'] = kernel.list}}
   elseif id == sub_mlist_t then
@@ -269,7 +284,14 @@ function nodes_to_table(head, cur_style)
   return result
 end
 
-return function(head, style)
+local function register_remap(family, mapping)
+  family = family << 21
+  for from, to in next, mapping do
+    remap_lookup[family | from] = utf8.char(to)
+  end
+end
+
+local function to_mml(head, style)
   local result = nodes_to_table(head, style or 0)
   result[0] = 'math'
   result.xmlns = 'http://www.w3.org/1998/Math/MathML'
@@ -279,3 +301,8 @@ return function(head, style)
   end
   return result
 end
+
+return {
+  register_family = register_remap,
+  process = to_mml,
+}

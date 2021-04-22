@@ -1,14 +1,30 @@
 local inspect = require'inspect'
 local function show(t) return print(inspect(t)) end
 
-local mlist_to_table = require'mlist_to_mml'
+local mlist_to_mml = require'mlist_to_mml'
+local process_mlist = mlist_to_mml.process
+local register_family = mlist_to_mml.register_family
+
+local mappings = require'remap'
 local write_xml = require'write_xml'
 
+local funcid = luatexbase.new_luafunction'RegisterFamilyMapping'
+token.set_lua('RegisterFamilyMapping', funcid, 'protected')
+lua.get_functions_table()[funcid] = function()
+  local fam = token.scan_int()
+  local mapping = token.scan_string()
+  if mappings[mapping] then
+    register_family(fam, mappings[mapping])
+  else
+    tex.error(string.format('Unknown font mapping %q', mapping))
+  end
+end
+
 luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
-  print'\n\n'
-  local xml = mlist_to_table(mlist, style == 'display' and 2 or 0)
+  print''
+  local xml = process_mlist(mlist, style == 'display' and 2 or 0)
   print(write_xml(xml))
   -- print(write_xml(xml, '\n'))
-  print'\n'
+  print''
   return true
 end, 'dump_list')

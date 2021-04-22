@@ -1,6 +1,8 @@
 \documentclass{article}
-\usepackage{unicode-math}
+% \usepackage{unicode-math}
 \directlua{require'test_tex'}
+\RegisterFamilyMapping\symsymbols{oms}
+\RegisterFamilyMapping\symletters{oml}
 \begin{document}
 \[
   ax^2+b+c=0
