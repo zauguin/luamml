@@ -21,7 +21,6 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   print''
   local xml = process_mlist(mlist, style == 'display' and 2 or 0)
   print(write_xml(xml))
-  -- print(write_xml(xml, '\n'))
   print''
   return true
 end, 'dump_list')

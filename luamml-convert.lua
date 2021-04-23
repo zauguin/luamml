@@ -24,10 +24,19 @@ local digit_map = {["0"] = true, ["1"] = true,
      ["5"] = true, ["6"] = true, ["7"] = true,
      ["8"] = true, ["9"] = true,}
 
+-- Two marker tables. They are used instead of an embellished operator to mark space-like or user provided constructs
+local user_provided, space_like = {}, {}
+
 local nodes_to_table
 
 local function sub_style(s) return s//4*2+5 end
 local function sup_style(s) return s//4*2+4+s%2 end
+
+-- The _to_table functions generally return a second argument which is
+-- could be (if it were a <mo>) a core operator of the embellishe operator
+-- or space_like/user_provided
+-- The delim_to_table and acc_to_table are special since their return value should
+-- always be considered a core operator
 
 -- We ignore large_... since they aren't used for modern fonts
 local function delim_to_table(delim)
@@ -59,19 +68,21 @@ end
 local function kernel_to_table(kernel, cur_style)
   if not kernel then return end
   local props = properties[kernel] props = props and props.mathml_table
-  if props then return props end
+  if props then return props, user_provided end
   local id = kernel.id
   if id == math_char_t then
     local fam = kernel.fam
     local char = remap_lookup[fam << 21 | kernel.char]
     local elem = digit_map[char] and 'mn' or 'mi'
-    return {[0] = elem,
+    local result = {[0] = elem,
       char,
       ['tex:family'] = fam ~= 0 and fam or nil,
       mathvariant = #char == 1 and utf8.codepoint(char) < 0x10000 and 'normal' or nil
     }
+    return result, result
   elseif id == sub_box_t then
-    return {[0] = 'mi', {[0] = 'mglyph', ['tex:box'] = kernel.list}}
+    local result = {[0] = 'mi', {[0] = 'mglyph', ['tex:box'] = kernel.list}}
+    return result, result
   elseif id == sub_mlist_t then
     return nodes_to_table(kernel.list, cur_style)
   else
@@ -79,34 +90,34 @@ local function kernel_to_table(kernel, cur_style)
   end
 end
 
-local function do_sub_sup(t, n, cur_style)
+local function do_sub_sup(t, core, n, cur_style)
   local sub = kernel_to_table(n.sub, sub_style(cur_style))
   local sup = kernel_to_table(n.sup, sup_style(cur_style))
   if sub then
     if sup then
-      return {[0] = 'msubsup', t, sub, sup}
+      return {[0] = 'msubsup', t, sub, sup}, core
     else
-      return {[0] = 'msub', t, sub}
+      return {[0] = 'msub', t, sub}, core
     end
   elseif sup then
-    return {[0] = 'msup', t, sup}
+    return {[0] = 'msup', t, sup}, core
   else
-    return t
+    return t, core
   end
 end
 
 local function noad_to_table(noad, sub, cur_style)
   local class = noad_sub[sub]
-  local nucleus = kernel_to_table(noad.nucleus, class == 'over' and cur_style//2*2+1 or cur_style)
+  local nucleus, core = kernel_to_table(noad.nucleus, class == 'over' and cur_style//2*2+1 or cur_style)
   if class == 'ord' then
   elseif class == 'opdisplaylimits' or class == 'oplimits' or class == 'opnolimits' or class == 'bin' or class == 'rel' or class == 'open'
       or class == 'close' or class == 'punct' or class == 'inner' then
-    if nucleus[0] == 'mrow' then
+    if not core or not core[0] then
       -- TODO
     else
-      nucleus[0] = 'mo'
-      if stretchy[nucleus[1]] then nucleus.stretchy = false end
-      if nucleus.mathvariant == 'normal' then nucleus.mathvariant = nil end
+      core[0] = 'mo'
+      if stretchy[core[1]] then core.stretchy = false end
+      if core.mathvariant == 'normal' then core.mathvariant = nil end
     end
     nucleus['tex:class'] = class
 
@@ -118,35 +129,35 @@ local function noad_to_table(noad, sub, cur_style)
         nucleus,
         sub or sup,
         sub and sup,
-      }
+      }, core
     end
   elseif class == 'under' then
     return {[0] = 'munder',
       nucleus,
       {[0] = 'mo', '_',},
-    }
+    }, core
   elseif class == 'over' then
     return {[0] = 'mover',
       nucleus,
       {[0] = 'mo', '\u{203E}',},
-    }
+    }, core
   elseif class == 'vcenter' then
     nucleus['tex:TODO'] = class
   else
     error[[confusion]]
   end
-  return do_sub_sup(nucleus, noad, cur_style)
+  return do_sub_sup(nucleus, core, noad, cur_style)
 end
 
 local function accent_to_table(accent, sub, cur_style)
-  local nucleus = kernel_to_table(accent.nucleus, cur_style//2*2+1)
+  local nucleus, core = kernel_to_table(accent.nucleus, cur_style//2*2+1)
   local top_acc = acc_to_table(accent.accent, cur_style, sub & 1 == 1)
   local bot_acc = acc_to_table(accent.bot_accent, cur_style, sub & 2 == 2)
   return {[0] = top_acc and (bot_acc and 'munderover' or 'mover') or 'munder',
     nucleus,
     bot_acc or top_acc,
     bot_acc and top_acc,
-  }
+  }, core
 end
 
 local style_table = {
@@ -163,19 +174,19 @@ style_table.crampedscript, style_table.crampedscriptscript =
 
 local function radical_to_table(radical, sub, cur_style)
   local kind = radical_sub[sub]
-  local nucleus = kernel_to_table(radical.nucleus, cur_style//2*2+1)
+  local nucleus, core = kernel_to_table(radical.nucleus, cur_style//2*2+1)
   local left = delim_to_table(radical.left)
   local elem
   if kind == 'radical' or kind == 'uradical' then
     -- FIXME: Check that this is really a square root
-    elem = {[0] = 'msqrt', nucleus}
+    elem, core = {[0] = 'msqrt', nucleus}, nil
   elseif kind == 'uroot' then
     -- FIXME: Check that this is really a root
-    elem = {[0] = 'msqrt', nucleus, kernel_to_table(radical.degree)}
+    elem, core = {[0] = 'msqrt', nucleus, kernel_to_table(radical.degree)}, nil
   elseif kind == 'uunderdelimiter' then
-    elem = {[0] = 'munder', left, nucleus}
+    elem, core = {[0] = 'munder', left, nucleus}, left
   elseif kind == 'uoverdelimiter' then
-    elem = {[0] = 'mover', left, nucleus}
+    elem, core = {[0] = 'mover', left, nucleus}, left
   elseif kind == 'udelimiterunder' then
     elem = {[0] = 'munder', nucleus, left}
   elseif kind == 'udelimiterover' then
@@ -183,11 +194,11 @@ local function radical_to_table(radical, sub, cur_style)
   else
     error[[confusion]]
   end
-  return do_sub_sup(elem, radical, cur_style)
+  return do_sub_sup(elem, core, radical, cur_style)
 end
 
 local function fraction_to_table(fraction, sub, cur_style)
-  local num = kernel_to_table(fraction.num, sup_style(cur_style))
+  local num, core = kernel_to_table(fraction.num, sup_style(cur_style))
   local denom = kernel_to_table(fraction.denom, sub_style(cur_style))
   local left = delim_to_table(fraction.left)
   local right = delim_to_table(fraction.right)
@@ -209,23 +220,24 @@ local function fraction_to_table(fraction, sub, cur_style)
       right,
     }
   else
-    return mfrac
+    return mfrac, core
   end
 end
 
 local function fence_to_table(fence, sub, cur_style)
   local delim = delim_to_table(fence.delimiter)
   delim.fence = 'true'
-  return delim
+  return delim, delim
 end
 
 local function space_to_table(amount, sub, cur_style)
   if amount == 0 then return end
-  -- FIXME: What does MathML do in subscripts etc.? Probably we have to "unscale" in the non mu case...
   if sub == 99 then -- TODO magic number
-    return {[0] = 'mspace', width = string.format("%.2fem", amount/18)}
+    -- 18*2^16=1179648
+    return {[0] = 'mspace', width = string.format("%.2fem", amount/1179648)}, space_like
   else
-    return {[0] = 'mspace', width = string.format("%.2fem", amount/tex.sp'1em')}
+    -- 65781.76=tex.sp'100bp'/100
+    return {[0] = 'mspace', width = string.format("%.2fpt", amount/65781.76)}, space_like
   end
 end
 
@@ -233,14 +245,16 @@ function nodes_to_table(head, cur_style)
   local t = {[0] = "mrow"}
   local result = t
   local nonscript
+  local core = space_like
   for n, id, sub in node.traverse(head) do
+    local new_core
     local props = properties[n] props = props and props.mathml_table
     if props then
-      t[#t+1] = props
+      t[#t+1], new_core = props, user_provided
     elseif id == noad_t then
-      t[#t+1] = noad_to_table(n, sub, cur_style)
+      t[#t+1], new_core = noad_to_table(n, sub, cur_style)
     elseif id == accent_t then
-      t[#t+1] = accent_to_table(n, sub, cur_style)
+      t[#t+1], new_core = accent_to_table(n, sub, cur_style)
     elseif id == style_t then
       if #t ~= 0 then
         local new_t = {[0] = 'mstyle'}
@@ -253,35 +267,42 @@ function nodes_to_table(head, cur_style)
         t.displaystyle, t.scriptlevel = false, sub//2 - 1
       end
       cur_style = sub
+      new_core = space_like
     elseif id == choice_t then
       local size = cur_style//2
-      t[#t+1] = nodes_to_table(n[size == 0 and 'display' or size == 1 and 'text'
-                              or size == 2 and 'script'
-                              or size == 3 and 'scriptscript' or assert(false)], 2*size)
+      t[#t+1], new_core = nodes_to_table(n[size == 0 and 'display'
+                                        or size == 1 and 'text'
+                                        or size == 2 and 'script'
+                                        or size == 3 and 'scriptscript'
+                                        or assert(false)], 2*size), space_like
     elseif id == radical_t then
-      t[#t+1] = radical_to_table(n, sub, cur_style)
+      t[#t+1], new_core = radical_to_table(n, sub, cur_style)
     elseif id == fraction_t then
-      t[#t+1] = fraction_to_table(n, sub, cur_style)
+      t[#t+1], new_core = fraction_to_table(n, sub, cur_style)
     elseif id == fence_t then
-      t[#t+1] = fence_to_table(n, sub, cur_style)
+      t[#t+1], new_core = fence_to_table(n, sub, cur_style)
     elseif id == kern_t then
       if not nonscript then
-        t[#t+1] = space_to_table(n.kern, sub, cur_style)
+        t[#t+1], new_core = space_to_table(n.kern, sub, cur_style)
       end
     elseif id == glue_t then
       if cur_style >= 4 or not nonscript then
         if sub == 98 then -- TODO magic number
           nonscript = true
         else
-          t[#t+1] = space_to_table(n.width, sub, cur_style)
+          t[#t+1], new_core = space_to_table(n.width, sub, cur_style)
         end
       end
     else
-      t[#t+1] = {[0] = 'tex:TODO', other = n}
+      new_core = {[0] = 'tex:TODO', other = n}
+      t[#t+1] = new_core
     end
     nonscript = nil
+    if core and new_core ~= space_like then
+      core = new_core
+    end
   end
-  return result
+  return result, core
 end
 
 local function register_remap(family, mapping)
