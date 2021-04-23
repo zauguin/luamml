@@ -3,7 +3,6 @@ local function escape_name(name)
   return name
 end
 
--- FIXME: Not sure yet if this will be needed
 local escapes = {
   ['"'] = "&quot;",
   ['<'] = "&lt;",
@@ -41,4 +40,7 @@ local function write_elem(tree, indent)
   return out .. '</' .. escaped_name .. '>'
 end
 
-return write_elem
+return function(element, indent, version)
+  return (version == '11' and '<?xml version="1.1"?>' or '') ..
+    write_elem(element, indent and '' or nil)
+end

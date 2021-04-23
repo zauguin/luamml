@@ -1,5 +1,5 @@
-local remap_comb = require'remap_comb'
-local stretchy = require'stretchy'
+local remap_comb = require'luamml-data-combining'
+local stretchy = require'luamml-data-stretchy'
 
 local properties = node.get_properties_table()
 

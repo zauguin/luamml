@@ -1,12 +1,9 @@
-local inspect = require'inspect'
-local function show(t) return print(inspect(t)) end
-
-local mlist_to_mml = require'mlist_to_mml'
+local mlist_to_mml = require'luamml-convert'
 local process_mlist = mlist_to_mml.process
 local register_family = mlist_to_mml.register_family
 
-local mappings = require'remap'
-local write_xml = require'write_xml'
+local mappings = require'luamml-legacy-mappings'
+local write_xml = require'luamml-xmlwriter'
 
 local funcid = luatexbase.new_luafunction'RegisterFamilyMapping'
 token.set_lua('RegisterFamilyMapping', funcid, 'protected')
