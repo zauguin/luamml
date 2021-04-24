@@ -110,6 +110,10 @@ local function noad_to_table(noad, sub, cur_style)
   local class = noad_sub[sub]
   local nucleus, core = kernel_to_table(noad.nucleus, class == 'over' and cur_style//2*2+1 or cur_style)
   if class == 'ord' then
+    if core and core[0] == 'mo' then
+      core[0] = 'mi'
+      core.stretchy, core.mathvariant = nil, #core == 1 and type(core[0]) and utf8.len(core[0]) == 1 and utf8.codepoint(core[0]) < -0x10000 and 'normal' or nil
+    end
   elseif class == 'opdisplaylimits' or class == 'oplimits' or class == 'opnolimits' or class == 'bin' or class == 'rel' or class == 'open'
       or class == 'close' or class == 'punct' or class == 'inner' then
     if not core or not core[0] then
@@ -305,6 +309,10 @@ function nodes_to_table(head, cur_style)
     if core and new_core ~= space_like then
       core = new_core
     end
+  end
+  if t[0] == 'mrow' and #t == 1 then
+    assert(t == result)
+    result = t[1]
   end
   return result, core
 end
