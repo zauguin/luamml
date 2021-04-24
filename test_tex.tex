@@ -1,11 +1,12 @@
 \documentclass{article}
-% \usepackage{unicode-math}
-\directlua{require'luamml-tex'}
+\usepackage{unicode-math}
+\usepackage{amsmath}
+\usepackage{luamml}
 \RegisterFamilyMapping\symsymbols{oms}
 \RegisterFamilyMapping\symletters{oml}
 \begin{document}
 \[
-  ax^2+b+c=0
+  ax^2+bx+c=0
 \]
 \[
   x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.
@@ -13,6 +14,12 @@
 \[
   \sum_a\underline c\dot bc'
 \]
+
+\begin{align}
+  abc&=def\\
+  1+2&=3\\
+  5
+\end{align}
 
 Es gilt $\sin(x)-\sin(x+2\pi)=0$.
 \end{document}

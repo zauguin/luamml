@@ -1,0 +1,99 @@
+\ProvidesExplPackage {luamml-patches-amsmath} {2021-04-23} {0.0.1-alpha}
+  {Feel free to add a description here}
+
+\lua_now:n { require'luamml-amsmath' }
+
+\cs_set:Npn \align@preamble {
+  &
+    \hfil
+    \strut@
+    \setboxz@h {
+      \@lign
+      $
+        \m@th
+        \displaystyle {
+          ##
+        }
+        \ifmeasuring@
+          \luamml_flag_ignore:
+        \else
+          \luamml_flag_alignment_left:
+        \fi
+      $
+    }
+    \ifmeasuring@
+      \savefieldlength@
+    \fi
+    \set@field
+    \tabskip\z@skip
+  &
+    \setboxz@h {
+      \@lign
+      $
+      \m@th
+      \displaystyle
+      {
+        {}
+        \luamml_last_math_alignmark:
+        ##
+      }
+      \ifmeasuring@
+        \luamml_flag_ignore:
+      \else
+        \luamml_flag_alignment_right:
+      \fi
+      $
+    }
+    \ifmeasuring@
+      \savefieldlength@
+    \else
+      \luamml_amsmath_add_box_to_row:
+    \fi
+    \set@field
+    \hfil
+    \tabskip\alignsep@
+}
+
+\cs_set:Npn \math@cr@@@align {
+  \ifst@rred
+    \nonumber
+  \fi
+  \if@eqnsw
+    \global \tag@true
+  \fi
+  \global \advance \row@ \@ne
+  \add@amps \maxfields@
+  \omit
+  \kern -\alignsep@
+  \luamml_amsmath_finalize_row:
+  \iftag@
+    \setboxz@h { 
+      \@lign
+      \strut@
+      { \make@display@tag }
+    }
+    \place@tag
+  \fi
+  \ifst@rred
+  \else
+    \global \@eqnswtrue
+  \fi
+  \global \lineht@ \z@
+  \cr
+}
+
+\cs_set:Npn \endalign {
+  \math@cr
+  \black@ \totwidth@
+  \luamml_amsmath_finalize_table:
+  \egroup
+  \ifingather@
+    \restorealignstate@
+    \egroup
+    \nonumber
+    \ifnum0=‘{\fi\iffalse}\fi
+  \else
+    $$
+  \fi
+  \ignorespacesafterend
+}

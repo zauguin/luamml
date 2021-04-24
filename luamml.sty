@@ -1,0 +1,17 @@
+\ProvidesExplPackage {luamml} {2021-04-23} {0.0.1-alpha}
+  {Feel free to add a description here}
+
+\int_new:N \l__luamml_flag_int
+\lua_now:n { require'luamml-tex' }
+
+\cs_new:Nn \luamml_flag_ignore: {
+  \int_set:Nn \l__luamml_flag_int { 3 }
+}
+\cs_new:Nn \luamml_flag_alignment_left: {
+  \int_set:Nn \l__luamml_flag_int { 7 }
+}
+\cs_new:Nn \luamml_flag_alignment_right: {
+  \int_set:Nn \l__luamml_flag_int { 6 }
+}
+
+\RequirePackage { luamml-patches-amsmath }

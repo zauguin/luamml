@@ -77,7 +77,7 @@ local function kernel_to_table(kernel, cur_style)
     local result = {[0] = elem,
       char,
       ['tex:family'] = fam ~= 0 and fam or nil,
-      mathvariant = #char == 1 and utf8.codepoint(char) < 0x10000 and 'normal' or nil
+      mathvariant = #char == 1 and elem == 'mi' and utf8.codepoint(char) < 0x10000 and 'normal' or nil
     }
     return result, result
   elseif id == sub_box_t then
@@ -256,17 +256,21 @@ function nodes_to_table(head, cur_style)
     elseif id == accent_t then
       t[#t+1], new_core = accent_to_table(n, sub, cur_style)
     elseif id == style_t then
-      if #t ~= 0 then
-        local new_t = {[0] = 'mstyle'}
-        t[#t+1] = new_t
-        t = new_t
+      if sub ~= cur_style then
+        if #t == 0 then
+          t[0] = 'mstyle'
+        else
+          local new_t = {[0] = 'mstyle'}
+          t[#t+1] = new_t
+          t = new_t
+        end
+        if sub < 2 then
+          t.displaystyle, t.scriptlevel = true, 0
+        else
+          t.displaystyle, t.scriptlevel = false, sub//2 - 1
+        end
+        cur_style = sub
       end
-      if sub < 2 then
-        t.displaystyle, t.scriptlevel = true, 0
-      else
-        t.displaystyle, t.scriptlevel = false, sub//2 - 1
-      end
-      cur_style = sub
       new_core = space_like
     elseif id == choice_t then
       local size = cur_style//2
@@ -312,18 +316,22 @@ local function register_remap(family, mapping)
   end
 end
 
-local function to_mml(head, style)
-  local result = nodes_to_table(head, style or 0)
-  result[0] = 'math'
-  result.xmlns = 'http://www.w3.org/1998/Math/MathML'
-  result['xmlns:tex'] = 'http://typesetting.eu/2021/LuaMathML'
-  if style == 2 then
-    result.display = 'block'
+local function to_math(root, style)
+  if root[0] == 'mrow' then
+    root[0] = 'math'
+  else
+    root = {[0] = 'math', root}
   end
-  return result
+  root.xmlns = 'http://www.w3.org/1998/Math/MathML'
+  root['xmlns:tex'] = 'http://typesetting.eu/2021/LuaMathML'
+  if style < 2 then
+    root.display = 'block'
+  end
+  return root
 end
 
 return {
   register_family = register_remap,
-  process = to_mml,
+  process = function(head, style) return nodes_to_table(head, style or 2) end,
+  make_root = to_math,
 }

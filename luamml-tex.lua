@@ -1,9 +1,12 @@
 local mlist_to_mml = require'luamml-convert'
 local process_mlist = mlist_to_mml.process
+local make_root = mlist_to_mml.make_root
 local register_family = mlist_to_mml.register_family
 
 local mappings = require'luamml-legacy-mappings'
 local write_xml = require'luamml-xmlwriter'
+
+local properties = node.get_properties_table()
 
 local funcid = luatexbase.new_luafunction'RegisterFamilyMapping'
 token.set_lua('RegisterFamilyMapping', funcid, 'protected')
@@ -17,10 +20,56 @@ lua.get_functions_table()[funcid] = function()
   end
 end
 
+-- Possible flag values:
+--   0: Normal (This is the only supported one in display mode)
+--   1: Like 0, result is display math
+--   2: Generate MathML, but only save it for later usage in startmath node
+--   3: Skip
+--   4: Prepend node list from buffer before generating
+--   5: Like 5, result is display math
+--   6: 2+4
+--   7: Skip but save copy of node list in buffer
+--
+--  In other words:
+--    Bit 1: Suppress output
+--    Bit 0: Force display if 1 isn't set, if it is then skip MathML generation
+--    Bit 2: Integrate with table mechanism
+
+local mlist_buffer
+
 luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
-  print''
-  local xml = process_mlist(mlist, style == 'display' and 2 or 0)
-  print(write_xml(xml))
-  print''
+  local flag = tex.count.l__luamml_flag_int
+  if flag & 3 == 3 then
+    if flag & 4 == 4 then
+      assert(mlist_buffer == nil)
+      mlist_buffer = node.copy_list(mlist)
+    end
+    return true
+  end
+  local new_mlist, buffer_tail
+  if flag & 4 == 4 then
+    new_mlist, buffer_tail = assert(mlist_buffer), node.tail(mlist_buffer)
+    mlist.prev, buffer_tail.next = buffer_tail, mlist
+    mlist_buffer = nil
+  else
+    new_mlist = mlist
+  end
+  local xml = process_mlist(new_mlist, style == 'display' and 0 or 2)
+  if flag & 2 == 0 then
+    print(write_xml(make_root(xml, (style == 'display' or flag & 1 == 1) and 0 or 2)) .. '\n')
+  else
+    assert(style == 'text')
+    local startmath = tex.nest.top.tail
+    local props = properties[startmath]
+    if not props then
+      props = {}
+      properties[startmath] = props
+    end
+    props.saved_mathml_table = xml
+  end
+  if buffer_tail then
+    mlist.prev, buffer_tail.next = nil, nil
+    node.flush_list(new_mlist)
+  end
   return true
 end, 'dump_list')
