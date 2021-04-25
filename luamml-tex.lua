@@ -36,6 +36,7 @@ end
 --    Bit 2: Integrate with table mechanism
 
 local mlist_buffer
+local mlist_result
 
 luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   local flag = tex.count.l__luamml_flag_int
@@ -56,7 +57,7 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   end
   local xml = process_mlist(new_mlist, style == 'display' and 0 or 2)
   if flag & 2 == 0 then
-    print(write_xml(make_root(xml, (style == 'display' or flag & 1 == 1) and 0 or 2)) .. '\n')
+    mlist_result = write_xml(make_root(xml, (style == 'display' or flag & 1 == 1) and 0 or 2))
   else
     assert(style == 'text')
     local startmath = tex.nest.top.tail
@@ -73,3 +74,15 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   end
   return true
 end, 'dump_list')
+
+funcid = luatexbase.new_luafunction'luamml_get_last_mathml_stream:e'
+token.set_lua('luamml_get_last_mathml_stream:e', funcid)
+lua.get_functions_table()[funcid] = function()
+  if not mlist_result then
+    tex.error('No current MathML data', {
+        "I was asked to provide MathML code for the last formula, but there weren't any new formulas since you last asked."
+      })
+  end
+  tex.sprint(-2, tostring(pdf.immediateobj('stream', mlist_result, '/Subtype /application#2Fmathml+xml\n' .. token.scan_argument(true))))
+  mlist_result = nil
+end

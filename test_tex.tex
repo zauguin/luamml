@@ -4,10 +4,17 @@
 \usepackage{luamml}
 \RegisterFamilyMapping\symsymbols{oms}
 \RegisterFamilyMapping\symletters{oml}
+\ExplSyntaxOn
+\pdfvariable compresslevel0
+\cs_new_protected:Npn \ShowMathMLObj {
+  \message { \luamml_get_last_mathml_stream:e{}~0~R }
+}
+\ExplSyntaxOff
 \begin{document}
 \[
   ax^2+bx+c=0
 \]
+\ShowMathMLObj
 \[
   x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.
 \]

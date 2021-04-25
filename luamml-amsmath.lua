@@ -24,7 +24,6 @@ lua.get_functions_table()[funcid] = function()
     mml = {[0] = 'mtd', mml}
   end
   local row_temp = tex.nest[tex.nest.ptr-1]
-  print(row_temp)
   props = properties[row_temp]
   if not props then
     props = {}
@@ -42,7 +41,6 @@ token.set_lua('luamml_amsmath_finalize_row:', funcid, 'protected')
 lua.get_functions_table()[funcid] = function()
   -- TODO: Error handling etc
   local row_temp = tex.nest[tex.nest.ptr-1]
-  print("final", row_temp)
   local props = properties[row_temp]
   if not props then return end
   if not props.mathml_row then return end
