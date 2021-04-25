@@ -106,13 +106,44 @@ local function do_sub_sup(t, core, n, cur_style)
   end
 end
 
-local function noad_to_table(noad, sub, cur_style)
+
+-- If we encounter a . or , after a number, test if it's followed by another number and in that case convert it into a mn
+local function maybe_to_mn(noad, core)
+  if noad.sub or noad.sup then return end
+  local after = noad.next
+  if not after then return end
+  if after.id ~= noad_t then return end
+  if noad_sub[after.subtype] ~= 'ord' then return end
+  after = after.nucleus
+  if not after then return end
+  if after.id ~= math_char_t then return end
+  if not digit_map[remap_lookup[after.fam << 21 | after.char]] then return end
+  core[0] = 'mn'
+end
+
+local function noad_to_table(noad, sub, cur_style, mn)
   local class = noad_sub[sub]
   local nucleus, core = kernel_to_table(noad.nucleus, class == 'over' and cur_style//2*2+1 or cur_style)
   if class == 'ord' then
     if core and core[0] == 'mo' then
       core[0] = 'mi'
-      core.stretchy, core.mathvariant = nil, #core == 1 and type(core[0]) and utf8.len(core[0]) == 1 and utf8.codepoint(core[0]) < -0x10000 and 'normal' or nil
+      core.stretchy, core.mathvariant = nil, #core == 1 and type(core[0]) == 'string' and utf8.len(core[0]) == 1 and utf8.codepoint(core[0]) < -0x10000 and 'normal' or nil
+      core['tex:class'] = nil
+    end
+    if nucleus == core and #core == 1 then
+      if mn and core[0] == 'mi' and (core[1] == '.' or core[1] == ',') and maybe_to_mn(noad, core) or core[0] == 'mn' then
+        if mn then
+          mn[#mn+1] = core[1]
+          nucleus = do_sub_sup(mn, mn, noad, cur_style)
+          if nucleus == mn then
+            return nil, mn, mn
+          else
+            return nucleus, mn, false
+          end
+        elseif not noad.sub and not noad.sup then
+          return core, core, core
+        end
+      end
     end
   elseif class == 'opdisplaylimits' or class == 'oplimits' or class == 'opnolimits' or class == 'bin' or class == 'rel' or class == 'open'
       or class == 'close' or class == 'punct' or class == 'inner' then
@@ -246,17 +277,23 @@ local function space_to_table(amount, sub, cur_style)
 end
 
 function nodes_to_table(head, cur_style)
-  local t = {[0] = "mrow"}
+  local t = {[0] = 'mrow'}
   local result = t
   local nonscript
-  local core = space_like
+  local core, mn = space_like
   for n, id, sub in node.traverse(head) do
-    local new_core
+    local new_core, new_mn
     local props = properties[n] props = props and props.mathml_table
     if props then
       t[#t+1], new_core = props, user_provided
     elseif id == noad_t then
-      t[#t+1], new_core = noad_to_table(n, sub, cur_style)
+      local new_n
+      new_n, new_core, new_mn = noad_to_table(n, sub, cur_style, mn)
+      if new_mn == false then
+        t[#t], new_mn = new_n, nil
+      else
+        t[#t+1] = new_n -- might be nil
+      end
     elseif id == accent_t then
       t[#t+1], new_core = accent_to_table(n, sub, cur_style)
     elseif id == style_t then
@@ -309,6 +346,7 @@ function nodes_to_table(head, cur_style)
     if core and new_core ~= space_like then
       core = new_core
     end
+    mn = new_mn
   end
   if t[0] == 'mrow' and #t == 1 then
     assert(t == result)
