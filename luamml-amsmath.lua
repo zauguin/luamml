@@ -13,6 +13,7 @@ lua.get_functions_table()[funcid] = function()
   assert(startmath.id == node.id"math")
   local props = assert(properties[startmath])
   local mml = assert(props.saved_mathml_table)
+  props.saved_mathml_table = nil
   table.insert(mml, 1, {[0] = 'maligngroup'})
   if mml[0] == 'mstyle' and mml.displaystyle == true then
     mml[0], mml.displaystyle, mml.scriptlevel = 'mtd', nil, nil
@@ -46,6 +47,7 @@ lua.get_functions_table()[funcid] = function()
   if not props then return end
   if not props.mathml_row then return end
   mml_row = props.mathml_row
+  props.mathml_row = nil
   props = properties[tex.lists.align_head]
   if not props then
     props = {}
@@ -66,8 +68,9 @@ lua.get_functions_table()[funcid] = function()
   local props = properties[tex.lists.align_head]
   if not props then return end
   local mml_table = props.mathml_table_node_table
+  props.mathml_table_node_table = nil
   if not mml_table then return end
-  print(write_xml(make_root(mml_table, 2)))
+  print(write_xml(make_root(mml_table, 0)))
 end
 
 funcid = luatexbase.new_luafunction'luamml_last_math_alignmark:'
