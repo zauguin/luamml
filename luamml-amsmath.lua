@@ -1,5 +1,6 @@
 local write_xml = require'luamml-xmlwriter'
 local make_root = require'luamml-convert'.make_root
+local save_result = require'luamml-tex'.save_result
 
 local properties = node.get_properties_table()
 
@@ -14,7 +15,6 @@ lua.get_functions_table()[funcid] = function()
   local props = assert(properties[startmath])
   local mml = assert(props.saved_mathml_table)
   props.saved_mathml_table = nil
-  table.insert(mml, 1, {[0] = 'maligngroup'})
   if mml[0] == 'mstyle' and mml.displaystyle == true then
     mml[0], mml.displaystyle, mml.scriptlevel = 'mtd', nil, nil
   else
@@ -68,7 +68,10 @@ lua.get_functions_table()[funcid] = function()
   local mml_table = props.mathml_table_node_table
   props.mathml_table_node_table = nil
   if not mml_table then return end
-  print(write_xml(make_root(mml_table, 0)))
+  local columns = node.count(node.id'align_record', tex.lists.align_head)//2
+  mml_table.columnalign = string.rep('right left', columns, ' ')
+  mml_table.columnalign = string.rep('0.3em', columns, '0.8em ') -- FIXME: 0.3em is a hack needed since MathML doesn't add spacing for our empty mrow
+  save_result(mml_table, 0)
 end
 
 funcid = luatexbase.new_luafunction'luamml_last_math_alignmark:'

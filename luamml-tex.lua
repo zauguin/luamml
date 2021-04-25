@@ -38,6 +38,10 @@ end
 local mlist_buffer
 local mlist_result
 
+local function save_result(xml, style)
+  mlist_result = write_xml(make_root(xml, style))
+end
+
 luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   local flag = tex.count.l__luamml_flag_int
   if flag & 3 == 3 then
@@ -57,7 +61,7 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   end
   local xml = process_mlist(new_mlist, style == 'display' and 0 or 2)
   if flag & 2 == 0 then
-    mlist_result = write_xml(make_root(xml, (style == 'display' or flag & 1 == 1) and 0 or 2))
+    save_result(xml, (style == 'display' or flag & 1 == 1) and 0 or 2)
   else
     assert(style == 'text')
     local startmath = tex.nest.top.tail
@@ -86,3 +90,7 @@ lua.get_functions_table()[funcid] = function()
   tex.sprint(-2, tostring(pdf.immediateobj('stream', mlist_result, '/Subtype /application#2Fmathml+xml\n' .. token.scan_argument(true))))
   mlist_result = nil
 end
+
+return {
+  save_result = save_result,
+}

@@ -4,6 +4,9 @@
 \int_new:N \l__luamml_flag_int
 \lua_now:n { require'luamml-tex' }
 
+\cs_new:Nn \luamml_flag_save: {
+  \int_set:Nn \l__luamml_flag_int { 2 }
+}
 \cs_new:Nn \luamml_flag_ignore: {
   \int_set:Nn \l__luamml_flag_int { 3 }
 }
@@ -14,4 +17,4 @@
   \int_set:Nn \l__luamml_flag_int { 6 }
 }
 
-% \RequirePackage { luamml-patches-amsmath }
+\RequirePackage { luamml-patches-amsmath }

@@ -17,12 +17,14 @@
         \ifmeasuring@
           \luamml_flag_ignore:
         \else
-          \luamml_flag_alignment_left:
+        \luamml_flag_save:
         \fi
       $
     }
     \ifmeasuring@
       \savefieldlength@
+    \else
+      \luamml_amsmath_add_box_to_row:
     \fi
     \set@field
     \tabskip\z@skip
@@ -34,13 +36,12 @@
       \displaystyle
       {
         {}
-        \luamml_last_math_alignmark:
         ##
       }
       \ifmeasuring@
         \luamml_flag_ignore:
       \else
-        \luamml_flag_alignment_right:
+        \luamml_flag_save:
       \fi
       $
     }
