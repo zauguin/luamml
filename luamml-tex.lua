@@ -40,6 +40,9 @@ local mlist_result
 
 local function save_result(xml, style)
   mlist_result = write_xml(make_root(xml, style))
+  if tex.count.tracingmathml > 1 then
+    texio.write_nl(mlist_result .. '\n')
+  end
 end
 
 luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
@@ -86,6 +89,9 @@ lua.get_functions_table()[funcid] = function()
     tex.error('No current MathML data', {
         "I was asked to provide MathML code for the last formula, but there weren't any new formulas since you last asked."
       })
+  end
+  if tex.count.tracingmathml == 1 then
+    texio.write_nl(mlist_result .. '\n')
   end
   tex.sprint(-2, tostring(pdf.immediateobj('stream', mlist_result, '/Subtype/application#2Fmathml+xml' .. token.scan_argument(true))))
   mlist_result = nil
