@@ -376,9 +376,14 @@ function nodes_to_table(head, cur_style)
     end
     nonscript = nil
     if core and new_core ~= space_like then
-      core = new_core
+      core = core == space_like and new_core or nil
     end
     mn = new_mn
+  end
+  -- In TeX, groups are never space like
+  if core == space_like then
+    core = {[0] = 'mi', intent = '@ignore'}
+    result[#result+1] = core
   end
   if t[0] == 'mrow' and #t == 1 then
     assert(t == result)

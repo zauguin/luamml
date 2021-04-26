@@ -70,7 +70,7 @@ lua.get_functions_table()[funcid] = function()
   if not mml_table then return end
   local columns = node.count(node.id'align_record', tex.lists.align_head)//2
   mml_table.columnalign = string.rep('right left', columns, ' ')
-  mml_table.columnalign = string.rep('0.3em', columns, '0.8em ') -- FIXME: 0.3em is a hack needed since MathML doesn't add spacing for our empty mrow
+  mml_table.columnspacing = string.rep('0', columns, ' 0.8em ') -- FIXME: 0.3em is a hack needed since MathML doesn't add spacing for our empty mrow
   save_result(mml_table, 0)
 end
 
