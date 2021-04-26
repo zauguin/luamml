@@ -87,7 +87,7 @@ lua.get_functions_table()[funcid] = function()
         "I was asked to provide MathML code for the last formula, but there weren't any new formulas since you last asked."
       })
   end
-  tex.sprint(-2, tostring(pdf.immediateobj('stream', mlist_result, '/Subtype /application#2Fmathml+xml\n' .. token.scan_argument(true))))
+  tex.sprint(-2, tostring(pdf.immediateobj('stream', mlist_result, '/Subtype/application#2Fmathml+xml' .. token.scan_argument(true))))
   mlist_result = nil
 end
 

@@ -13,14 +13,18 @@ local function escape_text(text)
   return string.gsub(tostring(text), '("<>&)', escapes)
 end
 
+local attrs = {}
 local function write_elem(tree, indent)
   if not tree[0] then print('ERR', require'inspect'(tree)) end
   local escaped_name = escape_name(assert(tree[0]))
-  local out = "<" .. escaped_name
-  if indent then out = indent .. out end
+  local i = 0
   for attr, val in next, tree do if type(attr) == 'string' then
-    out = out .. ' ' .. escape_name(attr) .. '="' .. escape_text(val) .. '"'
+    i = i + 1
+    attrs[i] = string.format(' %s="%s"', escape_name(attr), escape_text(val))
   end end
+  table.sort(attrs)
+  local out = string.format('%s<%s%s', indent or '', escaped_name, table.concat(attrs))
+  for j = 1, i do attrs[j] = nil end
   if not tree[1] then
     return out .. '/>'
   end
