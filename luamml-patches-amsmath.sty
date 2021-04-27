@@ -17,14 +17,14 @@
         \ifmeasuring@
           \luamml_flag_ignore:
         \else
-        \luamml_flag_save:
+          \luamml_flag_save:
         \fi
       $
     }
     \ifmeasuring@
       \savefieldlength@
     \else
-      \luamml_amsmath_add_box_to_row:
+      \__luamml_amsmath_add_box_to_row:
     \fi
     \set@field
     \tabskip\z@skip
@@ -48,7 +48,7 @@
     \ifmeasuring@
       \savefieldlength@
     \else
-      \luamml_amsmath_add_box_to_row:
+      \__luamml_amsmath_add_box_to_row:
     \fi
     \set@field
     \hfil
@@ -66,7 +66,6 @@
   \add@amps \maxfields@
   \omit
   \kern -\alignsep@
-  \luamml_amsmath_finalize_row:
   \iftag@
     \setboxz@h { 
       \@lign
@@ -74,7 +73,9 @@
       { \make@display@tag }
     }
     \place@tag
+    \__luamml_amsmath_set_tag:
   \fi
+  \__luamml_amsmath_finalize_row:
   \ifst@rred
   \else
     \global \@eqnswtrue
@@ -83,10 +84,19 @@
   \cr
 }
 
+\cs_set:Npn \maketag@@@ #1 {
+  \hbox {
+    \m@th
+    \normalfont
+    #1
+    \__luamml_amsmath_save_tag:
+  }
+}
+
 \cs_set:Npn \endalign {
   \math@cr
   \black@ \totwidth@
-  \luamml_amsmath_finalize_table:
+  \__luamml_amsmath_finalize_table:
   \egroup
   \ifingather@
     \restorealignstate@
