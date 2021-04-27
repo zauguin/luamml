@@ -70,7 +70,11 @@ lua.get_functions_table()[funcid] = function()
   if not mml_table then return end
   local columns = node.count(node.id'align_record', tex.lists.align_head)//2
   mml_table.columnalign = string.rep('right left', columns, ' ')
-  mml_table.columnspacing = string.rep('0', columns, ' 0.8em ') -- FIXME: 0.3em is a hack needed since MathML doesn't add spacing for our empty mrow
+  local spacing = {}
+  for n in node.traverse_id(node.id'glue', tex.lists.align_head) do
+    spacing[#spacing+1] = n.width == 0 and '0' or '.8em'
+  end
+  mml_table.columnspacing = table.concat(spacing, ' ', 2, #spacing-2)
   save_result(mml_table, 0)
 end
 
