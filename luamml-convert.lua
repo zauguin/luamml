@@ -83,7 +83,7 @@ local function kernel_to_table(kernel, cur_style)
     local result = {[0] = elem,
       char,
       ['tex:family'] = fam ~= 0 and fam or nil,
-      mathvariant = #char == 1 and elem == 'mi' and utf8.codepoint(char) < 0x10000 and 'normal' or nil
+      mathvariant = utf8.len(char) == 1 and elem == 'mi' and utf8.codepoint(char) < 0x10000 and 'normal' or nil
     }
     return result, result
   elseif id == sub_box_t then
