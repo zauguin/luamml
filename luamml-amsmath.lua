@@ -1,6 +1,9 @@
 local write_xml = require'luamml-xmlwriter'
 local make_root = require'luamml-convert'.make_root
 local save_result = require'luamml-tex'.save_result
+local store_column = require'luamml-table'.store_column
+local store_tag = require'luamml-table'.store_tag
+local get_table = require'luamml-table'.get_table
 
 local properties = node.get_properties_table()
 
@@ -12,62 +15,16 @@ lua.get_functions_table()[funcid] = function()
   local boxnum = 0
   local startmath = tex.box[boxnum].list
   assert(startmath.id == node.id"math")
-  local props = assert(properties[startmath])
-  local mml = assert(props.saved_mathml_table)
-  props.saved_mathml_table = nil
-  if mml[0] == 'mstyle' and mml.displaystyle == true then
-    mml[0], mml.displaystyle, mml.scriptlevel = 'mtd', nil, nil
-  else
-    if mml[0] ~= 'mstyle' then
-      mml = {[0] = 'mstyle', displaystyle = false, mml}
-    end
-    mml = {[0] = 'mtd', mml}
-  end
-  local row_temp = tex.nest[tex.nest.ptr-1]
-  props = properties[row_temp]
-  if not props then
-    props = {}
-    properties[row_temp] = props
-  end
-  if not props.mathml_row then
-    props.mathml_row = {[0] = 'mtr'}
-  end
-  mml_row = props.mathml_row
-  table.insert(mml_row, mml)
-end
-
-funcid = luatexbase.new_luafunction'__luamml_amsmath_finalize_row:'
-token.set_lua('__luamml_amsmath_finalize_row:', funcid, 'protected')
-lua.get_functions_table()[funcid] = function()
-  -- TODO: Error handling etc
-  local row_temp = tex.nest[tex.nest.ptr-1]
-  local props = properties[row_temp]
-  if not props then return end
-  if not props.mathml_row then return end
-  mml_row = props.mathml_row
-  props.mathml_row = nil
-  props = properties[tex.lists.align_head]
-  if not props then
-    props = {}
-    properties[tex.lists.align_head] = props
-  end
-  local mml_table = props.mathml_table_node_table
-  if not mml_table then
-    mml_table = {[0] = 'mtable', displaystyle = true}
-    props.mathml_table_node_table = mml_table
-  end
-  table.insert(mml_table, mml_row)
+  store_column(startmath, true)
 end
 
 funcid = luatexbase.new_luafunction'__luamml_amsmath_finalize_table:'
 token.set_lua('__luamml_amsmath_finalize_table:', funcid)
 lua.get_functions_table()[funcid] = function()
   -- TODO: Error handling etc
-  local props = properties[tex.lists.align_head]
-  if not props then return end
-  local mml_table = props.mathml_table_node_table
-  props.mathml_table_node_table = nil
+  local mml_table = get_table()
   if not mml_table then return end
+  mml_table.displaystyle = true
   local columns = node.count(node.id'align_record', tex.lists.align_head)//2
   mml_table.columnalign = string.rep('right left', columns, ' ')
   local spacing = {}
@@ -109,12 +66,6 @@ lua.get_functions_table()[funcid] = function()
     texio.write_nl'WARNING: Tag extraction failed'
     return
   end
-  local row_temp = tex.nest[tex.nest.ptr-1]
-  local props = properties[row_temp]
-  if not props then return end
-  if not props.mathml_row then return end
-  mml_row = props.mathml_row
-  mml_row[0] = 'mlabeledtr'
-  table.insert(mml_row, 1, {[0] = 'mtd', {[0] = 'mtext', last_tag}})
+  store_tag({[0] = 'mtd', {[0] = 'mtext', last_tag}})
   last_tag = nil
 end
