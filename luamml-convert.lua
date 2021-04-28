@@ -35,7 +35,7 @@ local function sup_style(s) return s//4*2+4+s%2 end
 -- The _to_table functions generally return a second argument which is
 -- could be (if it were a <mo>) a core operator of the embellishe operator
 -- or space_like/user_provided
--- The delim_to_table and acc_to_table are special since their return value should
+-- acc_to_table is special since it's return value should
 -- always be considered a core operator
 
 -- We ignore large_... since they aren't used for modern fonts
@@ -43,9 +43,15 @@ local function delim_to_table(delim)
   if not delim then return end
   local props = properties[delim] props = props and props.mathml_table
   if props then return props end
-  local fam = delim.small_fam
-  local char = remap_lookup[fam << 21 | delim.small_char]
-  return {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = not stretchy[char] or nil }
+  local char = delim.small_char
+  if char == 0 then
+    return {[0] = 'mspace', width = string.format("%.2fpt", tex.nulldelimiterspace/65781.76)}, space_like
+  else
+    local fam = delim.small_fam
+    char = remap_lookup[fam << 21 | char]
+    local result = {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = not stretchy[char] or nil }
+    return result, result
+  end
 end
 
 -- Like kernel_to_table but always a math_char_t. Also creating a mo and potentially remapping to handle combining chars
@@ -260,9 +266,11 @@ local function fraction_to_table(fraction, sub, cur_style)
 end
 
 local function fence_to_table(fence, sub, cur_style)
-  local delim = delim_to_table(fence.delimiter)
-  delim.fence = 'true'
-  return delim, delim
+  local delim, core = delim_to_table(fence.delim)
+  if delim[0] == 'mo' then
+    delim.fence = 'true'
+  end
+  return delim, core
 end
 
 local function space_to_table(amount, sub, cur_style)
