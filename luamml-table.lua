@@ -34,6 +34,7 @@ local function store_column(startmath, display)
     mml = {[0] = 'mtd', mml}
   end
   table.insert(store_get_row(), mml)
+  return mml
 end
 
 local function store_tag(xml)

@@ -52,7 +52,6 @@ lua.get_functions_table()[funcid] = function()
       chars[#chars+1] = 0x20
     elseif id == node.id'kern' then
     else
-      print(n)
       texio.write_nl'WARNING: Unsupported node in tag dropped'
     end
   end

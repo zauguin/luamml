@@ -45,7 +45,7 @@ local function delim_to_table(delim)
   if props then return props end
   local char = delim.small_char
   if char == 0 then
-    return {[0] = 'mspace', width = string.format("%.2fpt", tex.nulldelimiterspace/65781.76)}, space_like
+    return {[0] = 'mspace', width = string.format("%.3fpt", tex.nulldelimiterspace/65781.76)}, space_like
   else
     local fam = delim.small_fam
     char = remap_lookup[fam << 21 | char]
@@ -277,10 +277,10 @@ local function space_to_table(amount, sub, cur_style)
   if amount == 0 then return end
   if sub == 99 then -- TODO magic number
     -- 18*2^16=1179648
-    return {[0] = 'mspace', width = string.format("%.2fem", amount/1179648)}, space_like
+    return {[0] = 'mspace', width = string.format("%.3fem", amount/1179648)}, space_like
   else
     -- 65781.76=tex.sp'100bp'/100
-    return {[0] = 'mspace', width = string.format("%.2fpt", amount/65781.76)}, space_like
+    return {[0] = 'mspace', width = string.format("%.3fpt", amount/65781.76)}, space_like
   end
 end
 

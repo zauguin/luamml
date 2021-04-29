@@ -1,0 +1,43 @@
+\ProvidesExplPackage {luamml-patches-array} {2021-04-23} {0.0.1-alpha}
+  {Feel free to add a description here}
+
+\lua_now:n { require'luamml-array' }
+
+\cs_new:Npn \__luamml_array_dollarend_array: {
+  \luamml_flag_save:
+  $
+  \__luamml_array_add_list_to_row:
+}
+
+\cs_new_eq:NN \luamml@d@llarend@array \__luamml_array_dollarend_array:
+\cs_set:Npn \array {
+  \col@sep \arraycolsep
+  \def \d@llarbegin { $ }
+  \let \d@llarend \luamml@d@llarend@array
+  \def \@halignto {}
+  \@tabarray
+}
+\cs_set:Npn \endarray {
+  \crcr
+  \__luamml_array_save_array:
+  \egroup
+  \egroup
+  \__luamml_array_finalize_array:
+  \@arrayright
+  \gdef \@preamble {}
+}
+\cs_set:Npn \endalign {
+  \math@cr
+  \black@ \totwidth@
+  \__luamml_amsmath_finalize_table:
+  \egroup
+  \ifingather@
+    \restorealignstate@
+    \egroup
+    \nonumber
+    \ifnum0=‘{\fi\iffalse}\fi
+  \else
+    $$
+  \fi
+  \ignorespacesafterend
+}

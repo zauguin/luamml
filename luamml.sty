@@ -18,4 +18,15 @@
   \int_set:Nn \l__luamml_flag_int { 6 }
 }
 
-\RequirePackage { luamml-patches-amsmath }
+\cs_new:Npn \__luamml_patch_package:nn #1 #2 {
+  \@ifpackageloaded {#1} {#2} {
+    \hook_gput_code:nnn {package/after/#1} {luamml} {#2}
+  }
+}
+\cs_new:Npn \__luamml_patch_package:n #1 {
+  \__luamml_patch_package:nn {#1} {
+    \RequirePackage { luamml-patches-#1 }
+  }
+}
+\__luamml_patch_package:n {amsmath}
+\__luamml_patch_package:n {array}
