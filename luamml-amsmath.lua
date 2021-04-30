@@ -4,6 +4,7 @@ local save_result = require'luamml-tex'.save_result
 local store_column = require'luamml-table'.store_column
 local store_tag = require'luamml-table'.store_tag
 local get_table = require'luamml-table'.get_table
+local to_text = require'luamml-lr'
 
 local properties = node.get_properties_table()
 
@@ -42,20 +43,7 @@ token.set_lua('__luamml_amsmath_save_tag:', funcid, 'protected')
 lua.get_functions_table()[funcid] = function()
   local nest = tex.nest.top
   local chars = {}
-  for n, id, sub in node.traverse(nest.head.next) do
-    if id == node.id'glyph' then
-      if sub >= 0x100 then
-        texio.write_nl'WARNING: Already shaped glyph detected in tag. This might lead to wrong output.'
-      end
-      chars[#chars+1] = n.char
-    elseif id == node.id'glue' then
-      chars[#chars+1] = 0x20
-    elseif id == node.id'kern' then
-    else
-      texio.write_nl'WARNING: Unsupported node in tag dropped'
-    end
-  end
-  last_tag = utf8.char(table.unpack(chars))
+  last_tag = to_text(nest.head)
 end
 
 funcid = luatexbase.new_luafunction'__luamml_amsmath_set_tag:'
