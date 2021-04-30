@@ -2,8 +2,10 @@ local write_xml = require'luamml-xmlwriter'
 local make_root = require'luamml-convert'.make_root
 local save_result = require'luamml-tex'.save_result
 local store_column = require'luamml-table'.store_column
+local store_column_xml = require'luamml-table'.store_column_xml
 local store_tag = require'luamml-table'.store_tag
 local get_table = require'luamml-table'.get_table
+local to_text = require'luamml-lr'
 
 local properties = node.get_properties_table()
 
@@ -41,11 +43,12 @@ lua.get_functions_table()[funcid] = function()
   alignment = alignment == 1 and 'left' or alignment == 2 and 'right' or nil
 
   if node.end_of_math(startmath) == tex.nest.top.tail then
-    if startmath.nest == tex.nest.top.tail then return end
+    if startmath.next == tex.nest.top.tail then return end
     store_column(startmath).columnalign = alignment
   else
     -- Oh no, we got text. Let't complain to the user, it's probably their fault
     print'We are mathematicians, don\'t bother us with text'
+    store_column_xml{[0] = 'mtext', to_text(startmath, tex.nest.top.tail)}
   end
 end
 
