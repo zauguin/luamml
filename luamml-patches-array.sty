@@ -3,20 +3,63 @@
 
 \lua_now:n { require'luamml-array' }
 
-\cs_new:Npn \__luamml_array_dollarend_array: {
-  \luamml_flag_save:
-  $
-  \__luamml_array_add_list_to_row:
+\cs_set:Npn \@classz {
+  \@classx
+  \@tempcnta \count@
+  \prepnext@tok
+  \@addtopreamble {
+    \ifcase \@chnum
+      \hfil
+      \hskip 1sp
+      \d@llarbegin
+      \__luamml_array_init_col:
+      \insert@column
+      \luamml_flag_save:
+      \d@llarend
+      \__luamml_array_finalize_col:w 0~
+      \do@row@strut
+      \hfil
+    \or
+      \hskip 1sp
+      \d@llarbegin
+      \__luamml_array_init_col:
+      \insert@column
+      \luamml_flag_save:
+      \d@llarend
+      \__luamml_array_finalize_col:w 1~
+      \do@row@strut
+      \hfil
+    \or
+      \hfil
+      \hskip 1sp
+      \d@llarbegin
+      \__luamml_array_init_col:
+      \insert@column
+      \luamml_flag_save:
+      \d@llarend
+      \__luamml_array_finalize_col:w 2~
+      \do@row@strut
+    \or
+      \setbox \ar@mcellbox \vbox \@startpbox { \@nextchar }
+        \insert@column
+      \@endpbox
+      \ar@align@mcell
+      \do@row@strut
+    \or
+      \vtop \@startpbox { \@nextchar }
+        \insert@column
+      \@endpbox
+      \do@row@strut
+    \or
+      \vbox \@startpbox { \@nextchar }
+        \insert@column
+      \@endpbox
+      \do@row@strut
+    \fi
+  }
+  \prepnext@tok
 }
 
-\cs_new_eq:NN \luamml@d@llarend@array \__luamml_array_dollarend_array:
-\cs_set:Npn \array {
-  \col@sep \arraycolsep
-  \def \d@llarbegin { $ }
-  \let \d@llarend \luamml@d@llarend@array
-  \def \@halignto {}
-  \@tabarray
-}
 \cs_set:Npn \endarray {
   \crcr
   \__luamml_array_save_array:
@@ -25,19 +68,4 @@
   \__luamml_array_finalize_array:
   \@arrayright
   \gdef \@preamble {}
-}
-\cs_set:Npn \endalign {
-  \math@cr
-  \black@ \totwidth@
-  \__luamml_amsmath_finalize_table:
-  \egroup
-  \ifingather@
-    \restorealignstate@
-    \egroup
-    \nonumber
-    \ifnum0=‘{\fi\iffalse}\fi
-  \else
-    $$
-  \fi
-  \ignorespacesafterend
 }

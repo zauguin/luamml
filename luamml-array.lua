@@ -7,51 +7,45 @@ local get_table = require'luamml-table'.get_table
 
 local properties = node.get_properties_table()
 
-local funcid = luatexbase.new_luafunction'__luamml_array_add_list_to_row:'
-token.set_lua('__luamml_array_add_list_to_row:', funcid, 'protected')
+local funcid = luatexbase.new_luafunction'__luamml_array_init_col:'
+token.set_lua('__luamml_array_init_col:', funcid, 'protected')
 lua.get_functions_table()[funcid] = function()
   -- TODO: Error handling etc
-  -- local box = token.scan_int()
-  local startmath
-  local preskip
-  local postskip
-  local prestretch = 0 -- Not one since overflowing content protrudes right
-  local stretch = {0, 0, 0, 0, 0}
-  local n = tex.nest.top.head.next
-  local func, ctx, n = node.traverse(tex.nest.top.head.next)
-  while true do
-    local id, sub n, id, sub = func(ctx, n)
-    if not n then break end
-    if node.id'math' == id then
-      if sub == 0 then
-        if startmath then
-          texio.write_nl'Multiple formulas detected in array field'
-        end
-        startmath = n
-        for i=2, 5 do
-          if stretch[i] ~= 0 then
-            prestretch = i
-          end
-        end
-        n = node.end_of_math(n)
-      end
-    elseif node.id'glue' == id then
-      stretch[n.stretch_order+1] = stretch[n.stretch_order+1] + n.stretch
-    elseif node.id'rule' == id then
-    else
-      texio.write_nl'Foreign nodes detected in array field'
-    end
+  local nest = tex.nest[tex.nest.ptr-1]
+  -- The special will be deleted again, it just marks the right math list since the start math node is not there yet
+  local special = node.new('whatsit', 'special')
+  node.insert_after(nest.tail, nest.tail, special)
+  nest.tail = special
+  local temp = nest.head
+  local props = properties[temp]
+  if not props then
+    props = {}
+    properties[temp] = props
   end
-  if startmath then
-    local poststretch
-    for i=1, 5 do
-      if stretch[i] ~= 0 then
-        poststretch = i
-      end
-    end
-    store_column(startmath).columnalign = prestretch < poststretch and 'left' or prestretch > poststretch and 'right' or nil -- or 'center' -- center is already default
+  props.luamml_array_startmath = special
+end
+
+local funcid = luatexbase.new_luafunction'__luamml_array_finalize_col:w'
+token.set_lua('__luamml_array_finalize_col:w', funcid, 'protected')
+lua.get_functions_table()[funcid] = function()
+  local alignment = token.scan_int() -- Do it first to consume number even if we end early
+  -- TODO: Error handling etc
+  local temp = tex.nest.top.head
+  local props = properties[temp]
+  local special = props and props.luamml_array_startmath
+  if not special then return end
+  node.remove(tex.nest.top.head, special)
+  local startmath = node.free(special)
+  props.luamml_array_startmath = nil
+
+  alignment = alignment == 1 and 'left' or alignment == 2 and 'right' or nil
+
+  if node.end_of_math(startmath) == tex.nest.top.tail then
+    if startmath.nest == tex.nest.top.tail then return end
+    store_column(startmath).columnalign = alignment
   else
-    texio.write_nl'Formula missing in array field'
+    -- Oh no, we got text. Let't complain to the user, it's probably their fault
+    print'We are mathematicians, don\'t bother us with text'
   end
 end
 
