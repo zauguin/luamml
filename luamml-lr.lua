@@ -57,7 +57,7 @@ local function to_unicode(head, tail)
       end -- CHECK: Everything else can probably be ignored, otherwise shout at me
     end
   end
-  return table.concat(result)
+  return {[0] = 'mtext', table.concat(result)}
 end
 
 return to_unicode
