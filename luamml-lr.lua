@@ -1,7 +1,7 @@
 local properties = node.get_properties_table()
 
 local function to_unicode(head, tail)
-  local result, i = {}, 0
+  local result, subresult, i = {[0] = 'mrow'}, {}, 0
   local characters, last_fid
   local iter, state, n = node.traverse(head)
   while true do
@@ -10,7 +10,7 @@ local function to_unicode(head, tail)
     local props = properties[n]
     if props and props.glyph_info then
       i = i+1
-      result[i] = glyph_info
+      subresult[i] = glyph_info
     else
       local char, fid = node.is_glyph(n)
       if char then
@@ -23,15 +23,15 @@ local function to_unicode(head, tail)
         i = i+1
         if uni then
           if type(uni) == 'number' then
-            result[i] = utf.char(uni)
+            subresult[i] = utf.char(uni)
           else
-            result[i] = utf.char(table.unpack(uni))
+            subresult[i] = utf.char(table.unpack(uni))
           end
         else
           if char < 0x110000 then
-            result[i] = utf.char(char)
+            subresult[i] = utf.char(char)
           else
-            result[i] = '\u{FFFD}'
+            subresult[i] = '\u{FFFD}'
           end
         end
       -- elseif node.id'math' == id then
@@ -41,23 +41,47 @@ local function to_unicode(head, tail)
       elseif node.id'glue' == id then
         if n.width > 1000 then -- FIXME: Coordinate constant with tagpdf
           i = i+1
-          result[i] = ' '
+          subresult[i] = ' '
         end
       elseif node.id'hlist' == id then
-        i = i+1
-        result[i] = '\u{FFFD}'
+        local nested = to_unicode(n.head)
+        if nested[0] == 'mtext' and #nested == 1 and type(nested[1]) == 'string' then
+          i=i+1
+          subresult[i] = nested[1]
+        else
+          if i ~= 0 then
+            i = 0
+            result[#result+1] = {[0] = 'mtext', table.concat(subresult)}
+          end
+          if nested[0] == 'mrow' then
+            table.move(nested, 1, #nested, #result+1, result)
+          else -- should be unreachable
+            result[#result+1] = nested
+          end
+        end
       elseif node.id'vlist' == id then
         i = i+1
-        result[i] = '\u{FFFD}'
+        subresult[i] = '\u{FFFD}'
       elseif node.id'rule' == id then
         if n.width ~= 0 then
           i = i+1
-          result[i] = '\u{FFFD}'
+          subresult[i] = '\u{FFFD}'
         end
       end -- CHECK: Everything else can probably be ignored, otherwise shout at me
     end
   end
-  return {[0] = 'mtext', table.concat(result)}
+  if i ~= 0 then
+    i = 0
+    result[#result+1] = {[0] = 'mtext', table.concat(subresult)}
+  end
+  if #result == 0 then
+    local r = {[0] = 'mtext', ''}
+    return r, r
+  elseif #result == 1 then
+    result = result[1]
+    if result[1] == 'mtext' then return result, result end
+  end
+  return result
 end
 
 return to_unicode
