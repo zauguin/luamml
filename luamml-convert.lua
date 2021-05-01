@@ -3,7 +3,7 @@ local stretchy = require'luamml-data-stretchy'
 
 local properties = node.get_properties_table()
 
-local kern_t, glue_t = node.id'kern', node.id'glue'
+local kern_t, glue_t, rule_t = node.id'kern', node.id'glue', node.id'rule'
 
 local noad_t, accent_t, style_t, choice_t = node.id'noad', node.id'accent', node.id'style', node.id'choice'
 local radical_t, fraction_t, fence_t = node.id'radical', node.id'fraction', node.id'fence'
@@ -284,6 +284,24 @@ local function space_to_table(amount, sub, cur_style)
   end
 end
 
+local running_length = -1073741824
+local function rule_to_table(rule, sub, cur_style)
+  local width = string.format("%.3fpt", rule.width/65781.76)
+  local height = rule.height
+  if height == running_length then
+    height = '0.8em'
+  else
+    height = height
+  end
+  local depth = rule.depth
+  if depth == running_length then
+    depth = '0.2em'
+  else
+    depth = depth
+  end
+  return {[0] = 'mspace', mathbackground = 'currentColor', width = width, height = height, depth = depth}, space_like
+end
+
 function nodes_to_table(head, cur_style)
   local t = {[0] = 'mrow'}
   local result = t
@@ -300,7 +318,8 @@ function nodes_to_table(head, cur_style)
                                                              and 'normal' or nil
     end
     local new_core, new_mn
-    local props = properties[n] props = props and props.mathml_table
+    local props = properties[n]
+    props = props and props.mathml_table
     if props then
       t[#t+1], new_core = props, user_provided
     elseif id == noad_t then
@@ -378,10 +397,10 @@ function nodes_to_table(head, cur_style)
           t[#t+1], new_core = space_to_table(n.width, sub, cur_style)
         end
       end
-    else
-      new_core = {[0] = 'tex:TODO', other = n}
-      t[#t+1] = new_core
-    end
+    elseif id == rule_t then
+      t[#t+1], new_core = rule_to_table(n, sub, cur_style)
+    -- elseif id == disc_t then -- Uncommon, does not play nicely with math mode and no sensible mapping anyway
+    end -- The other possible ids are whatsit, penalty, adjust, ins, mark. Ignore them.
     nonscript = nil
     if core and new_core ~= space_like then
       core = core == space_like and new_core or nil
