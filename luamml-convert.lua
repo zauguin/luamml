@@ -1,6 +1,6 @@
 local remap_comb = require'luamml-data-combining'
 local stretchy = require'luamml-data-stretchy'
-local to_string = require'luamml-lr'
+local to_text = require'luamml-lr'
 
 local properties = node.get_properties_table()
 
@@ -89,11 +89,8 @@ local function kernel_to_table(kernel, cur_style)
     return result, result
   elseif id == sub_box_t then
     if kernel.list.id == hlist_t then -- We directly give up for vlists
-      local str = to_string(kernel.list.head)
-      if str then
-        local result = {[0] = 'mtext', str}
-        return result, result
-      end
+      local result = {[0] = 'mtext', to_text(kernel.list.head)}
+      return result, result
     else
       local result = {[0] = 'mi', {[0] = 'mglyph', ['tex:box'] = kernel.list}}
       return result, result

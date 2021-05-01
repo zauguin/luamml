@@ -43,7 +43,7 @@ token.set_lua('__luamml_amsmath_save_tag:', funcid, 'protected')
 lua.get_functions_table()[funcid] = function()
   local nest = tex.nest.top
   local chars = {}
-  last_tag = to_text(nest.head)
+  last_tag = {[0] = 'mtext', to_text(nest.head)}
 end
 
 funcid = luatexbase.new_luafunction'__luamml_amsmath_set_tag:'
@@ -53,6 +53,6 @@ lua.get_functions_table()[funcid] = function()
     texio.write_nl'WARNING: Tag extraction failed'
     return
   end
-  store_tag({[0] = 'mtd', {[0] = 'mtext', last_tag}})
+  store_tag({[0] = 'mtd', last_tag})
   last_tag = nil
 end
