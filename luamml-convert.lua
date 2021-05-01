@@ -1,9 +1,10 @@
 local remap_comb = require'luamml-data-combining'
 local stretchy = require'luamml-data-stretchy'
+local to_string = require'luamml-lr'
 
 local properties = node.get_properties_table()
 
-local kern_t, glue_t, rule_t = node.id'kern', node.id'glue', node.id'rule'
+local hlist_t, kern_t, glue_t, rule_t = node.id'hlist', node.id'kern', node.id'glue', node.id'rule'
 
 local noad_t, accent_t, style_t, choice_t = node.id'noad', node.id'accent', node.id'style', node.id'choice'
 local radical_t, fraction_t, fence_t = node.id'radical', node.id'fraction', node.id'fence'
@@ -87,8 +88,16 @@ local function kernel_to_table(kernel, cur_style)
     }
     return result, result
   elseif id == sub_box_t then
-    local result = {[0] = 'mi', {[0] = 'mglyph', ['tex:box'] = kernel.list}}
-    return result, result
+    if kernel.list.id == hlist_t then -- We directly give up for vlists
+      local str = to_string(kernel.list.head)
+      if str then
+        local result = {[0] = 'mtext', str}
+        return result, result
+      end
+    else
+      local result = {[0] = 'mi', {[0] = 'mglyph', ['tex:box'] = kernel.list}}
+      return result, result
+    end
   elseif id == sub_mlist_t then
     return nodes_to_table(kernel.list, cur_style)
   else
@@ -182,8 +191,7 @@ local function noad_to_table(noad, sub, cur_style, mn)
       nucleus,
       {[0] = 'mo', '\u{203E}',},
     }, core
-  elseif class == 'vcenter' then
-    nucleus['tex:TODO'] = class
+  elseif class == 'vcenter' then -- Ignored. Nucleus will need special handling anyway
   else
     error[[confusion]]
   end
