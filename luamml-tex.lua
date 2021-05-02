@@ -38,8 +38,8 @@ end
 local mlist_buffer
 local mlist_result
 
-local function save_result(xml, style)
-  mlist_result = write_xml(make_root(xml, style))
+local function save_result(xml, display)
+  mlist_result = write_xml(make_root(xml, display and 0 or 2))
   if tex.count.tracingmathml > 1 then
     texio.write_nl(mlist_result .. '\n')
   end
@@ -64,7 +64,7 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   end
   local xml = process_mlist(new_mlist, style == 'display' and 0 or 2)
   if flag & 2 == 0 then
-    save_result(xml, (style == 'display' or flag & 1 == 1) and 0 or 2)
+    save_result(xml, style == 'display' or flag & 1 == 1)
   else
     assert(style == 'text')
     local startmath = tex.nest.top.tail

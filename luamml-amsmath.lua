@@ -33,7 +33,7 @@ lua.get_functions_table()[funcid] = function()
     spacing[#spacing+1] = n.width == 0 and '0' or '.8em'
   end
   mml_table.columnspacing = table.concat(spacing, ' ', 2, #spacing-2)
-  save_result(mml_table, 0)
+  save_result(mml_table, true)
 end
 
 local last_tag
