@@ -36,12 +36,13 @@ end
 --    Bit 2: Integrate with table mechanism
 
 local mlist_buffer
-local mlist_result
+local mlist_result, mlist_display
 
 local function save_result(xml, display)
-  mlist_result = write_xml(make_root(xml, display and 0 or 2))
+  mlist_result, mlist_display = xml, display
   if tex.count.tracingmathml > 1 then
-    texio.write_nl(mlist_result .. '\n')
+    -- Here xml gets wrapped in an mrow to avoid modifying it.
+    texio.write_nl(write_xml(make_root({[0] = 'mrow', xml}, display and 0 or 2)) .. '\n')
   end
 end
 
@@ -90,10 +91,11 @@ lua.get_functions_table()[funcid] = function()
         "I was asked to provide MathML code for the last formula, but there weren't any new formulas since you last asked."
       })
   end
+  local mml = write_xml(make_root(mlist_result, mlist_display and 0 or 2))
   if tex.count.tracingmathml == 1 then
-    texio.write_nl(mlist_result .. '\n')
+    texio.write_nl(mml .. '\n')
   end
-  tex.sprint(-2, tostring(pdf.immediateobj('stream', mlist_result, '/Subtype/application#2Fmathml+xml' .. token.scan_argument(true))))
+  tex.sprint(-2, tostring(pdf.immediateobj('stream', mml, '/Subtype/application#2Fmathml+xml' .. token.scan_argument(true))))
   mlist_result = nil
 end
 
