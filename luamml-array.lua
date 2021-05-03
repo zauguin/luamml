@@ -48,7 +48,7 @@ lua.get_functions_table()[funcid] = function()
   else
     -- Oh no, we got text. Let't complain to the user, it's probably their fault
     print'We are mathematicians, don\'t bother us with text'
-    store_column_xml(to_text(startmath, tex.nest.top.tail))
+    store_column_xml(to_text(startmath, tex.nest.top.tail)).columnalign = alignment
   end
 end
 

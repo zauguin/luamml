@@ -34,8 +34,19 @@ local function to_unicode(head, tail)
             subresult[i] = '\u{FFFD}'
           end
         end
-      -- elseif node.id'math' == id then
-        -- n = node.end_of_math(n) -- Not sure yet
+      elseif node.id'math' == id then
+        if props then
+          local mml = props.saved_mathml_table
+          if mml then
+            if i ~= 0 then
+              result[#result+1] = {[0] = 'mtext', table.concat(subresult)}
+              for j = i, 1, -1 do subresult[j] = nil end
+              i = 0
+            end
+            result[#result+1] = mml
+            n = node.end_of_math(n)
+          end
+        end
       -- elseif node.id'whatsit' == id then
         -- TODO(?)
       elseif node.id'glue' == id then
@@ -50,12 +61,13 @@ local function to_unicode(head, tail)
           subresult[i] = nested[1]
         else
           if i ~= 0 then
-            i = 0
             result[#result+1] = {[0] = 'mtext', table.concat(subresult)}
+            for j = i, 1, -1 do subresult[j] = nil end
+            i = 0
           end
           if nested[0] == 'mrow' then
             table.move(nested, 1, #nested, #result+1, result)
-          else -- should be unreachable
+          else -- should be unreachable (propbably actually is reachable if the inner list only contains math
             result[#result+1] = nested
           end
         end
@@ -71,7 +83,6 @@ local function to_unicode(head, tail)
     end
   end
   if i ~= 0 then
-    i = 0
     result[#result+1] = {[0] = 'mtext', table.concat(subresult)}
   end
   if #result == 0 then
