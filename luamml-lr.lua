@@ -41,7 +41,7 @@ local function to_unicode(head, tail)
       elseif node.id'glue' == id then
         if n.width > 1000 then -- FIXME: Coordinate constant with tagpdf
           i = i+1
-          subresult[i] = ' '
+          subresult[i] = '\u{00A0}' -- non breaking space... There is no real reason why it has to be non breaking, except that MathML often ignore other spaces
         end
       elseif node.id'hlist' == id then
         local nested = to_unicode(n.head)
