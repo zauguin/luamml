@@ -66,8 +66,8 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   local xml = process_mlist(new_mlist, style == 'display' and 0 or 2)
   if flag & 2 == 0 then
     save_result(xml, style == 'display' or flag & 1 == 1)
-  else
-    assert(style == 'text')
+  end
+  if style == 'text' then
     local startmath = tex.nest.top.tail
     local props = properties[startmath]
     if not props then
