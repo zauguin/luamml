@@ -307,21 +307,53 @@ local function rule_to_table(rule, sub, cur_style)
   return {[0] = 'mspace', mathbackground = 'currentColor', width = width, height = height, depth = depth}, space_like
 end
 
+-- The only part which changes the nodelist, we are converting bin into ord
+-- nodes in the same way TeX would do it later anyway.
+local function cleanup_mathbin(head)
+  local last = 'open' -- last sub if id was noad_t, left fence acts fakes being a open noad, bin are themselves. Every other noad is ord
+  for n, id, sub in node.traverse(head) do
+    if id == noad_t then
+      sub = noad_sub[sub]
+      if sub == 'bin' then
+        if node.is_node(last) or last == 'opdisplaylimits'
+            or last == 'oplimits' or last == 'opnolimits' or last == 'rel'
+            or last == 'open' or last == 'punct' then
+          n.subtype, last = noad_sub.ord, 'ord'
+        else
+          last = n
+        end
+      else
+        if (sub == 'rel' or sub == 'close' or sub == 'punct')
+            and node.is_node(last) then
+          last.subtype = 'ord'
+        end
+        last = sub
+      end
+    elseif id == fence_t then
+      if sub == fence_sub.left then
+        last = 'open'
+      else
+        if node.is_node(last) then
+          last.subtype = noad_sub.ord, 'ord'
+        end
+        last = 'ord'
+      end
+    elseif id == fraction_t or id == radical_t or id == accent_t then
+      last = 'ord'
+    end
+  end
+  if node.is_node(last) then
+    last.subtype = noad_sub.ord
+  end
+end
+
 function nodes_to_table(head, cur_style)
+  cleanup_mathbin(head)
   local t = {[0] = 'mrow'}
   local result = t
   local nonscript
   local core, mn = space_like
-  local no_binop_context, last_noad, last_noad_core = true
   for n, id, sub in node.traverse(head) do
-    if last_noad and ((id == noad_t and noad_sub[sub] == 'punct') or (id == fence_t and fence_sub[sub] ~= 'left')) then
-      last_noad['tex:class'], last_noad_core[0] = nil, 'mi'
-      last_noad_core.stretchy, last_noad_core.mathvariant = nil, #last_noad_core == 1
-                                                             and type(last_noad_core[0]) == 'string'
-                                                             and utf8.len(last_noad_core[0]) == 1
-                                                             and utf8.codepoint(last_noad_core[0]) < -0x10000
-                                                             and 'normal' or nil
-    end
     local new_core, new_mn
     local props = properties[n]
     props = props and props.mathml_table
@@ -329,19 +361,6 @@ function nodes_to_table(head, cur_style)
       t[#t+1], new_core = props, user_provided
     elseif id == noad_t then
       local substr = noad_sub[sub]
-      if substr == 'bin' then
-        if no_binop_context then
-          sub, substr = 0, 'ord'
-        end
-      end
-      no_binop_context = false
-          or substr == 'bin'
-          or substr == 'opdisplaylimits'
-          or substr == 'oplimits'
-          or substr == 'opnolimits'
-          or substr == 'rel'
-          or substr == 'open'
-          or substr == 'punct'
       local new_n
       new_n, new_core, new_mn = noad_to_table(n, sub, cur_style, mn)
       if new_mn == false then
@@ -349,14 +368,8 @@ function nodes_to_table(head, cur_style)
       else
         t[#t+1] = new_n -- might be nil
       end
-      if substr == 'bin' then
-        last_noad, last_noad_core = new_n, new_core
-      else
-        last_noad, last_noad_core = nil, nil
-      end
     elseif id == accent_t then
       t[#t+1], new_core = accent_to_table(n, sub, cur_style)
-      no_binop_context, last_noad, last_noad_core = false, nil, nil
     elseif id == style_t then
       if sub ~= cur_style then
         if #t == 0 then
@@ -383,13 +396,10 @@ function nodes_to_table(head, cur_style)
                                         or assert(false)], 2*size), space_like
     elseif id == radical_t then
       t[#t+1], new_core = radical_to_table(n, sub, cur_style)
-      no_binop_context, last_noad, last_noad_core = false, nil, nil
     elseif id == fraction_t then
       t[#t+1], new_core = fraction_to_table(n, sub, cur_style)
-      no_binop_context, last_noad, last_noad_core = false, nil, nil
     elseif id == fence_t then
       t[#t+1], new_core = fence_to_table(n, sub, cur_style)
-      no_binop_context, last_noad, last_noad_core = false, nil, nil
     elseif id == kern_t then
       if not nonscript then
         t[#t+1], new_core = space_to_table(n.kern, sub, cur_style)
