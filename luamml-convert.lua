@@ -11,7 +11,30 @@ local radical_t, fraction_t, fence_t = node.id'radical', node.id'fraction', node
 
 local math_char_t, sub_box_t, sub_mlist_t = node.id'math_char', node.id'sub_box', node.id'sub_mlist'
 
-local noad_sub = node.subtypes'noad'
+local function invert_table(t)
+  local t_inv = {}
+  for k, v in next, t do
+    t_inv[v] = k
+  end
+  return t_inv
+end
+
+local noad_names = node.subtypes'noad'
+local noad_sub = invert_table(noad_names)
+local noad_ord = noad_sub.ord
+local noad_op = noad_sub.opdisplaylimits
+local noad_oplimits = noad_sub.oplimits
+local noad_opnolimits = noad_sub.opnolimits
+local noad_bin = noad_sub.bin
+local noad_rel = noad_sub.rel
+local noad_open = noad_sub.open
+local noad_close = noad_sub.close
+local noad_punct = noad_sub.punct
+local noad_inner = noad_sub.inner
+local noad_under = noad_sub.under
+local noad_over = noad_sub.over
+local noad_vcenter = noad_sub.vcenter
+
 local radical_sub = node.subtypes'radical'
 local fence_sub = node.subtypes'fence'
 
@@ -125,7 +148,7 @@ local function maybe_to_mn(noad, core)
   local after = noad.next
   if not after then return end
   if after.id ~= noad_t then return end
-  if noad_sub[after.subtype] ~= 'ord' then return end
+  if after.subtype ~= noad_ord then return end
   after = after.nucleus
   if not after then return end
   if after.id ~= math_char_t then return end
@@ -134,9 +157,8 @@ local function maybe_to_mn(noad, core)
 end
 
 local function noad_to_table(noad, sub, cur_style, mn)
-  local class = noad_sub[sub]
-  local nucleus, core = kernel_to_table(noad.nucleus, class == 'over' and cur_style//2*2+1 or cur_style)
-  if class == 'ord' then
+  local nucleus, core = kernel_to_table(noad.nucleus, sub == noad_over and cur_style//2*2+1 or cur_style)
+  if sub == noad_ord then
     if core and core[0] == 'mo' then
       core[0] = 'mi'
       core.stretchy, core.mathvariant = nil, #core == 1 and type(core[0]) == 'string' and utf8.len(core[0]) == 1 and utf8.codepoint(core[0]) < -0x10000 and 'normal' or nil
@@ -157,8 +179,8 @@ local function noad_to_table(noad, sub, cur_style, mn)
         end
       end
     end
-  elseif class == 'opdisplaylimits' or class == 'oplimits' or class == 'opnolimits' or class == 'bin' or class == 'rel' or class == 'open'
-      or class == 'close' or class == 'punct' or class == 'inner' then
+  elseif sub == noad_op or sub == noad_oplimits or sub == noad_opnolimits or sub == noad_bin or sub == noad_rel or sub == noad_open
+      or sub == noad_close or sub == noad_punct or sub == noad_inner then
     if not core or not core[0] then
       -- TODO
     else
@@ -166,10 +188,10 @@ local function noad_to_table(noad, sub, cur_style, mn)
       if stretchy[core[1]] then core.stretchy = false end
       if core.mathvariant == 'normal' then core.mathvariant = nil end
     end
-    nucleus['tex:class'] = class
+    nucleus['tex:class'] = noad_names[sub]
 
-    if (noad.sup or noad.sub) and (class == 'opdisplaylimits' or class == 'oplimits') then
-      nucleus.movablelimits = class == 'opdisplaylimits'
+    if (noad.sup or noad.sub) and (sub == noad_op or sub == noad_oplimits) then
+      nucleus.movablelimits = sub == noad_op
       local sub = kernel_to_table(noad.sub, sub_style(cur_style))
       local sup = kernel_to_table(noad.sup, sup_style(cur_style))
       return {[0] = sup and (sub and 'munderover' or 'mover') or 'munder',
@@ -178,17 +200,17 @@ local function noad_to_table(noad, sub, cur_style, mn)
         sub and sup,
       }, core
     end
-  elseif class == 'under' then
+  elseif sub == noad_under then
     return {[0] = 'munder',
       nucleus,
       {[0] = 'mo', '_',},
     }, core
-  elseif class == 'over' then
+  elseif sub == noad_over then
     return {[0] = 'mover',
       nucleus,
       {[0] = 'mo', '\u{203E}',},
     }, core
-  elseif class == 'vcenter' then -- Ignored. Nucleus will need special handling anyway
+  elseif sub == noad_vcenter then -- Ignored. Nucleus will need special handling anyway
   else
     error[[confusion]]
   end
@@ -313,37 +335,36 @@ local function cleanup_mathbin(head)
   local last = 'open' -- last sub if id was noad_t, left fence acts fakes being a open noad, bin are themselves. Every other noad is ord
   for n, id, sub in node.traverse(head) do
     if id == noad_t then
-      sub = noad_sub[sub]
-      if sub == 'bin' then
-        if node.is_node(last) or last == 'opdisplaylimits'
-            or last == 'oplimits' or last == 'opnolimits' or last == 'rel'
-            or last == 'open' or last == 'punct' then
-          n.subtype, last = noad_sub.ord, 'ord'
+      if sub == noad_bin then
+        if node.is_node(last) or last == noad_opdisplaylimits
+            or last == noad_oplimits or last == noad_opnolimits
+            or last == noad_rel or last == noad_open or last == noad_punct then
+          n.subtype, last = noad_ord, noad_ord
         else
           last = n
         end
       else
-        if (sub == 'rel' or sub == 'close' or sub == 'punct')
+        if (sub == noad_rel or sub == noad_close or sub == noad_punct)
             and node.is_node(last) then
-          last.subtype = 'ord'
+          last.subtype = noad_ord
         end
         last = sub
       end
     elseif id == fence_t then
       if sub == fence_sub.left then
-        last = 'open'
+        last = noad_open
       else
         if node.is_node(last) then
-          last.subtype = noad_sub.ord, 'ord'
+          last.subtype = noad_ord, noad_ord
         end
-        last = 'ord'
+        last = noad_ord
       end
     elseif id == fraction_t or id == radical_t or id == accent_t then
-      last = 'ord'
+      last = noad_ord
     end
   end
   if node.is_node(last) then
-    last.subtype = noad_sub.ord
+    last.subtype = noad_ord
   end
 end
 
