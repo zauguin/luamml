@@ -73,12 +73,13 @@ local function delim_to_table(delim)
   else
     local fam = delim.small_fam
     char = remap_lookup[fam << 21 | char]
-    local result = {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = not stretchy[char] or nil }
+    local result = {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = not stretchy[char] or nil, lspace = 0, rspace = 0 }
     return result, result
   end
 end
 
--- Like kernel_to_table but always a math_char_t. Also creating a mo and potentially remapping to handle combining chars
+-- Like kernel_to_table but always a math_char_t. Also creating a mo and potentially remapping to handle combining chars.
+-- No lspace or space is set here since these never appear as core operators in an mrow.
 local function acc_to_table(acc, cur_style, stretch)
   if not acc then return end
   local props = properties[acc] props = props and props.mathml_table
@@ -161,8 +162,8 @@ local function noad_to_table(noad, sub, cur_style, mn)
   if sub == noad_ord then
     if core and core[0] == 'mo' then
       core[0] = 'mi'
-      core.stretchy, core.mathvariant = nil, #core == 1 and type(core[0]) == 'string' and utf8.len(core[0]) == 1 and utf8.codepoint(core[0]) < -0x10000 and 'normal' or nil
-      core['tex:class'] = nil
+      core.mathvariant = #core == 1 and type(core[0]) == 'string' and utf8.len(core[0]) == 1 and utf8.codepoint(core[0]) < -0x10000 and 'normal' or nil
+      core['tex:class'], core.stretchy, core.lspace, core.rspace = nil
     end
     if nucleus == core and #core == 1 then
       if mn and core[0] == 'mi' and (core[1] == '.' or core[1] == ',') and maybe_to_mn(noad, core) or core[0] == 'mn' then
@@ -187,6 +188,7 @@ local function noad_to_table(noad, sub, cur_style, mn)
       core[0] = 'mo'
       if stretchy[core[1]] then core.stretchy = false end
       if core.mathvariant == 'normal' then core.mathvariant = nil end
+      core.lspace, core.rspace = 0, 0
     end
     nucleus['tex:class'] = noad_names[sub]
 
