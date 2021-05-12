@@ -18,7 +18,7 @@ local function write_elem(tree, indent)
   if not tree[0] then print('ERR', require'inspect'(tree)) end
   local escaped_name = escape_name(assert(tree[0]))
   local i = 0
-  for attr, val in next, tree do if type(attr) == 'string' then
+  for attr, val in next, tree do if type(attr) == 'string' and string.byte(attr) ~= 0x3A then
     i = i + 1
     attrs[i] = string.format(' %s="%s"', escape_name(attr), escape_text(val))
   end end

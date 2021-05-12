@@ -17,6 +17,9 @@
 \cs_new:Nn \luamml_flag_alignment_right: {
   \int_set:Nn \l__luamml_flag_int { 6 }
 }
+\cs_new:Nn \luamml_flag_structelem: {
+  \int_set:Nn \l__luamml_flag_int { 8 }
+}
 
 \cs_new:Npn \__luamml_patch_package:nn #1 #2 {
   \@ifpackageloaded {#1} {#2} {

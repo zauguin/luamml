@@ -5,6 +5,7 @@ local register_family = mlist_to_mml.register_family
 
 local mappings = require'luamml-legacy-mappings'
 local write_xml = require'luamml-xmlwriter'
+local write_struct = require'luamml-structelemwriter'
 
 local properties = node.get_properties_table()
 
@@ -66,6 +67,9 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   local xml = process_mlist(new_mlist, style == 'display' and 0 or 2)
   if flag & 2 == 0 then
     save_result(xml, style == 'display' or flag & 1 == 1)
+  end
+  if flag & 8 == 8 then
+    write_struct(make_root(mlist_result, mlist_display and 0 or 2))
   end
   if style == 'text' then
     local startmath = tex.nest.top.tail

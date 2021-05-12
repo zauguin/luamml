@@ -129,7 +129,7 @@ local function delim_to_table(delim)
   else
     local fam = delim.small_fam
     char = remap_lookup[fam << 21 | char]
-    local result = {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = not stretchy[char] or nil, lspace = 0, rspace = 0 }
+    local result = {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = not stretchy[char] or nil, lspace = 0, rspace = 0, [':node'] = delim }
     return result, result
   end
 end
@@ -149,7 +149,7 @@ local function acc_to_table(acc, cur_style, stretch)
   if stretch ~= not stretchy[char] then -- Handle nil gracefully in stretchy
     stretch = nil
   end
-  return {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = stretch}
+  return {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = stretch, [':node'] = acc}
 end
 
 local function kernel_to_table(kernel, cur_style)
@@ -164,7 +164,8 @@ local function kernel_to_table(kernel, cur_style)
     local result = {[0] = elem,
       char,
       ['tex:family'] = fam ~= 0 and fam or nil,
-      mathvariant = utf8.len(char) == 1 and elem == 'mi' and utf8.codepoint(char) < 0x10000 and 'normal' or nil
+      mathvariant = utf8.len(char) == 1 and elem == 'mi' and utf8.codepoint(char) < 0x10000 and 'normal' or nil,
+      [':node'] = kernel,
     }
     return result, result
   elseif id == sub_box_t then
@@ -172,7 +173,7 @@ local function kernel_to_table(kernel, cur_style)
       local result = to_text(kernel.list.head)
       return result, result
     else
-      local result = {[0] = 'mi', {[0] = 'mglyph', ['tex:box'] = kernel.list}}
+      local result = {[0] = 'mi', {[0] = 'mglyph', ['tex:box'] = kernel.list, [':node'] = kernel}}
       return result, result
     end
   elseif id == sub_mlist_t then
@@ -305,7 +306,7 @@ local function radical_to_table(radical, sub, cur_style)
   local elem
   if kind == 'radical' or kind == 'uradical' then
     -- FIXME: Check that this is really a square root
-    elem, core = {[0] = 'msqrt', nucleus}, nil
+    elem, core = {[0] = 'msqrt', nucleus, [':node'] = left[':node'], }, nil
   elseif kind == 'uroot' then
     -- FIXME: Check that this is really a root
     elem, core = {[0] = 'msqrt', nucleus, kernel_to_table(radical.degree)}, nil
@@ -331,6 +332,7 @@ local function fraction_to_table(fraction, sub, cur_style)
   local mfrac = {[0] = 'mfrac',
     linethickness = fraction.width and fraction.width == 0 and 0 or nil,
     bevelled = fraction.middle and "true" or nil,
+    [':node'] = fraction,
     num,
     denom,
   }
