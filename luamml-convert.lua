@@ -20,6 +20,8 @@ local function invert_table(t)
 end
 
 local noad_names = node.subtypes'noad'
+
+--[[ We could determine the noad subtypes dynamically:
 local noad_sub = invert_table(noad_names)
 local noad_ord = noad_sub.ord
 local noad_op = noad_sub.opdisplaylimits
@@ -34,6 +36,60 @@ local noad_inner = noad_sub.inner
 local noad_under = noad_sub.under
 local noad_over = noad_sub.over
 local noad_vcenter = noad_sub.vcenter
+-- But the spacing table depends on their specific values anyway, so we just verify the values
+]]
+local noad_ord, noad_op, noad_oplimits, noad_opnolimits = 0, 1, 2, 3
+local noad_bin, noad_rel, noad_open, noad_close, noad_punct = 4, 5, 6, 7, 8
+local noad_inner, noad_under, noad_over, noad_vcenter = 9, 10, 11, 12
+
+for i, n in ipairs{'ord', 'opdisplaylimits', 'oplimits', 'opnolimits', 'bin',
+    'rel', 'open', 'close', 'punct', 'inner', 'under', 'over', 'vcenter'} do
+  assert(noad_names[i-1] == n)
+end
+-- Attention, the spacing_table is indexed by subtype+1 since 1-based tables are faster in Lua
+local spacing_table = {
+  {0        , '0.167em', '0.167em', '0.167em', '0.222em', '0.278em', 0        , 0        , 0        , '0.167em', 0        , 0        , 0        , },
+  {'0.167em', '0.167em', '0.167em', '0.167em', nil      , '0.278em', 0        , 0        , 0        , '0.167em', '0.167em', '0.167em', '0.167em', },
+  nil,
+  nil,
+  {'0.222em', '0.222em', '0.222em', '0.222em', nil      , nil      , '0.222em', nil      , nil      , '0.222em', '0.222em', '0.222em', '0.222em', },
+  {'0.278em', '0.278em', '0.278em', '0.278em', nil      , 0        , '0.278em', 0        , 0        , '0.278em', '0.278em', '0.278em', '0.278em', },
+  {0        , 0        , 0        , 0        , nil      , 0        , 0        , 0        , 0        , 0        , 0        , 0        , 0        , },
+  {0        , '0.167em', '0.167em', '0.167em', '0.222em', '0.278em', 0        , 0        , 0        , '0.167em', 0        , 0        , 0        , },
+  {'0.167em', '0.167em', '0.167em', '0.167em', nil      , '0.167em', '0.167em', '0.167em', '0.167em', '0.167em', '0.167em', '0.167em', '0.167em', },
+  {'0.167em', '0.167em', '0.167em', '0.167em', '0.222em', '0.278em', '0.167em', 0        , '0.167em', '0.167em', '0.167em', '0.167em', '0.167em', },
+  nil,
+  nil,
+  nil,
+}
+local spacing_table_script = {
+  {0        , '0.167em', '0.167em', '0.167em', 0        , 0        , 0        , 0        , 0        , 0        , 0        , 0        , 0        , },
+  {'0.167em', '0.167em', '0.167em', '0.167em', nil      , 0        , 0        , 0        , 0        , 0        , '0.167em', '0.167em', '0.167em', },
+  nil,
+  nil,
+  {0        , 0        , 0        , 0        , nil      , nil      , 0        , nil      , nil      , 0        , 0        , 0        , 0        , },
+  {0        , 0        , 0        , 0        , nil      , 0        , 0        , 0        , 0        , 0        , 0        , 0        , 0        , },
+  {0        , 0        , 0        , 0        , nil      , 0        , 0        , 0        , 0        , 0        , 0        , 0        , 0        , },
+  {0        , '0.167em', '0.167em', '0.167em', 0        , 0        , 0        , 0        , 0        , 0        , 0        , 0        , 0        , },
+  {0        , 0        , 0        , 0        , nil      , 0        , 0        , 0        , 0        , 0        , 0        , 0        , 0        , },
+  {0        , '0.167em', '0.167em', '0.167em', 0        , 0        , 0        , 0        , 0        , 0        , 0        , 0        , 0        , },
+  nil,
+  nil,
+  nil,
+}
+do -- Fill the blanks
+  local st, sts = spacing_table, spacing_table_script
+
+  local st_op, sts_op = st[noad_op+1], sts[noad_op+1]
+  st[noad_oplimits+1], sts[noad_oplimits+1] = st_op, sts_op
+  st[noad_opnolimits+1], sts[noad_opnolimits+1] = st_op, sts_op
+
+  local st_ord, sts_ord = st[noad_ord+1], sts[noad_ord+1]
+  st[noad_under+1], sts[noad_under+1] = st_ord, sts_ord
+  st[noad_over+1], sts[noad_over+1] = st_ord, sts_ord
+  st[noad_vcenter+1], sts[noad_vcenter+1] = st_ord, sts_ord
+end
+
 
 local radical_sub = node.subtypes'radical'
 local fence_sub = node.subtypes'fence'
@@ -268,8 +324,8 @@ local function radical_to_table(radical, sub, cur_style)
 end
 
 local function fraction_to_table(fraction, sub, cur_style)
-  local num, core = kernel_to_table(fraction.num, sup_style(cur_style))
-  local denom = kernel_to_table(fraction.denom, sub_style(cur_style))
+  local num, core = kernel_to_table(fraction.num, cur_style + 2 - cur_style//6*2)
+  local denom = kernel_to_table(fraction.denom, cur_style//2*2 + 3 - cur_style//6*2)
   local left = delim_to_table(fraction.left)
   local right = delim_to_table(fraction.right)
   local mfrac = {[0] = 'mfrac',
@@ -375,24 +431,25 @@ function nodes_to_table(head, cur_style)
   local t = {[0] = 'mrow'}
   local result = t
   local nonscript
-  local core, mn = space_like
+  local core, last_noad, last_core, mn = space_like, nil, nil, nil
   for n, id, sub in node.traverse(head) do
-    local new_core, new_mn
+    local new_core, new_mn, new_node, new_noad
     local props = properties[n]
     props = props and props.mathml_table
     if props then
-      t[#t+1], new_core = props, user_provided
+      new_node, new_core = props, user_provided
     elseif id == noad_t then
-      local substr = noad_sub[sub]
       local new_n
       new_n, new_core, new_mn = noad_to_table(n, sub, cur_style, mn)
       if new_mn == false then
         t[#t], new_mn = new_n, nil
       else
-        t[#t+1] = new_n -- might be nil
+        new_node = new_n -- might be nil
       end
+      new_noad = sub
     elseif id == accent_t then
-      t[#t+1], new_core = accent_to_table(n, sub, cur_style)
+      new_node, new_core = accent_to_table(n, sub, cur_style)
+      new_noad = noad_ord
     elseif id == style_t then
       if sub ~= cur_style then
         if #t == 0 then
@@ -412,36 +469,58 @@ function nodes_to_table(head, cur_style)
       new_core = space_like
     elseif id == choice_t then
       local size = cur_style//2
-      t[#t+1], new_core = nodes_to_table(n[size == 0 and 'display'
+      new_node, new_core = nodes_to_table(n[size == 0 and 'display'
                                         or size == 1 and 'text'
                                         or size == 2 and 'script'
                                         or size == 3 and 'scriptscript'
                                         or assert(false)], 2*size), space_like
     elseif id == radical_t then
-      t[#t+1], new_core = radical_to_table(n, sub, cur_style)
+      new_node, new_core = radical_to_table(n, sub, cur_style)
+      new_noad = noad_ord
     elseif id == fraction_t then
-      t[#t+1], new_core = fraction_to_table(n, sub, cur_style)
+      new_node, new_core = fraction_to_table(n, sub, cur_style)
+      new_noad = noad_inner
     elseif id == fence_t then
-      t[#t+1], new_core = fence_to_table(n, sub, cur_style)
+      new_node, new_core = fence_to_table(n, sub, cur_style)
+      local class = n.class
+      new_noad = class >= 0 and class or sub == fence_sub.left and noad_open or noad_close
     elseif id == kern_t then
       if not nonscript then
-        t[#t+1], new_core = space_to_table(n.kern, sub, cur_style)
+        new_node, new_core = space_to_table(n.kern, sub, cur_style)
       end
     elseif id == glue_t then
       if cur_style >= 4 or not nonscript then
         if sub == 98 then -- TODO magic number
           nonscript = true
         else
-          t[#t+1], new_core = space_to_table(n.width, sub, cur_style)
+          new_node, new_core = space_to_table(n.width, sub, cur_style)
         end
       end
     elseif id == rule_t then
-      t[#t+1], new_core = rule_to_table(n, sub, cur_style)
+      new_node, new_core = rule_to_table(n, sub, cur_style)
     -- elseif id == disc_t then -- Uncommon, does not play nicely with math mode and no sensible mapping anyway
     end -- The other possible ids are whatsit, penalty, adjust, ins, mark. Ignore them.
     nonscript = nil
     if core and new_core ~= space_like then
       core = core == space_like and new_core or nil
+    end
+    if new_node then
+      if new_noad then
+        local space = last_noad and (cur_style >= 4 and spacing_table_script or spacing_table)[last_noad + 1][new_noad + 1] or 0
+        if assert(space) ~= 0 then
+          if new_core and new_core[0] == 'mo' then
+            new_core.lspace = space
+          elseif last_core and last_core[0] == 'mo' then
+            last_core.rspace = space
+          else
+            t[#t+1] = {[0] = 'mspace', width = space} -- TODO Move into operators whenever possible
+          end
+        end
+        last_noad, last_core = new_noad, new_core
+      elseif new_node[0] ~= 'mspace' or new_node.mathbackground then
+        last_core = nil
+      end
+      t[#t+1] = new_node
     end
     mn = new_mn
   end
