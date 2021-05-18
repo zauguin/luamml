@@ -46,5 +46,5 @@ end
 
 return function(element, indent, version)
   return (version == '11' and '<?xml version="1.1"?>' or '') ..
-    write_elem(element, indent and '' or nil)
+    write_elem(element, indent and '\n' or nil)
 end

@@ -50,7 +50,7 @@ local function save_result(xml, display)
   local filename = token.scan_argument()
   if filename ~= '' then
     assert(io.open(filename, 'w'))
-      :write(write_xml(make_root({[0] = 'mrow', xml}, display and 0 or 2)) .. '\n')
+      :write(write_xml(make_root({[0] = 'mrow', xml}, display and 0 or 2), true):sub(2) .. '\n')
       :close()
   end
   if tex.count.tracingmathml > 1 then
