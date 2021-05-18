@@ -1,0 +1,34 @@
+% !Mode:: "TeX:DE:UTF-8:Main"
+\PassOptionsToPackage{enable-debug,check-declarations}{expl3}
+\RequirePackage{pdfmanagement-testphase}
+\DeclareDocumentMetadata{uncompress,pdfversion=2.0}
+\RequirePackage{expl3}
+\documentclass{article}
+\usepackage{unicode-math}
+\usepackage{tagpdf}
+\tagpdfsetup{activate-all,interwordspace=true,}
+\usepackage{amsmath}
+\usepackage{luamml}
+% \RegisterFamilyMapping\symsymbols{oms}
+% \RegisterFamilyMapping\symletters{oml}
+% \RegisterFamilyMapping\symlargesymbols{omx}
+\ExplSyntaxOn
+
+\luamml_flag_structelem:
+\int_new:N \g__my_mathml_int
+\luamml_set_filename:n {
+  \immediateassignment \int_gincr:N \g__my_mathml_int
+  \jobname -formula- \int_use:N \g__my_mathml_int .xml
+}
+\ExplSyntaxOff
+\begin{document}
+\tagstructbegin{tag=Document}
+\tagstructbegin{tag=Formula}
+\[
+  ax^2+bx+c=0,\quad
+  \int_1^n f(x) = \sum_{i=1}^m x^4 dx
+\]
+\tagstructend
+\tagstructend
+
+\end{document}

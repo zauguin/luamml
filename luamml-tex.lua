@@ -7,6 +7,8 @@ local mappings = require'luamml-legacy-mappings'
 local write_xml = require'luamml-xmlwriter'
 local write_struct = require'luamml-structelemwriter'
 
+local filename_token = token.create'l__luamml_filename_tl'
+
 local properties = node.get_properties_table()
 
 local funcid = luatexbase.new_luafunction'RegisterFamilyMapping'
@@ -39,8 +41,18 @@ end
 local mlist_buffer
 local mlist_result, mlist_display
 
+local undefined_cmd = token.command_id'undefined_cs'
+local call_cmd = token.command_id'call'
+
 local function save_result(xml, display)
   mlist_result, mlist_display = xml, display
+  if filename_token.command ~= undefined_cmd then
+    assert(filename_token.command == call_cmd)
+    token.put_next(filename_token)
+    assert(io.open(token.scan_string(), 'w'))
+      :write(write_xml(make_root({[0] = 'mrow', xml}, display and 0 or 2)) .. '\n')
+      :close()
+  end
   if tex.count.tracingmathml > 1 then
     -- Here xml gets wrapped in an mrow to avoid modifying it.
     texio.write_nl(write_xml(make_root({[0] = 'mrow', xml}, display and 0 or 2)) .. '\n')
