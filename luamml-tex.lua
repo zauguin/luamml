@@ -46,10 +46,10 @@ local call_cmd = token.command_id'call'
 
 local function save_result(xml, display)
   mlist_result, mlist_display = xml, display
-  if filename_token.command ~= undefined_cmd then
-    assert(filename_token.command == call_cmd)
-    token.put_next(filename_token)
-    assert(io.open(token.scan_string(), 'w'))
+  token.put_next(filename_token)
+  local filename = token.scan_argument()
+  if filename ~= '' then
+    assert(io.open(filename, 'w'))
       :write(write_xml(make_root({[0] = 'mrow', xml}, display and 0 or 2)) .. '\n')
       :close()
   end
