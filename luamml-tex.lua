@@ -23,6 +23,14 @@ lua.get_functions_table()[funcid] = function()
   end
 end
 
+local function shallow_copy(t)
+  local tt = {}
+  for k,v in next, t do
+    tt[k] = v
+  end
+  return tt
+end
+
 -- Possible flag values:
 --   0: Normal (This is the only supported one in display mode)
 --   1: Like 0, result is display math
@@ -48,14 +56,16 @@ local function save_result(xml, display)
   mlist_result, mlist_display = xml, display
   token.put_next(filename_token)
   local filename = token.scan_argument()
+  local tracing = tex.count.tracingmathml > 1
+  local xml_root = (filename ~= '' or tracing) and make_root(shallow_copy(xml), display and 0 or 2)
   if filename ~= '' then
     assert(io.open(filename, 'w'))
-      :write(write_xml(make_root({[0] = 'mrow', xml}, display and 0 or 2), true):sub(2) .. '\n')
+      :write(write_xml(xml_root, true):sub(2) .. '\n')
       :close()
   end
-  if tex.count.tracingmathml > 1 then
+  if tracing then
     -- Here xml gets wrapped in an mrow to avoid modifying it.
-    texio.write_nl(write_xml(make_root({[0] = 'mrow', xml}, display and 0 or 2)) .. '\n')
+    texio.write_nl(write_xml(xml_root) .. '\n')
   end
 end
 
@@ -81,7 +91,7 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
     save_result(xml, style == 'display' or flag & 1 == 1)
   end
   if flag & 8 == 8 then
-    write_struct(make_root(mlist_result, mlist_display and 0 or 2))
+    write_struct(make_root(shallow_copy(xml), (style == 'display' or flag & 1 == 1) and 0 or 2))
   end
   if style == 'text' then
     local startmath = tex.nest.top.tail
