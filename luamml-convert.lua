@@ -306,7 +306,7 @@ local function radical_to_table(radical, sub, cur_style)
   local elem
   if kind == 'radical' or kind == 'uradical' then
     -- FIXME: Check that this is really a square root
-    elem, core = {[0] = 'msqrt', nucleus, [':node'] = left[':node'], }, nil
+    elem, core = {[0] = 'msqrt', nucleus, }, nil
   elseif kind == 'uroot' then
     -- FIXME: Check that this is really a root
     elem, core = {[0] = 'msqrt', nucleus, kernel_to_table(radical.degree)}, nil
@@ -332,7 +332,6 @@ local function fraction_to_table(fraction, sub, cur_style)
   local mfrac = {[0] = 'mfrac',
     linethickness = fraction.width and fraction.width == 0 and 0 or nil,
     bevelled = fraction.middle and "true" or nil,
-    [':node'] = fraction,
     num,
     denom,
   }
