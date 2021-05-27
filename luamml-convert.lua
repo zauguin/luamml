@@ -193,10 +193,11 @@ local function kernel_to_table(kernel, cur_style)
       return result, result
     end
   elseif id == sub_box_t then
+    local result
     if kernel.list.id == hlist_t then -- We directly give up for vlists
-      local result = to_text(kernel.list.head)
+      result = to_text(kernel.list.head)
     else
-      local result = {[0] = 'mi', {[0] = 'mglyph', ['tex:box'] = kernel.list, [':node'] = kernel}}
+      result = {[0] = 'mi', {[0] = 'mglyph', ['tex:box'] = kernel.list, [':node'] = kernel}}
     end
     if mathml_filter then
       return mathml_filter(result, result)
