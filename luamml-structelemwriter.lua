@@ -1,4 +1,5 @@
 local struct_begin = token.create'tag_struct_begin:n'
+local struct_use = token.create'tag_struct_use:n'
 local struct_end = token.create'tag_struct_end:'
 
 local mc_begin = token.create'tag_mc_begin:n'
@@ -40,6 +41,11 @@ local mc_cnt = token.create'l__tag_mc_cnt_attr'.index
 
 local attrs = {}
 local function write_elem(tree, indent)
+  if tree[':struct'] then
+    return tex.runtoks(function()
+      return tex.sprint(struct_use, '{', tree[':struct'], '}')
+    end)
+  end
   if not tree[0] then print('ERR', require'inspect'(tree)) end
   local i = 0
   for attr, val in next, tree do if type(attr) == 'string' and not string.find(attr, ':') and attr ~= 'xmlns' then
@@ -49,11 +55,11 @@ local function write_elem(tree, indent)
   end end
   table.sort(attrs)
   local attr_name
-  if i == 0 then
-    tex.sprint{struct_begin, string.format('{tag=%s/mathml}', tree[0])}
-  else
-    tex.sprint{struct_begin, string.format('{tag=%s/mathml,attribute=%s}', tree[0], attributes[table.concat(attrs)])}
+  tex.sprint(struct_begin, '{tag=', tree[0], '/mathml')
+  if i ~= 0 then
+    tex.sprint(',attribute=', attributes[table.concat(attrs)])
   end
+  tex.sprint'}'
   for j = 1, i do attrs[j] = nil end
 
   if tree[':node'] then
