@@ -121,16 +121,27 @@ local function sup_style(s) return s//4*2+4+s%2 end
 -- We ignore large_... since they aren't used for modern fonts
 local function delim_to_table(delim)
   if not delim then return end
-  local props = properties[delim] props = props and props.mathml_table
-  if props then return props end
+  local props = properties[delim]
+  local mathml_table = props and props.mathml_table
+  if mathml_table then return mathml_table end
+  local mathml_filter = props and props.mathml_filter -- Kind of pointless since the arguments are literals, but present for consistency
   local char = delim.small_char
   if char == 0 then
-    return {[0] = 'mspace', width = string.format("%.3fpt", tex.nulldelimiterspace/65781.76)}, space_like
+    local result = {[0] = 'mspace', width = string.format("%.3fpt", tex.nulldelimiterspace/65781.76)}
+    if mathml_filter then
+      return mathml_filter(result, space_like)
+    else
+      return result, space_like
+    end
   else
     local fam = delim.small_fam
     char = remap_lookup[fam << 21 | char]
     local result = {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = not stretchy[char] or nil, lspace = 0, rspace = 0, [':node'] = delim }
-    return result, result
+    if mathml_filter then
+      return mathml_filter(result, result)
+    else
+      return result, result
+    end
   end
 end
 
@@ -138,24 +149,33 @@ end
 -- No lspace or space is set here since these never appear as core operators in an mrow.
 local function acc_to_table(acc, cur_style, stretch)
   if not acc then return end
-  local props = properties[acc] props = props and props.mathml_table
-  if props then return props end
+  local props = properties[acc]
+  local mathml_table = props and props.mathml_table
+  if mathml_table then return mathml_table end
   if acc.id ~= math_char_t then
     error'confusion'
   end
+  local mathml_filter = props and props.mathml_filter -- Kind of pointless since the arguments are literals, but present for consistency
   local fam = acc.fam
   local char = remap_lookup[fam << 21 | acc.char]
   char = remap_comb[char] or char
   if stretch ~= not stretchy[char] then -- Handle nil gracefully in stretchy
     stretch = nil
   end
-  return {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = stretch, [':node'] = acc}
+  local result = {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = stretch, [':node'] = acc}
+  if mathml_filter then
+    return mathml_filter(result)
+  else
+    return result
+  end
 end
 
 local function kernel_to_table(kernel, cur_style)
   if not kernel then return end
-  local props = properties[kernel] props = props and props.mathml_table
-  if props then return props, user_provided end
+  local props = properties[kernel]
+  local mathml_table = props and props.mathml_table
+  if mathml_table then return mathml_table, user_provided end
+  local mathml_filter = props and props.mathml_filter -- Kind of pointless since the arguments are literals, but present for consistency
   local id = kernel.id
   if id == math_char_t then
     local fam = kernel.fam
@@ -167,17 +187,28 @@ local function kernel_to_table(kernel, cur_style)
       mathvariant = utf8.len(char) == 1 and elem == 'mi' and utf8.codepoint(char) < 0x10000 and 'normal' or nil,
       [':node'] = kernel,
     }
-    return result, result
+    if mathml_filter then
+      return mathml_filter(result, result)
+    else
+      return result, result
+    end
   elseif id == sub_box_t then
     if kernel.list.id == hlist_t then -- We directly give up for vlists
       local result = to_text(kernel.list.head)
-      return result, result
     else
       local result = {[0] = 'mi', {[0] = 'mglyph', ['tex:box'] = kernel.list, [':node'] = kernel}}
+    end
+    if mathml_filter then
+      return mathml_filter(result, result)
+    else
       return result, result
     end
   elseif id == sub_mlist_t then
-    return nodes_to_table(kernel.list, cur_style)
+    if mathml_filter then
+      return mathml_filter(nodes_to_table(kernel.list, cur_style))
+    else
+      return nodes_to_table(kernel.list, cur_style)
+    end
   else
     error'confusion'
   end
@@ -436,9 +467,9 @@ function nodes_to_table(head, cur_style)
   for n, id, sub in node.traverse(head) do
     local new_core, new_mn, new_node, new_noad
     local props = properties[n]
-    props = props and props.mathml_table
-    if props then
-      new_node, new_core = props, user_provided
+    local mathml_table = props and props.mathml_table
+    if mathml_table then
+      new_node, new_core = mathml_table, user_provided
     elseif id == noad_t then
       local new_n
       new_n, new_core, new_mn = noad_to_table(n, sub, cur_style, mn)
@@ -534,7 +565,12 @@ function nodes_to_table(head, cur_style)
     assert(t == result)
     result = t[1]
   end
-  return result, core
+  local mathml_filter = props and props.mathml_filter
+  if mathml_filter then
+    return mathml_filter(result, core)
+  else
+    return result, core
+  end
 end
 
 local function register_remap(family, mapping)
