@@ -55,11 +55,11 @@ local function write_elem(tree, indent)
   end end
   table.sort(attrs)
   local attr_name
-  tex.sprint(struct_begin, '{tag=', tree[0], '/mathml')
-  if i ~= 0 then
-    tex.sprint(',attribute=', attributes[table.concat(attrs)])
+  if i == 0 then
+    tex.sprint(struct_begin, '{tag=', tree[0], '/mathml}')
+  else
+    tex.sprint(struct_begin, '{tag=', tree[0], '/mathml,attribute=', attributes[table.concat(attrs)], '}')
   end
-  tex.sprint'}'
   for j = 1, i do attrs[j] = nil end
 
   if tree[':node'] then
