@@ -11,8 +11,8 @@ local delimiter_code = '"' * (l.R('09', 'AF')^1 / function(s)
   local code = tonumber(s, 16)
   return {id = 'delim',
     small_fam = (code >> 20) & 0xF,
-    small_char = (code >> 16) & 0xFF,
-    large_fam = (code >> 4) & 0xF,
+    small_char = (code >> 12) & 0xFF,
+    large_fam = (code >> 8) & 0xF,
     large_char = code & 0xFF,
   }
 end)
@@ -22,6 +22,8 @@ local math_char = l.Ct('\\fam' * l.Cg(l.R'09'^1 / tonumber, 'fam') * ' ' * l.Cg(
 local simple_noad = l.Ct(
     '\\math' * l.Cg(
         'ord' * l.Cc(0)
+      + 'op\\limits' * l.Cc(2)
+      + 'op\\nolimits' * l.Cc(3)
       + 'op' * l.Cc(1)
       + 'bin' * l.Cc(4)
       + 'rel' * l.Cc(5)
@@ -29,16 +31,21 @@ local simple_noad = l.Ct(
       + 'close' * l.Cc(7)
       + 'punct' * l.Cc(8)
       + 'inner' * l.Cc(9)
+      + 'under' * l.Cc(10)
+      + 'over' * l.Cc(11)
+      + 'vcenter' * l.Cc(12)
       , 'subtype') * l.Cg(l.Cc'noad', 'id')
-  + '\\radical' * l.Cg(delimiter_code, 'left') * l.Cg(l.Cc'radical', 'id')
-  + '\\accent' * l.Cg(math_char, 'accent') * l.Cg(l.Cc'accent', 'id')
+  + '\\radical' * l.Cg(delimiter_code, 'left') * l.Cg(l.Cc(0), 'subtype') * l.Cg(l.Cc'radical', 'id')
+  + '\\accent' * l.Cg(math_char, 'accent') * l.Cg(l.Cc(0), 'subtype') * l.Cg(l.Cc'accent', 'id')
   + l.Cg('\\left' * l.Cc(1)
        + '\\middle' * l.Cc(2)
-       + '\\right' * l.Cc(3), 'subtype') * l.Cg(delimiter_code, 'delim') * l.Cg(l.Cc'fence', 'id')
+       + '\\right' * l.Cc(3), 'subtype') * l.Cg(delimiter_code, 'delim') * l.Cg(l.Cc(0), 'class') * l.Cg(l.Cc'fence', 'id')
   ) * -1
 
-local fraction_noad = l.Ct('\\fraction, thickness ' * l.Cg('= default' * l.Cc(0x40000000) + scaled, 'width')
-                    * l.Cg(', left-delimiter ' * delimiter_code, 'left')^-1 * l.Cg(', right-delimiter ' * delimiter_code, 'right')^-1)
+local fraction_noad = l.Ct('\\fraction, thickness '
+                    * l.Cg('= default' * l.Cc(0x40000000) + scaled, 'width')
+                    * l.Cg(', left-delimiter ' * delimiter_code, 'left')^-1 * l.Cg(', right-delimiter ' * delimiter_code, 'right')^-1
+                    * l.Cg(l.Cc'fraction', 'id'))
                     * -1
 
 local parse_list
@@ -53,7 +60,7 @@ end
 function parse_list(lines, i, prefix)
   i = i or 1
   prefix = prefix or ''
-  local list = {}
+  local head, last
   while true do
     local line = lines[i]
     if not line or line:sub(1, #prefix) ~= prefix then break end
@@ -62,23 +69,26 @@ function parse_list(lines, i, prefix)
       simple.nucleus, i = parse_kernel(lines, i + 1, prefix .. '.')
       simple.sup, i = parse_kernel(lines, i, prefix .. '^')
       simple.sub, i = parse_kernel(lines, i, prefix .. '_')
-      list[#list + 1] = simple
+      if last then
+        simple.prev, last.next = last, simple
+      end
+      last = simple
     else
       local fraction = fraction_noad:match(line, #prefix+1)
       if fraction then
         fraction.num, i = parse_kernel(lines, i + 1, prefix .. '\\')
         fraction.denom, i = parse_kernel(lines, i, prefix .. '/')
-        list[#list + 1] = fraction
+        if last then
+          fraction.prev, last.next = last, fraction
+        end
+        last = fraction
       else
         print('unknown noad ' .. line:sub(#prefix+1))
         i = i + 1
       end
     end
+    if not head then head = last end
   end
-  return list, i
+  return head, i
 end
-local lines = {}
-for l in io.lines() do
-  lines[#lines + 1] = l ~= '' and l or nil
-end
-print(require'inspect'((parse_list(lines))))
+return parse_list
