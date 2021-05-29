@@ -40,6 +40,11 @@ local simple_noad = l.Ct(
   + l.Cg('\\left' * l.Cc(1)
        + '\\middle' * l.Cc(2)
        + '\\right' * l.Cc(3), 'subtype') * l.Cg(delimiter_code, 'delim') * l.Cg(l.Cc(0), 'class') * l.Cg(l.Cc'fence', 'id')
+  + '\\' * l.Cg(
+      'display' * l.Cc(0)
+    + 'text' * l.Cc(2)
+    + 'scriptscript' * l.Cc(6)
+    + 'script' * l.Cc(4), 'subtype') * l.Cg('style', 'id')
   ) * -1
 
 local fraction_noad = l.Ct('\\fraction, thickness '
@@ -47,6 +52,8 @@ local fraction_noad = l.Ct('\\fraction, thickness '
                     * l.Cg(', left-delimiter ' * delimiter_code, 'left')^-1 * l.Cg(', right-delimiter ' * delimiter_code, 'right')^-1
                     * l.Cg(l.Cc'fraction', 'id'))
                     * -1
+
+local mathchoice_noad = l.Ct('\\mathchoice' * l.Cg(l.Cc'choice', 'id') * -1)
 
 local parse_list
 local function parse_kernel(lines, i, prefix)
@@ -83,8 +90,21 @@ function parse_list(lines, i, prefix)
         end
         last = fraction
       else
-        print('unknown noad ' .. line:sub(#prefix+1))
-        i = i + 1
+        local mathchoice = mathchoice_noad:match(line, #prefix+1)
+        if mathchoice then
+          mathchoice.display, i = parse_list(lines, i + 1, prefix .. 'D')
+          mathchoice.text, i = parse_list(lines, i, prefix .. 'T')
+          mathchoice.script, i = parse_list(lines, i, prefix .. 'S')
+          mathchoice.scriptscript, i = parse_list(lines, i, prefix .. 's')
+          if last then
+            mathchoice.prev, last.next = last, mathchoice
+          end
+          last = mathchoice
+        else
+          print(line, prefix, i)
+          print('unknown noad ' .. line:sub(#prefix+1))
+          i = i + 1
+        end
       end
     end
     if not head then head = last end
