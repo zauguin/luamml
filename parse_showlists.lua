@@ -39,7 +39,10 @@ local simple_noad = l.Ct(
   + '\\accent' * l.Cg(math_char, 'accent') * l.Cg(l.Cc(0), 'subtype') * l.Cg(l.Cc'accent', 'id')
   + l.Cg('\\left' * l.Cc(1)
        + '\\middle' * l.Cc(2)
-       + '\\right' * l.Cc(3), 'subtype') * l.Cg(delimiter_code, 'delim') * l.Cg(l.Cc(0), 'class') * l.Cg(l.Cc'fence', 'id')
+       + '\\right' * l.Cc(3), 'subtype') * l.Cg(delimiter_code, 'delim')
+           * l.Cg(l.Cc(0), 'options') * l.Cg(l.Cc(0), 'height')
+           * l.Cg(l.Cc(0), 'depth') * l.Cg(l.Cc(0), 'height')
+           * l.Cg(l.Cc(-1), 'class') * l.Cg(l.Cc'fence', 'id')
   + '\\' * l.Cg(
       'display' * l.Cc(0)
     + 'text' * l.Cc(2)

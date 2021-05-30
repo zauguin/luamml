@@ -107,3 +107,11 @@
   \fi
   \ignorespacesafterend
 }
+
+\cs_set:Npn \bBigg@ #1 #2 {
+  {
+    \ensuremath {
+      \Uvextensible height~#1 \big@size axis~exact~#2
+    }
+  }
+}

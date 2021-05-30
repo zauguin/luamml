@@ -248,11 +248,18 @@ end
 
 local function noad_to_table(noad, sub, cur_style, mn)
   local nucleus, core = kernel_to_table(noad.nucleus, sub == noad_over and cur_style//2*2+1 or cur_style)
+  if core and core[0] == 'mo' and core.minsize and not core.maxsize then
+    core.maxsize = core.minsize -- This happens when a half-specified delimiter appears alone in a list.
+                                -- If it has a minimal size, it should be fixed to that size (since there is nothing bigger in it's list)
+  end
   if sub == noad_ord then
     if core and core[0] == 'mo' then
-      core[0] = 'mi'
-      core.mathvariant = #core == 1 and type(core[1]) == 'string' and utf8.len(core[1]) == 1 and utf8.codepoint(core[1]) < 0x10000 and 'normal' or nil
-      core['tex:class'], core.stretchy, core.lspace, core.rspace = nil
+      core['tex:class'] = nil
+      if not core.minsize then
+        core[0] = 'mi'
+        core.mathvariant = #core == 1 and type(core[1]) == 'string' and utf8.len(core[1]) == 1 and utf8.codepoint(core[1]) < 0x10000 and 'normal' or nil
+        core.stretchy, core.lspace, core.rspace = nil
+      end
     end
     if nucleus == core and #core == 1 then
       if mn and core[0] == 'mi' and (core[1] == '.' or core[1] == ',') and maybe_to_mn(noad, core) or core[0] == 'mn' then
@@ -275,7 +282,9 @@ local function noad_to_table(noad, sub, cur_style, mn)
       -- TODO
     else
       core[0] = 'mo'
-      if stretchy[core[1]] then core.stretchy = false end
+      if not core.minsize then
+        if stretchy[core[1]] then core.stretchy = false end
+      end
       if core.mathvariant == 'normal' then core.mathvariant = nil end
       core.lspace, core.rspace = 0, 0
     end
@@ -385,8 +394,31 @@ end
 
 local function fence_to_table(fence, sub, cur_style)
   local delim, core = delim_to_table(fence.delim)
-  if delim[0] == 'mo' then
-    delim.fence = 'true'
+  if core[0] ~= 'mo' then
+    return delim, core
+  end
+  core.fence, core.symmetric = 'true', 'true'
+  local options = fence.options
+  local axis
+  if fence.height ~= 0 or fence.depth ~= 0 then
+    axis = 0xA == options & 0xA
+    local exact = 0x18 == options & 0x18
+    -- We treat them always as exact. mpadded would allow us to support
+    -- non-exact ones too and I will implement that if I ever encounter
+    -- someone who does that intentionally. Until then, we warn people
+    -- since such fences are absurd.
+    if not exact then
+      texio.write_nl'luamml: The document uses a fence with \z
+          explicit dimensions but without the "exact" option. \z
+          This is probably a mistake.'
+    end
+    core.minsize = string.format("%.3fpt", (fence.height + fence.depth)/65781.76)
+    core.maxsize = core.minsize
+  else
+    axis = 0xC ~= options & 0xC
+  end
+  if not axis then
+    texio.write_nl'luamml: Baseline centered fence will be centered around math axis instead'
   end
   return delim, core
 end
