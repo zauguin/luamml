@@ -36,7 +36,7 @@ local function to_unicode(head, tail)
         end
       elseif node.id'math' == id then
         if props then
-          local mml = props.saved_mathml_table
+          local mml = props.saved_mathml_table or props.saved_mathml_core
           if mml then
             if i ~= 0 then
               result[#result+1] = {[0] = 'mtext', table.concat(subresult)}

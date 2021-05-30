@@ -35,7 +35,7 @@ end
 local function store_column(startmath, display)
   local props = properties[startmath]
   if not props then return end
-  local mml = props.saved_mathml_table
+  local mml = props.saved_mathml_table or props.saved_mathml_core
   if mml then return store_column_xml(mml, display) end
 end
 

@@ -86,7 +86,7 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   else
     new_mlist = mlist
   end
-  local xml = process_mlist(new_mlist, style == 'display' and 0 or 2)
+  local xml, core = process_mlist(new_mlist, style == 'display' and 0 or 2)
   if flag & 2 == 0 then
     save_result(xml, style == 'display' or flag & 1 == 1)
   end
@@ -100,7 +100,7 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
       props = {}
       properties[startmath] = props
     end
-    props.saved_mathml_table = xml
+    props.saved_mathml_table, props.saved_mathml_core = xml, core
   end
   if buffer_tail then
     mlist.prev, buffer_tail.next = nil, nil

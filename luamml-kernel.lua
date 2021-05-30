@@ -19,7 +19,9 @@ lua.get_functions_table()[funcid] = function()
     properties[nucl] = props
   end
   assert(not props.mathml_table)
-  local saved = assert(assert(properties[startmath]).saved_mathml_table)
+  local saved_props = assert(properties[startmath])
+  local saved_core = saved_props.saved_mathml_core
+  local saved = assert(saved_props.saved_mathml_table or saved_core)
   if saved[0] == 'mstyle'
       and (not saved.displaystyle or saved.displaystyle == (size == 0))
       and (not saved.scriptlevel or saved.scriptlevel == (size == 0 and 0 or size-1))
@@ -38,5 +40,5 @@ lua.get_functions_table()[funcid] = function()
   if if_horizontal.index ~= iftrue_index then
     saved = {[0] = 'mpadded', width = 0, saved}
   end
-  props.mathml_table = saved
+  props.mathml_table, props.mathml_core = saved, saved_core
 end

@@ -104,8 +104,8 @@ local digit_map = {["0"] = true, ["1"] = true,
      ["5"] = true, ["6"] = true, ["7"] = true,
      ["8"] = true, ["9"] = true,}
 
--- Two marker tables. They are used instead of an embellished operator to mark space-like or user provided constructs
-local user_provided, space_like = {}, {}
+-- Marker tables replacing the core operator for space like elements
+local space_like = {}
 
 local nodes_to_table
 
@@ -114,7 +114,7 @@ local function sup_style(s) return s//4*2+4+s%2 end
 
 -- The _to_table functions generally return a second argument which is
 -- could be (if it were a <mo>) a core operator of the embellishe operator
--- or space_like/user_provided
+-- or space_like
 -- acc_to_table is special since it's return value should
 -- always be considered a core operator
 
@@ -122,8 +122,9 @@ local function sup_style(s) return s//4*2+4+s%2 end
 local function delim_to_table(delim)
   if not delim then return end
   local props = properties[delim]
-  local mathml_table = props and props.mathml_table
-  if mathml_table then return mathml_table end
+  local mathml_core = props and props.mathml_core
+  local mathml_table = props and (props.mathml_table or mathml_core)
+  if mathml_table then return mathml_table, mathml_core end
   local mathml_filter = props and props.mathml_filter -- Kind of pointless since the arguments are literals, but present for consistency
   local char = delim.small_char
   if char == 0 then
@@ -150,8 +151,9 @@ end
 local function acc_to_table(acc, cur_style, stretch)
   if not acc then return end
   local props = properties[acc]
-  local mathml_table = props and props.mathml_table
-  if mathml_table then return mathml_table end
+  local mathml_core = props and props.mathml_core
+  local mathml_table = props and (props.mathml_table or mathml_core)
+  if mathml_table then return mathml_table, mathml_core end
   if acc.id ~= math_char_t then
     error'confusion'
   end
@@ -173,8 +175,9 @@ end
 local function kernel_to_table(kernel, cur_style)
   if not kernel then return end
   local props = properties[kernel]
-  local mathml_table = props and props.mathml_table
-  if mathml_table then return mathml_table, user_provided end
+  local mathml_core = props and props.mathml_core
+  local mathml_table = props and (props.mathml_table or mathml_core)
+  if mathml_table then return mathml_table, mathml_core end
   local mathml_filter = props and props.mathml_filter -- Kind of pointless since the arguments are literals, but present for consistency
   local id = kernel.id
   if id == math_char_t then
@@ -500,9 +503,10 @@ function nodes_to_table(head, cur_style)
   for n, id, sub in node.traverse(head) do
     local new_core, new_mn, new_node, new_noad
     local props = properties[n]
-    local mathml_table = props and props.mathml_table
+    local mathml_core = props and props.mathml_core
+    local mathml_table = props and (props.mathml_table or mathml_core)
     if mathml_table then
-      new_node, new_core = mathml_table, user_provided
+      new_node, new_core = mathml_table, mathml_core
     elseif id == noad_t then
       local new_n
       new_n, new_core, new_mn = noad_to_table(n, sub, cur_style, mn)
