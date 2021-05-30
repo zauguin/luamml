@@ -251,7 +251,7 @@ local function noad_to_table(noad, sub, cur_style, mn)
   if sub == noad_ord then
     if core and core[0] == 'mo' then
       core[0] = 'mi'
-      core.mathvariant = #core == 1 and type(core[0]) == 'string' and utf8.len(core[0]) == 1 and utf8.codepoint(core[0]) < -0x10000 and 'normal' or nil
+      core.mathvariant = #core == 1 and type(core[1]) == 'string' and utf8.len(core[1]) == 1 and utf8.codepoint(core[1]) < 0x10000 and 'normal' or nil
       core['tex:class'], core.stretchy, core.lspace, core.rspace = nil
     end
     if nucleus == core and #core == 1 then
