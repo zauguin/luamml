@@ -1,0 +1,16 @@
+\ProvidesExplPackage {luamml-patches-kernel} {2021-05-30} {0.0.1-alpha}
+  {Feel free to add a description here}
+
+\lua_now:n { require'luamml-kernel' }
+
+\cs_set:Npn \mathph@nt #1 #2 {
+  \hbox_set:Nn \c_zero_int {
+    $
+    \m@th
+    #1
+    {#2}
+    $
+  }
+  \finph@nt
+  \__luamml_kernel_finalize_phantom:N #1
+}
