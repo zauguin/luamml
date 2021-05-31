@@ -6,7 +6,7 @@ local tex_char = l.Cg('^^' * (hex_digit * hex_digit / hex_to_int
                            + l.R'\x40\x7F' / function(s) return s:byte() - 0x40  end)
                    + l.P(1) / string.byte)
 
-local scaled = l.R'09'^1 * '.' * l.R'09'^1 / function(s) return (tonumber(s * 0x10000) + .5) // 1 end
+local scaled = l.P'-'^-1 * l.R'09'^1 * '.' * l.R'09'^1 / function(s) return (tonumber(s * 0x10000) + .5) // 1 end
 local delimiter_code = '"' * (l.R('09', 'AF')^1 / function(s)
   local code = tonumber(s, 16)
   return {id = 'delim',
@@ -48,6 +48,8 @@ local simple_noad = l.Ct(
     + 'text' * l.Cc(2)
     + 'scriptscript' * l.Cc(6)
     + 'script' * l.Cc(4), 'subtype') * l.Cg('style', 'id')
+  + '\\mkern' * l.Cg(scaled, 'kern') * 'mu' * l.Cg(l.Cc(99), 'subtype') * l.Cg(l.Cc'kern', 'id')
+  + '\\kern' * l.Cg(' ' * l.Cc(1) + l.Cc(0), 'subtype') * l.Cg(scaled, 'kern') * (' (for ' * (l.R'az' + l.S'/\\') * ')')^-1 * l.Cg(l.Cc'kern', 'id')
   ) * -1
 
 local fraction_noad = l.Ct('\\fraction, thickness '
