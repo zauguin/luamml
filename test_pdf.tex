@@ -1,0 +1,34 @@
+\documentclass{article}
+\usepackage{luamml-pdf}
+
+% \RegisterFamilyMapping\symsymbols{oms}
+% \RegisterFamilyMapping\symletters{oml}
+% \RegisterFamilyMapping\symlargesymbols{omx}
+
+\ExplSyntaxOn
+\cs_set_eq:NN \WriteoutFormula \luamml_pdf_write:
+\NewDocumentCommand\AnnotateFormula{ o m m }{%
+  \IfValueTF{#1}{%
+    \luamml_pdf_annotate:nnn{#1}%
+  }{
+    \luamml_pdf_annotate:nn
+  }{#2}{#3}
+}
+\ExplSyntaxOff
+
+\begin{document}
+\[
+  \emptyset\models((p\Rightarrow q)\Rightarrow(q\Rightarrow r))\Rightarrow (p\Rightarrow (q\Rightarrow r))
+  \WriteoutFormula
+\]
+
+%\begin{align}
+%  abc&=def & e^{\mathrm{i}\pi}&=-1\\
+%  \Big(1+2&=3\Big)\\
+%  &4\\
+%  5
+%\end{align}
+
+Es gilt $\sin(x)-\sin(x+2\pi)=0\WriteoutFormula$.
+\end{document}
+
