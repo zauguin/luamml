@@ -1,3 +1,7 @@
+require'pdfmml-emulate-node'
+
+local properties = node.get_properties_table()
+
 local l = lpeg or require'lpeg'
 local hex_digit = l.R('09', 'af')
 local function hex_to_int(s) return tonumber(s, 16) end
@@ -22,12 +26,12 @@ local math_char = l.Ct('\\fam' * l.Cg(l.R'09'^1 / tonumber, 'fam') * ' ' * l.Cg(
 local simple_noad = l.Ct(
     '\\math' * l.Cg(
         'ord' * l.Cc(0)
+      + 'open' * l.Cc(6)
       + 'op\\limits' * l.Cc(2)
       + 'op\\nolimits' * l.Cc(3)
       + 'op' * l.Cc(1)
       + 'bin' * l.Cc(4)
       + 'rel' * l.Cc(5)
-      + 'open' * l.Cc(6)
       + 'close' * l.Cc(7)
       + 'punct' * l.Cc(8)
       + 'inner' * l.Cc(9)
@@ -60,6 +64,8 @@ local fraction_noad = l.Ct('\\fraction, thickness '
 
 local mathchoice_noad = l.Ct('\\mathchoice' * l.Cg(l.Cc'choice', 'id') * -1)
 
+local mark_whatsit = '\\write-{LUAMML_MARK:' * (l.R'09'/tonumber) * ':'
+
 local parse_list
 local function parse_kernel(lines, i, prefix)
   local line = lines[i]
@@ -69,11 +75,14 @@ local function parse_kernel(lines, i, prefix)
   result, i = parse_list(lines, i, prefix)
   return {list = result, id = 'sub_mlist'}, i
 end
-function parse_list(lines, i, prefix)
+function parse_list(lines, i, prefix, marks)
   i = i or 1
   prefix = prefix or ''
   local head, last
+  local mark_environment = {}
+  local current_mark, current_count, current_offset
   while true do
+    local skip
     local line = lines[i]
     if not line or line:sub(1, #prefix) ~= prefix then break end
     local simple = simple_noad:match(line, #prefix+1)
@@ -106,13 +115,31 @@ function parse_list(lines, i, prefix)
           end
           last = mathchoice
         else
-          print(line, prefix, i)
-          print('unknown noad ' .. line:sub(#prefix+1))
-          i = i + 1
+          skip = true
+          local mark = mark_whatsit:match(line)
+          if mark then
+            local mark_table = assert(load('return {' .. assert(marks[mark], 'Undefined mark encountered') .. '}', nil, 't', mark_environment))()
+            current_mark, current_count, current_offset = mark_table, mark_table.count or 1, mark_table.offset or 1
+            i = i + 1
+          else
+            print(line, prefix, i)
+            print('unknown noad ' .. line:sub(#prefix+1))
+            i = i + 1
+          end
         end
       end
     end
     if not head then head = last end
+    if not skip and current_mark then
+      current_count = current_count - 1
+      current_offset = current_offset - 1
+      if current_offset == 0 then
+        properties[current_mark.nucleus and last.nucleus or last] = {mathml_core = current_mark.core}
+      else
+        properties[last] = {mathml_core = false}
+      end
+      if current_count == 0 then current_mark = nil end
+    end
   end
   return head, i
 end

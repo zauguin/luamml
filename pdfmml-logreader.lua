@@ -2,15 +2,23 @@ local l = lpeg or require'lpeg'
 
 local line = (1-l.P'\n')^0 * '\n'
 
-local list_block = (l.C(l.S'\\._^/ps' * (1-l.P'\n')^0)^-1 * '\n')^0
+local id = l.R'09'/tonumber
+local non_final_list_block = (l.C((1-l.P'\n')^0) * '\n' - '### ')^0
 local math_lists_block = l.Ct('### ' * l.Cg(l.C'display' * ' ', 'display')^-1 * 'math mode entered at line ' * l.Cg(l.R'09'^1 / tonumber, 'line') * '\n'
-                       * list_block)^1
-local generic_list_block = '### ' * line * list_block
-local luamml_block = l.Ct('LUAMML_META_BEGIN\n\n'
- * (math_lists_block + generic_list_block/0)^0
- * (line - 'LUAMML_META_END\n')^0
- * 'LUAMML_META_END\n')
-local log_file = l.Ct((luamml_block + line)^0)
+                       * non_final_list_block)^1
+local generic_list_block = '### ' * (line - 'current page:') * non_final_list_block
+local luamml_block = l.Cg('LUAMML_FORMULA_BEGIN:' * id * l.P'\n'^1 * l.Ct(
+   (math_lists_block + generic_list_block/0)^0
+ * (line - 'LUAMML_FORMULA_END\n')^0
+ * 'LUAMML_FORMULA_END\n') * l.Cc'groups')
+
+local luamml_mark = l.Cg('LUAMML_MARK:' * id * ':' * l.Cs((1 - l.P'\n' + l.Cg('\n' * l.Cc'' - '\nLUAMML_MARK_END\n'))^0) * '\nLUAMML_MARK_END\n' * l.Cc'marks')
+
+local function multi_table_set(t, key, value, table)
+  assert(t[table])[key] = value
+  return t
+end
+local log_file = l.Cf(l.Ct(l.Cg(l.Ct'', 'groups') * l.Cg(l.Ct'', 'marks')) * (luamml_block + luamml_mark + line)^0, multi_table_set)
 
 return function(filename)
   local f

@@ -17,9 +17,9 @@ end
 local math_lists = assert(parse_log(arg[1]))
 
 local out_stream = arg[2] and arg[2] ~= '-' and assert(io.open(arg[2], 'w')) or io.stdout
-for i, block in ipairs(math_lists) do
+for i, block in ipairs(math_lists.groups) do
   block = block[1]
-  local parsed = parse_showlists(block)
+  local parsed = parse_showlists(block, nil, nil, math_lists.marks)
   local style = block.display and 0 or 2
   out_stream:write(
     to_xml(convert.make_root(convert.process(parsed, style), style))

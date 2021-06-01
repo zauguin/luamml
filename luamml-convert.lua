@@ -505,7 +505,6 @@ function nodes_to_table(head, cur_style)
     local props = properties[n]
     local mathml_core = props and props.mathml_core
     local mathml_table = props and (props.mathml_table or mathml_core)
-    print(mathml_table)
     if mathml_table ~= nil then
       new_node, new_core = mathml_table, mathml_core
     elseif id == noad_t then

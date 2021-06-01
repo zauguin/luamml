@@ -1,0 +1,94 @@
+\ProvidesExplPackage {luamml-pdf} {2021-05-31} {0.0.1-alpha}
+  {MathML generation for L̶u̶a̶pdfLaTeX}
+
+\cs_new:Npn \__luamml_pdf_showlists: {
+  \group_begin:
+    \int_set:Nn \l_tmpa_int { \tex_interactionmode:D }
+    \int_set:Nn \tex_interactionmode:D { 0 }
+    \int_set:Nn \tex_showboxdepth:D { \c_max_int }
+    \int_set:Nn \tex_showboxbreadth:D { \c_max_int }
+    \tex_showlists:D
+    \int_set:Nn \tex_interactionmode:D { \l_tmpa_int }
+  \group_end:
+}
+
+\int_new:N \g__luamml_formula_id_int
+\cs_new_protected:Npn \luamml_pdf_write: {
+  \int_gincr:N \g__luamml_formula_id_int
+  \iow_log:x {
+    LUAMML_FORMULA_BEGIN:
+    \int_use:N \g__luamml_formula_id_int
+  }
+  \__luamml_pdf_showlists:
+  \iow_log:x {
+    LUAMML_FORMULA_END
+  }
+}
+
+\cs_new:Npn \luamml_pdf_last_formula: {
+  \int_use:N \g__luamml_formula_id_int
+}
+
+\cs_generate_variant:Nn \tl_to_str:n { e }
+
+% annotate parameters
+%   #1 number of top level nodes to be annotated
+%   #2 annotation
+%   #3 nodes to be annotated
+\int_new:N \g__luamml_annotation_id_int
+\cs_new_protected:Npn \luamml_pdf_annotate:nnn #1#2#3 {
+  \int_gincr:N \g__luamml_annotation_id_int
+  \iow_shipout_x:Nx \c_log_iow {
+    \tl_to_str:e {
+      LUAMML_MARK:
+      \int_use:N \g__luamml_annotation_id_int
+      :
+      count = \int_eval:n {#1},
+      #2
+    }
+    \exp_not:N \iow_newline:
+    LUAMML_MARK_END
+  }
+  #3
+}
+
+% annotate parameters
+%   #1 annotation
+%   #2 nodes to be annotated
+% THIS VERSION IS SIGNIFICANTLY SLOWER
+\cs_new_protected:Npn \luamml_pdf_annotate:nn #1#2 {
+  \int_gincr:N \g__luamml_annotation_id_int
+  \iow_write:Nx \c_log_iow {
+    LUAMML_COUNT_BEGIN:
+    \int_use:N \g__luamml_annotation_id_int
+  }
+  \__luamml_pdf_showlists:
+  \iow_shipout:Nx \c_log_iow {
+    LUAMML_MARK:
+    \int_use:N \g__luamml_annotation_id_int
+    :
+    #1
+  }
+  #2
+  \iow_write:Nx \c_log_iow {
+    LUAMML_COUNT_END:
+    \int_use:N \g__luamml_annotation_id_int
+  }
+  \__luamml_pdf_showlists:
+}
+
+\endinput
+
+\cs_new:Npn \__luamml_patch_package:nn #1 #2 {
+  \@ifpackageloaded {#1} {#2} {
+    \hook_gput_code:nnn {package/after/#1} {luamml} {#2}
+  }
+}
+\cs_new:Npn \__luamml_patch_package:n #1 {
+  \__luamml_patch_package:nn {#1} {
+    \RequirePackage { luamml-patches-#1 }
+  }
+}
+\RequirePackage { luamml-patches-kernel }
+\__luamml_patch_package:n {amsmath}
+\__luamml_patch_package:n {array}
