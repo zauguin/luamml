@@ -16,6 +16,10 @@
 }
 \ExplSyntaxOff
 
+\protected\edef\models{\AnnotateFormula[3]{%
+    nucleus = true, core = {[0] = 'mi', '\noexpand\string\noexpand\u{22a7}'},
+  }{\unexpanded\expandafter{\models}}}
+
 \begin{document}
 \[
   \emptyset\models((p\Rightarrow q)\Rightarrow(q\Rightarrow r))\Rightarrow (p\Rightarrow (q\Rightarrow r))

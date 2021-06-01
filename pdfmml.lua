@@ -22,7 +22,7 @@ for i, block in ipairs(math_lists.groups) do
   local parsed = parse_showlists(block, nil, nil, math_lists.marks)
   local style = block.display and 0 or 2
   out_stream:write(
-    to_xml(convert.make_root(convert.process(parsed, style), style))
+    to_xml(convert.make_root(convert.process(parsed, style), style)), '\n'
   )
 end
 -- if ... then out_stream:close() end -- Don't bother since we terminate anyway
