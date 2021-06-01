@@ -124,7 +124,7 @@ local function delim_to_table(delim)
   local props = properties[delim]
   local mathml_core = props and props.mathml_core
   local mathml_table = props and (props.mathml_table or mathml_core)
-  if mathml_table then return mathml_table, mathml_core end
+  if mathml_table ~= nil then return mathml_table, mathml_core end
   local mathml_filter = props and props.mathml_filter -- Kind of pointless since the arguments are literals, but present for consistency
   local char = delim.small_char
   if char == 0 then
@@ -153,7 +153,7 @@ local function acc_to_table(acc, cur_style, stretch)
   local props = properties[acc]
   local mathml_core = props and props.mathml_core
   local mathml_table = props and (props.mathml_table or mathml_core)
-  if mathml_table then return mathml_table, mathml_core end
+  if mathml_table ~= nil then return mathml_table, mathml_core end
   if acc.id ~= math_char_t then
     error'confusion'
   end
@@ -177,7 +177,7 @@ local function kernel_to_table(kernel, cur_style)
   local props = properties[kernel]
   local mathml_core = props and props.mathml_core
   local mathml_table = props and (props.mathml_table or mathml_core)
-  if mathml_table then return mathml_table, mathml_core end
+  if mathml_table ~= nil then return mathml_table, mathml_core end
   local mathml_filter = props and props.mathml_filter -- Kind of pointless since the arguments are literals, but present for consistency
   local id = kernel.id
   if id == math_char_t then
@@ -505,7 +505,8 @@ function nodes_to_table(head, cur_style)
     local props = properties[n]
     local mathml_core = props and props.mathml_core
     local mathml_table = props and (props.mathml_table or mathml_core)
-    if mathml_table then
+    print(mathml_table)
+    if mathml_table ~= nil then
       new_node, new_core = mathml_table, mathml_core
     elseif id == noad_t then
       local new_n
