@@ -119,7 +119,8 @@ function parse_list(lines, i, prefix, marks)
           local mark = mark_whatsit:match(line)
           if mark then
             local mark_table = assert(load('return {' .. assert(marks[mark], 'Undefined mark encountered') .. '}', nil, 't', mark_environment))()
-            current_mark, current_count, current_offset = mark_table, mark_table.count or 1, mark_table.offset or 1
+            current_mark, current_count = mark_table, mark_table.count or 1
+            current_offset = mark_table.offset or current_count
             i = i + 1
           else
             print(line, prefix, i)
