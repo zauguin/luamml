@@ -58,21 +58,25 @@
 % THIS VERSION IS SIGNIFICANTLY SLOWER
 \cs_new_protected:Npn \luamml_pdf_annotate:nn #1#2 {
   \int_gincr:N \g__luamml_annotation_id_int
-  \iow_write:Nx \c_log_iow {
-    LUAMML_COUNT_BEGIN:
+  \iow_shipout_x:Nx \c_log_iow {
+    \tl_to_str:e {
+      LUAMML_MARK:
+      \int_use:N \g__luamml_annotation_id_int
+      :
+      count = data.count[\int_use:N \g__luamml_annotation_id_int],
+      #1
+    }
+    \exp_not:N \iow_newline:
+    LUAMML_MARK_END
+  }
+  \iow_now:Nx \c_log_iow {
+    LUAMML_COUNT:
     \int_use:N \g__luamml_annotation_id_int
   }
   \__luamml_pdf_showlists:
-  \iow_shipout:Nx \c_log_iow {
-    LUAMML_MARK:
-    \int_use:N \g__luamml_annotation_id_int
-    :
-    #1
-  }
   #2
-  \iow_write:Nx \c_log_iow {
-    LUAMML_COUNT_END:
-    \int_use:N \g__luamml_annotation_id_int
+  \iow_now:Nn \c_log_iow {
+    LUAMML_COUNT_END
   }
   \__luamml_pdf_showlists:
 }

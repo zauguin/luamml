@@ -64,22 +64,22 @@ local fraction_noad = l.Ct('\\fraction, thickness '
 
 local mathchoice_noad = l.Ct('\\mathchoice' * l.Cg(l.Cc'choice', 'id') * -1)
 
-local mark_whatsit = '\\write-{LUAMML_MARK:' * (l.R'09'/tonumber) * ':'
+local mark_whatsit = '\\write-{LUAMML_MARK:' * (l.R'09'^1/tonumber) * ':'
 
 local parse_list
-local function parse_kernel(lines, i, prefix)
+local function parse_kernel(lines, i, prefix, parsed)
   local line = lines[i]
   if not line or line:sub(1, #prefix) ~= prefix then return nil, i end
   local result = math_char:match(lines[i], #prefix + 1)
   if result then return result, i+1 end
-  result, i = parse_list(lines, i, prefix)
+  result, i = parse_list(lines, i, prefix, parsed)
   return {list = result, id = 'sub_mlist'}, i
 end
-function parse_list(lines, i, prefix, marks)
+function parse_list(lines, i, prefix, parsed)
   i = i or 1
   prefix = prefix or ''
   local head, last
-  local mark_environment = {}
+  local mark_environment = {data = parsed,}
   local current_mark, current_count, current_offset
   while true do
     local skip
@@ -87,9 +87,9 @@ function parse_list(lines, i, prefix, marks)
     if not line or line:sub(1, #prefix) ~= prefix then break end
     local simple = simple_noad:match(line, #prefix+1)
     if simple then
-      simple.nucleus, i = parse_kernel(lines, i + 1, prefix .. '.')
-      simple.sup, i = parse_kernel(lines, i, prefix .. '^')
-      simple.sub, i = parse_kernel(lines, i, prefix .. '_')
+      simple.nucleus, i = parse_kernel(lines, i + 1, prefix .. '.', parsed)
+      simple.sup, i = parse_kernel(lines, i, prefix .. '^', parsed)
+      simple.sub, i = parse_kernel(lines, i, prefix .. '_', parsed)
       if last then
         simple.prev, last.next = last, simple
       end
@@ -97,8 +97,8 @@ function parse_list(lines, i, prefix, marks)
     else
       local fraction = fraction_noad:match(line, #prefix+1)
       if fraction then
-        fraction.num, i = parse_kernel(lines, i + 1, prefix .. '\\')
-        fraction.denom, i = parse_kernel(lines, i, prefix .. '/')
+        fraction.num, i = parse_kernel(lines, i + 1, prefix .. '\\', parsed)
+        fraction.denom, i = parse_kernel(lines, i, prefix .. '/', parsed)
         if last then
           fraction.prev, last.next = last, fraction
         end
@@ -106,19 +106,19 @@ function parse_list(lines, i, prefix, marks)
       else
         local mathchoice = mathchoice_noad:match(line, #prefix+1)
         if mathchoice then
-          mathchoice.display, i = parse_list(lines, i + 1, prefix .. 'D')
-          mathchoice.text, i = parse_list(lines, i, prefix .. 'T')
-          mathchoice.script, i = parse_list(lines, i, prefix .. 'S')
-          mathchoice.scriptscript, i = parse_list(lines, i, prefix .. 's')
+          mathchoice.display, i = parse_list(lines, i + 1, prefix .. 'D', parsed)
+          mathchoice.text, i = parse_list(lines, i, prefix .. 'T', parsed)
+          mathchoice.script, i = parse_list(lines, i, prefix .. 'S', parsed)
+          mathchoice.scriptscript, i = parse_list(lines, i, prefix .. 's', parsed)
           if last then
             mathchoice.prev, last.next = last, mathchoice
           end
           last = mathchoice
         else
           skip = true
-          local mark = mark_whatsit:match(line)
+          local mark = mark_whatsit:match(line, #prefix+1)
           if mark then
-            local mark_table = assert(load('return {' .. assert(marks[mark], 'Undefined mark encountered') .. '}', nil, 't', mark_environment))()
+            local mark_table = assert(load('return {' .. assert(parsed.marks[mark], 'Undefined mark encountered') .. '}', nil, 't', mark_environment))()
             current_mark, current_count = mark_table, mark_table.count or 1
             current_offset = mark_table.offset or current_count
             i = i + 1

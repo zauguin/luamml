@@ -14,6 +14,16 @@ local luamml_block = l.Cg('LUAMML_FORMULA_BEGIN:' * id * l.P'\n'^1 * l.Ct(
 
 local luamml_mark = l.Cg('LUAMML_MARK:' * id * ':' * l.Cs((1 - l.P'\n' + l.Cg('\n' * l.Cc'' - '\nLUAMML_MARK_END\n'))^0) * '\nLUAMML_MARK_END\n' * l.Cc'marks')
 
+local function add(a, b) return a + b end
+local count_block = '### ' * line * l.Cf(l.Cc(0) * (('\\' * l.Cc(1))^-1 * line - '### ')^0, add)
+local luamml_count = l.Cg('LUAMML_COUNT:' * id * l.P'\n'^1
+                      * count_block
+                      * (line-'LUAMML_COUNT_END\n')^0
+                      * 'LUAMML_COUNT_END' * l.P'\n'^1
+                      * count_block / function(id, first, second)
+                        return id, second - first
+                      end * l.Cc'count')
+
 local luamml_instruction = l.Cg('LUAMML_INSTRUCTION:' * l.Cc(nil) * l.C((1 - l.P'\n')^0) * '\n' * l.Cc'instructions')
 
 local function multi_table_set(t, key, value, table)
@@ -22,9 +32,10 @@ local function multi_table_set(t, key, value, table)
   return t
 end
 local log_file = l.Cf(l.Ct(l.Cg(l.Ct'', 'groups')
+                    * l.Cg(l.Ct'', 'count')
                     * l.Cg(l.Ct'', 'marks')
                     * l.Cg(l.Ct'', 'instructions'))
-               * (luamml_block + luamml_mark + luamml_instruction + line)^0,
+               * (luamml_block + luamml_mark + luamml_instruction + luamml_count + line)^0,
                multi_table_set)
 
 return function(filename)

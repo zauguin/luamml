@@ -55,7 +55,7 @@ end
 for i, block in ipairs(parsed.groups) do
   local stream = out_stream or assert(io.open(out_prefix .. tostring(i) .. out_suffix, 'w'))
   block = block[1]
-  local parsed = parse_showlists(block, nil, nil, parsed.marks)
+  local parsed = parse_showlists(block, nil, nil, parsed)
   local style = block.display and 0 or 2
   stream:write(
     to_xml(convert.make_root(convert.process(parsed, style), style)), '\n'
