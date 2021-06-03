@@ -4,10 +4,6 @@ local convert = require'luamml-convert'
 local mappings = require'luamml-legacy-mappings'
 local to_xml = require'luamml-xmlwriter'
 
-convert.register_family(1, mappings.oml)
-convert.register_family(2, mappings.oms)
-convert.register_family(3, mappings.omx)
-
 local parse_showlists = require'pdfmml-showlists'
 local parse_log = require'pdfmml-logreader'
 
@@ -30,8 +26,22 @@ if #arg < 1 then
     If {outname} includes {}, then a separate file is written for every formula with {} replaced by the formula id.\n', arg[0]))
   os.exit(1)
 end
-local math_lists = assert(parse_log(assert(try_extensions(arg[1], '.tml', '.log'),
+local parsed = assert(parse_log(assert(try_extensions(arg[1], '.tml', '.log'),
       "Couldn't find input file.")))
+
+for i, inst in ipairs(parsed.instructions) do
+  local _, _, family, mapping_name = inst:find'^REGISTER_MAPPING:([0-9]+):(.*)$'
+  if family then
+    local mapping = mappings[mapping_name]
+    if mapping then
+      convert.register_family(tonumber(family), mapping)
+    else
+      io.stderr:write(string.format('Unknown mapping %s ignored\n', mapping_name))
+    end
+  else
+    io.stderr:write'Unknown instruction ignored\n'
+  end
+end
 
 local out_prefix, out_suffix, out_stream
 if not arg[2] or arg[2] == '-' then
@@ -42,10 +52,10 @@ else
     out_stream = assert(io.open(arg[2], 'w'))
   end
 end
-for i, block in ipairs(math_lists.groups) do
+for i, block in ipairs(parsed.groups) do
   local stream = out_stream or assert(io.open(out_prefix .. tostring(i) .. out_suffix, 'w'))
   block = block[1]
-  local parsed = parse_showlists(block, nil, nil, math_lists.marks)
+  local parsed = parse_showlists(block, nil, nil, parsed.marks)
   local style = block.display and 0 or 2
   stream:write(
     to_xml(convert.make_root(convert.process(parsed, style), style)), '\n'

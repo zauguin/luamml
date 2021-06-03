@@ -14,11 +14,18 @@ local luamml_block = l.Cg('LUAMML_FORMULA_BEGIN:' * id * l.P'\n'^1 * l.Ct(
 
 local luamml_mark = l.Cg('LUAMML_MARK:' * id * ':' * l.Cs((1 - l.P'\n' + l.Cg('\n' * l.Cc'' - '\nLUAMML_MARK_END\n'))^0) * '\nLUAMML_MARK_END\n' * l.Cc'marks')
 
+local luamml_instruction = l.Cg('LUAMML_INSTRUCTION:' * l.Cc(nil) * l.C((1 - l.P'\n')^0) * '\n' * l.Cc'instructions')
+
 local function multi_table_set(t, key, value, table)
-  assert(t[table])[key] = value
+  table = t[table]
+  table[key or #table + 1] = value
   return t
 end
-local log_file = l.Cf(l.Ct(l.Cg(l.Ct'', 'groups') * l.Cg(l.Ct'', 'marks')) * (luamml_block + luamml_mark + line)^0, multi_table_set)
+local log_file = l.Cf(l.Ct(l.Cg(l.Ct'', 'groups')
+                    * l.Cg(l.Ct'', 'marks')
+                    * l.Cg(l.Ct'', 'instructions'))
+               * (luamml_block + luamml_mark + luamml_instruction + line)^0,
+               multi_table_set)
 
 return function(filename)
   local f

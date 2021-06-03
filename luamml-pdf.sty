@@ -77,6 +77,12 @@
   \__luamml_pdf_showlists:
 }
 
+\NewDocumentCommand \RegisterFamilyMapping {m m} {
+  \iow_log:x {
+    LUAMML_INSTRUCTION:REGISTER_MAPPING: \int_use:N #1 : #2
+  }
+}
+
 \endinput
 
 \cs_new:Npn \__luamml_patch_package:nn #1 #2 {
