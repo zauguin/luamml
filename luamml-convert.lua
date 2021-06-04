@@ -107,6 +107,8 @@ local digit_map = {["0"] = true, ["1"] = true,
 -- Marker tables replacing the core operator for space like elements
 local space_like = {}
 
+local text_families = {}
+
 local nodes_to_table
 
 local function sub_style(s) return s//4*2+5 end
@@ -249,7 +251,7 @@ local function maybe_to_mn(noad, core)
   core[0] = 'mn'
 end
 
-local function noad_to_table(noad, sub, cur_style, mn)
+local function noad_to_table(noad, sub, cur_style, joining)
   local nucleus, core = kernel_to_table(noad.nucleus, sub == noad_over and cur_style//2*2+1 or cur_style)
   if core and core[0] == 'mo' and core.minsize and not core.maxsize then
     core.maxsize = core.minsize -- This happens when a half-specified delimiter appears alone in a list.
@@ -265,14 +267,15 @@ local function noad_to_table(noad, sub, cur_style, mn)
       end
     end
     if nucleus == core and #core == 1 then
-      if mn and core[0] == 'mi' and (core[1] == '.' or core[1] == ',') and maybe_to_mn(noad, core) or core[0] == 'mn' then
-        if mn then
-          mn[#mn+1] = core[1]
-          nucleus = do_sub_sup(mn, mn, noad, cur_style)
-          if nucleus == mn then
-            return nil, mn, mn
+      if joining and joining[0] == 'mn' and core[0] == 'mi' and (core[1] == '.' or core[1] == ',') and maybe_to_mn(noad, core)
+          or core[0] == 'mn' or text_families[core['tex:family']] then
+        if joining and core[0] == joining[0] and core['tex:family'] == joining['tex:family'] then
+          joining[#joining+1] = core[1]
+          nucleus = do_sub_sup(joining, joining, noad, cur_style)
+          if nucleus == joining then
+            return nil, joining, joining
           else
-            return nucleus, mn, false
+            return nucleus, joining, false
           end
         elseif not noad.sub and not noad.sup then
           return core, core, core
@@ -499,9 +502,9 @@ function nodes_to_table(head, cur_style)
   local t = {[0] = 'mrow'}
   local result = t
   local nonscript
-  local core, last_noad, last_core, mn = space_like, nil, nil, nil
+  local core, last_noad, last_core, joining = space_like, nil, nil, nil
   for n, id, sub in node.traverse(head) do
-    local new_core, new_mn, new_node, new_noad
+    local new_core, new_joining, new_node, new_noad
     local props = properties[n]
     local mathml_core = props and props.mathml_core
     local mathml_table = props and (props.mathml_table or mathml_core)
@@ -509,9 +512,9 @@ function nodes_to_table(head, cur_style)
       new_node, new_core = mathml_table, mathml_core
     elseif id == noad_t then
       local new_n
-      new_n, new_core, new_mn = noad_to_table(n, sub, cur_style, mn)
-      if new_mn == false then
-        t[#t], new_mn = new_n, nil
+      new_n, new_core, new_joining = noad_to_table(n, sub, cur_style, joining)
+      if new_joining == false then
+        t[#t], new_joining = new_n, nil
       else
         new_node = new_n -- might be nil
       end
@@ -591,7 +594,7 @@ function nodes_to_table(head, cur_style)
       end
       t[#t+1] = new_node
     end
-    mn = new_mn
+    joining = new_joining
   end
   -- In TeX, groups are never space like
   if core == space_like then
