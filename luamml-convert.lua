@@ -636,6 +636,7 @@ end
 
 return {
   register_family = register_remap,
+  register_text_family = function(fam) text_families[fam] = true end,
   process = function(head, style) return nodes_to_table(head, style or 2) end,
   make_root = to_math,
 }

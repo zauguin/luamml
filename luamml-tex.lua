@@ -2,6 +2,7 @@ local mlist_to_mml = require'luamml-convert'
 local process_mlist = mlist_to_mml.process
 local make_root = mlist_to_mml.make_root
 local register_family = mlist_to_mml.register_family
+local register_text_family = mlist_to_mml.register_text_family
 
 local mappings = require'luamml-legacy-mappings'
 local write_xml = require'luamml-xmlwriter'
@@ -21,6 +22,14 @@ lua.get_functions_table()[funcid] = function()
   else
     tex.error(string.format('Unknown font mapping %q', mapping))
   end
+end
+
+local funcid = luatexbase.new_luafunction'RegisterFamilyMapping'
+token.set_lua('RegisterTextFamily', funcid, 'protected')
+lua.get_functions_table()[funcid] = function()
+  local fam = token.scan_int()
+  local kind = token.scan_string()
+  register_text_family(fam, kind)
 end
 
 local function shallow_copy(t)
