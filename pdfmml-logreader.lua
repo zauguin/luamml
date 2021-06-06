@@ -3,7 +3,7 @@ local l = lpeg or require'lpeg'
 local line = (1-l.P'\n')^0 * '\n'
 
 local id = l.R'09'/tonumber
-local non_final_list_block = (l.C((1-l.P'\n')^0) * '\n' - '### ')^0
+local non_final_list_block = (l.C((1-l.P'\n')^1) * '\n' - '### ' + '\n')^0
 local math_lists_block = l.Ct('### ' * l.Cg(l.C'display' * ' ', 'display')^-1 * 'math mode entered at line ' * l.Cg(l.R'09'^1 / tonumber, 'line') * '\n'
                        * non_final_list_block)^1
 local generic_list_block = '### ' * (line - 'current page:') * non_final_list_block
