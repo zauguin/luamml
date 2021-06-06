@@ -45,17 +45,12 @@ end
 --   1: Like 0, result is display math
 --   2: Generate MathML, but only save it for later usage in startmath node
 --   3: Skip
---   4: Prepend node list from buffer before generating
---   5: Like 5, result is display math
---   6: 2+4
---   7: Skip but save copy of node list in buffer
+--   8: Generate MathML structure elements
 --
 --  In other words:
 --    Bit 1: Suppress output
 --    Bit 0: Force display if 1 isn't set, if it is then skip MathML generation
---    Bit 2: Integrate with table mechanism
 
-local mlist_buffer
 local mlist_result, mlist_display
 
 local undefined_cmd = token.command_id'undefined_cs'
@@ -81,21 +76,9 @@ end
 luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   local flag = tex.count.l__luamml_flag_int
   if flag & 3 == 3 then
-    if flag & 4 == 4 then
-      assert(mlist_buffer == nil)
-      mlist_buffer = node.copy_list(mlist)
-    end
     return true
   end
-  local new_mlist, buffer_tail
-  if flag & 4 == 4 then
-    new_mlist, buffer_tail = assert(mlist_buffer), node.tail(mlist_buffer)
-    mlist.prev, buffer_tail.next = buffer_tail, mlist
-    mlist_buffer = nil
-  else
-    new_mlist = mlist
-  end
-  local xml, core = process_mlist(new_mlist, style == 'display' and 0 or 2)
+  local xml, core = process_mlist(mlist, style == 'display' and 0 or 2)
   if flag & 2 == 0 then
     save_result(xml, style == 'display' or flag & 1 == 1)
   end
@@ -110,10 +93,6 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
       properties[startmath] = props
     end
     props.saved_mathml_table, props.saved_mathml_core = xml, core
-  end
-  if buffer_tail then
-    mlist.prev, buffer_tail.next = nil, nil
-    node.flush_list(new_mlist)
   end
   return true
 end, 'dump_list')
