@@ -23,7 +23,7 @@
   \int_new:N \g__luamml_demo_mathml_int
   \luamml_set_filename:n {
     \immediateassignment \int_gincr:N \g__luamml_demo_mathml_int
-    \jobname -formula- \int_use:N \g__luamml_demo_mathml_int .mml
+    \jobname -formula- \int_use:N \g__luamml_demo_mathml_int .xml
   }
 }
 \ProcessOptions\relax
@@ -42,7 +42,7 @@
     \pdfdict_put:nnn {l_pdffile/Filespec} {AFRelationship}{/Supplement}
     \__pdffile_filespec_write:ene
       { __luamml_demo_ \int_use:N \g__luamml_demo_af_int }
-      { test.mml }
+      { test.xml }
       { \luamml_get_last_mathml_stream:e{}\c_space_tl 0~R}
   \group_end:
   \tagmcend
