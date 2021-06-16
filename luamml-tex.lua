@@ -113,6 +113,8 @@ lua.get_functions_table()[funcid] = function()
   mlist_result = nil
 end
 
+require'luamml-tex-annotate'
+
 return {
   save_result = save_result,
 }

@@ -19,6 +19,20 @@
   \tl_set:Nn \l__luamml_filename_tl
 }
 
+
+\cs_new_protected:Npn \luamml_annotate:nen #1#2#3 {
+  \__luamml_annotate_begin:
+    #3
+    \__luamml_annotate_end:we \tex_numexpr:D #1 \scan_stop: {#2}
+}
+
+\cs_new_protected:Npn \luamml_annotate:en #1#2 {
+  \__luamml_annotate_begin:
+    #2
+  \__luamml_annotate_end:e {#1}
+}
+
+
 \cs_new:Npn \__luamml_patch_package:nn #1 #2 {
   \@ifpackageloaded {#1} {#2} {
     \hook_gput_code:nnn {package/after/#1} {luamml} {#2}

@@ -51,7 +51,7 @@
 %   #2 annotation
 %   #3 nodes to be annotated
 \int_new:N \g__luamml_annotation_id_int
-\cs_new_protected:Npn \luamml_pdf_annotate:nnn #1#2#3 {
+\cs_new_protected:Npn \luamml_annotate:nen #1#2#3 {
   \int_gincr:N \g__luamml_annotation_id_int
   \iow_shipout_x:Nx \l__luamml_pdf_stream {
     \tl_to_str:e {
@@ -71,7 +71,7 @@
 %   #1 annotation
 %   #2 nodes to be annotated
 % THIS VERSION IS SIGNIFICANTLY SLOWER
-\cs_new_protected:Npn \luamml_pdf_annotate:nn #1#2 {
+\cs_new_protected:Npn \luamml_annotate:en #1#2 {
   \int_gincr:N \g__luamml_annotation_id_int
   \iow_shipout_x:Nx \l__luamml_pdf_stream {
     \tl_to_str:e {
