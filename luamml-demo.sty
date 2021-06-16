@@ -1,0 +1,62 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{luamml-demo}[2021-06-16 Reasonable default definitions for luamml]
+
+\RequirePackage{luamml}% Loading luamml is pretty much the point
+\RequirePackage{amsmath,array}% AThese are more or less exepcted in luamml especially for advanced constructs
+
+\AtBeginDocument{%
+  \@ifpackageloaded{unicode-math}{}{%
+    \RegisterFamilyMapping\symsymbols{oms}%
+    \RegisterFamilyMapping\symletters{oml}%
+    \RegisterFamilyMapping\symlargesymbols{omx}%
+  }
+}
+
+\ExplSyntaxOn
+\DeclareOption{tracing}{
+  \tracingmathml=2
+}
+\DeclareOption{structelem}{
+  \luamml_flag_structelem:
+}
+\DeclareOption{files}{
+  \int_new:N \g__luamml_demo_mathml_int
+  \luamml_set_filename:n {
+    \immediateassignment \int_gincr:N \g__luamml_demo_mathml_int
+    \jobname -formula- \int_use:N \g__luamml_demo_mathml_int .mml
+  }
+}
+\ProcessOptions\relax
+
+\cs_new_eq:NN \LuaMMLSetFilename \luamml_set_filename:n
+
+\cs_generate_variant:Nn \__pdffile_filespec_write:nnn {ene}
+\int_new:N \g__luamml_demo_af_int
+\cs_new_protected:Npn \LuaMMLTagAF #1#2 {
+  \int_gincr:N \g__luamml_demo_af_int
+  \exp_args:Ne \pdf_object_new:nn{__luamml_demo_\int_use:N \g__luamml_demo_af_int}{dict}
+  \exp_args:Ne \tagstructbegin{tag=Formula,AF=__luamml_demo_\int_use:N \g__luamml_demo_af_int,#1}
+  \tagmcbegin{tag=Formula}
+  #2
+  \group_begin:
+    \pdfdict_put:nnn {l_pdffile/Filespec} {AFRelationship}{/Supplement}
+    \__pdffile_filespec_write:ene
+      { __luamml_demo_ \int_use:N \g__luamml_demo_af_int }
+      { test.mml }
+      { \luamml_get_last_mathml_stream:e{}\c_space_tl 0~R}
+  \group_end:
+  \tagmcend
+  \tagstructend
+}
+
+\NewDocumentCommand\AnnotateFormula{ o m m }{%
+  \IfValueTF{#1}{%
+    \luamml_annotate:nen{#1}%
+  }{
+    \luamml_annotate:en
+  }{#2}{#3}
+}
+
+\ExplSyntaxOff
+
+\endinput
