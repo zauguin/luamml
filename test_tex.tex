@@ -1,22 +1,20 @@
+\RequirePackage{pdfmanagement-testphase}
+\DeclareDocumentMetadata{
+  uncompress,
+  pdfversion = 2.0,
+}
 \documentclass{article}
-\usepackage{luamml}
-\usepackage{amsmath,array}
+\usepackage{luamml-demo}
+\usepackage{tagpdf}
+\tagpdfsetup{
+  activate-all,
+  interwordspace=true,
+}
 
 \usepackage{unicode-math}
-%% Uncomment the following lines when used without unicode-math
-% \RegisterFamilyMapping\symsymbols{oms}
-% \RegisterFamilyMapping\symletters{oml}
-% \RegisterFamilyMapping\symlargesymbols{omx}
-
-\ExplSyntaxOn
-\tracingmathml=2
-\pdfvariable compresslevel=0
-\cs_new_protected:Npn \ShowMathMLObj {
-  \message { \luamml_get_last_mathml_stream:e{}~0~R }
-}
-\ExplSyntaxOff
 
 \begin{document}
+\tagstructbegin{tag=Document}
 \[
   \begin{pmatrix}
     1 & 0 & 0 \\
@@ -29,7 +27,6 @@
     2 & $else$
   \end{cases}
 \]
-\ShowMathMLObj
 \[
   x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.
 \]
@@ -37,11 +34,14 @@
   \sum_a\underline c\dot bc'
 \]
 
+\LuaMMLTagAF{} {
 \begin{align}
   abc&=def & e^{\mathrm{i}\pi}&=-1\\
   \Big(1+2&=3\Big)\\
   5
 \end{align}
+}
 
-Es gilt $\sin(x)-\sin(x+2\pi)=0$.
+Es gilt \LuaMMLTagAF{}{$\sin(x)-\sin(x+2\pi)=0$}.
+\tagstructend
 \end{document}
