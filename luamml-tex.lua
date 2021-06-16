@@ -41,51 +41,63 @@ local function shallow_copy(t)
 end
 
 -- Possible flag values:
---   0: Normal (This is the only supported one in display mode)
---   1: Like 0, result is display math
---   2: Generate MathML, but only save it for later usage in startmath node
---   3: Skip
---   8: Generate MathML structure elements
+--   0: Skip
+--   1: Generate MathML, but only save it for later usage in startmath node
+--   3: Normal (This is the only supported one in display mode)
+--  11: Generate MathML structure elements
 --
---  In other words:
---    Bit 1: Suppress output
---    Bit 0: Force display if 1 isn't set, if it is then skip MathML generation
+--  More generally, flags is a bitfield with the defined bits:
+--    Bit 5-7: See Bit 4
+--    Bit 4: Overwrite mathstyle with bit 9-11
+--    Bit 3: Generate MathML structure elements
+--    Bit 2: Reserved
+--    Bit 1: Save MathML as a fully converted formula
+--    Bit 0: Save MathML for later usage in startmath node. Ignored for display math.
 
-local mlist_result, mlist_display
+local mlist_result
 
 local undefined_cmd = token.command_id'undefined_cs'
 local call_cmd = token.command_id'call'
 
-local function save_result(xml, display)
-  mlist_result, mlist_display = xml, display
+local function save_result(xml, display, structelem)
+  mlist_result = make_root(xml, display and 0 or 2)
   token.put_next(filename_token)
   local filename = token.scan_argument()
   local tracing = tex.count.tracingmathml > 1
-  local xml_root = (filename ~= '' or tracing) and make_root(shallow_copy(xml), display and 0 or 2)
   if filename ~= '' then
     assert(io.open(filename, 'w'))
-      :write(write_xml(xml_root, true):sub(2) .. '\n')
+      :write(write_xml(mlist_result, true):sub(2) .. '\n')
       :close()
   end
   if tracing then
-    -- Here xml gets wrapped in an mrow to avoid modifying it.
-    texio.write_nl(write_xml(xml_root) .. '\n')
+    texio.write_nl(write_xml(mlist_result) .. '\n')
   end
+  return mlist_result
 end
 
 luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   local flag = tex.count.l__luamml_flag_int
-  if flag & 3 == 3 then
+  if flag & 3 == 0 then
     return true
   end
-  local xml, core = process_mlist(mlist, style == 'display' and 0 or 2)
-  if flag & 2 == 0 then
-    save_result(xml, style == 'display' or flag & 1 == 1)
+  local display = style == 'display'
+  style = flag & 4 == 4 and flag>>5 & 0x7 or display and 0 or 2
+  local xml, core = process_mlist(mlist, style)
+  local processed_xml
+  if flag & 2 == 2 then
+    processed_xml = save_result(shallow_copy(xml), display)
+  else
+    local element_type = token.get_macro'l__luamml_root_tl'
+    if element_type ~= 'mrow' then
+      if xml[0] == 'mrow' then
+        xml[0] = element_type
+      else
+        xml = {[0] = element_type, xml}
+      end
+    end
+    processed_xml = xml
   end
-  if flag & 8 == 8 then
-    write_struct(make_root(shallow_copy(xml), (style == 'display' or flag & 1 == 1) and 0 or 2))
-  end
-  if style == 'text' then
+  if not display and flag & 1 == 1 then
     local startmath = tex.nest.top.tail
     local props = properties[startmath]
     if not props then
@@ -93,6 +105,9 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
       properties[startmath] = props
     end
     props.saved_mathml_table, props.saved_mathml_core = xml, core
+  end
+  if flag & 8 == 8 then
+    write_struct(shallow_copy(processed_xml), display and 0 or 2)
   end
   return true
 end, 'dump_list')
@@ -105,7 +120,7 @@ lua.get_functions_table()[funcid] = function()
         "I was asked to provide MathML code for the last formula, but there weren't any new formulas since you last asked."
       })
   end
-  local mml = write_xml(make_root(mlist_result, mlist_display and 0 or 2))
+  local mml = write_xml(mlist_result)
   if tex.count.tracingmathml == 1 then
     texio.write_nl(mml .. '\n')
   end

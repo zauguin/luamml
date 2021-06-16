@@ -3,21 +3,38 @@
 
 \int_new:N \l__luamml_flag_int
 \tl_new:N \l__luamml_filename_tl
+\tl_new:N \l__luamml_root_tl
+\tl_set:Nn \l__luamml_root_tl { mrow }
 \int_new:N \tracingmathml
 \lua_now:n { require'luamml-tex' }
 
-\cs_new:Npn \luamml_flag_save: {
-  \int_set:Nn \l__luamml_flag_int { 2 }
-}
-\cs_new:Npn \luamml_flag_ignore: {
+\cs_new:Npn \luamml_flag_process: {
   \int_set:Nn \l__luamml_flag_int { 3 }
 }
+\cs_new:Npn \luamml_flag_save: {
+  \int_set:Nn \l__luamml_flag_int { 1 }
+}
+\cs_new:Npn \luamml_flag_save:N #1 {
+  \int_set:Nn \l__luamml_flag_int { 17 + 32 * #1 }
+}
+\cs_new:Npn \luamml_flag_save:Nn #1 {
+  \int_set:Nn \l__luamml_flag_int { 21 + 32 * #1 }
+  \tl_set:Nn \l__luamml_root_tl
+}
+\cs_new:Npn \luamml_flag_save:n {
+  \int_set:Nn \l__luamml_flag_int { 5 }
+  \tl_set:Nn \l__luamml_root_tl
+}
+\cs_new:Npn \luamml_flag_ignore: {
+  \int_set:Nn \l__luamml_flag_int { 0 }
+}
 \cs_new:Npn \luamml_flag_structelem: {
-  \int_set:Nn \l__luamml_flag_int { 8 }
+  \int_set:Nn \l__luamml_flag_int { 11 }
 }
 \cs_new:Npn \luamml_set_filename:n {
   \tl_set:Nn \l__luamml_filename_tl
 }
+\luamml_flag_process:
 
 
 \cs_new_protected:Npn \luamml_annotate:nen #1#2#3 {
