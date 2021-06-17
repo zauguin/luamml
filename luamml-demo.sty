@@ -30,7 +30,7 @@
 
 \cs_new_eq:NN \LuaMMLSetFilename \luamml_set_filename:n
 
-\cs_generate_variant:Nn \__pdffile_filespec_write:nnn {ene}
+\cs_generate_variant:Nn \pdffile_filespec:nnn {ene}
 \int_new:N \g__luamml_demo_af_int
 \cs_new_protected:Npn \LuaMMLTagAF #1#2 {
   \int_gincr:N \g__luamml_demo_af_int
@@ -40,7 +40,7 @@
   #2
   \group_begin:
     \pdfdict_put:nnn {l_pdffile/Filespec} {AFRelationship}{/Supplement}
-    \__pdffile_filespec_write:ene
+    \pdffile_filespec:ene
       { __luamml_demo_ \int_use:N \g__luamml_demo_af_int }
       { test.xml }
       { \luamml_get_last_mathml_stream:e{}\c_space_tl 0~R}
