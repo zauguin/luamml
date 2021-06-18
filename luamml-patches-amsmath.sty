@@ -9,7 +9,11 @@
     \nonmatherr@ { \begin { \@currenvir } }
   \fi
   \savecolumn@ % Assumption: called inside a group
-  \alignedspace@left
+  \luamml_annotate:en {
+    nucleus = true, core = false
+  } {
+    \alignedspace@left
+  }
   \ams@start@box {#1} \bgroup
     \maxfields@ #2 \relax
     \ifnum \maxfields@ > \m@ne

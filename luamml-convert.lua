@@ -253,6 +253,7 @@ end
 
 local function noad_to_table(noad, sub, cur_style, joining)
   local nucleus, core = kernel_to_table(noad.nucleus, sub == noad_over and cur_style//2*2+1 or cur_style)
+  if not nucleus then return end
   if core and core[0] == 'mo' and core.minsize and not core.maxsize then
     core.maxsize = core.minsize -- This happens when a half-specified delimiter appears alone in a list.
                                 -- If it has a minimal size, it should be fixed to that size (since there is nothing bigger in it's list)
