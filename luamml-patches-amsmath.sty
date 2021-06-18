@@ -3,6 +3,65 @@
 
 \lua_now:n { require'luamml-amsmath' }
 
+\cs_set:Npn \start@aligned #1#2 {
+  \RIfM@
+  \else
+    \nonmatherr@ { \begin { \@currenvir } }
+  \fi
+  \savecolumn@ % Assumption: called inside a group
+  \alignedspace@left
+  \ams@start@box {#1} \bgroup
+    \maxfields@ #2 \relax
+    \ifnum \maxfields@ > \m@ne
+      \multiply \maxfields@ \tw@
+      \let \math@cr@@@ \math@cr@@@alignedat
+      \alignsep@ \z@skip
+    \else
+      \let \math@cr@@@ \math@cr@@@aligned
+      \alignsep@ \minalignsep
+    \fi
+    \Let@ \chardef \dspbrk@context \@ne
+    \default@tag
+    \spread@equation % no-op if already called
+    \global \column@ \z@
+    \ialign \bgroup
+      & \column@plus
+        \hfil
+        \strut@
+        $
+          \m@th
+          \displaystyle
+          {##}
+          \luamml_flag_save:N \displaystyle
+        $
+        \__luamml_amsmath_add_last_to_row:
+        \tabskip \z@skip
+      & \column@plus
+        $
+          \m@th
+          \displaystyle
+          {
+            {}
+            ##
+          }
+          \luamml_flag_save:N \displaystyle
+        $
+        \__luamml_amsmath_add_last_to_row:
+        \hfil
+        \tabskip\alignsep@
+      \crcr
+      \ams@return@opt@arg
+}
+
+\cs_set:Npn \endaligned {
+      \crcr
+      \__luamml_amsmath_save_inner_table:
+    \egroup
+    \restorecolumn@
+  \egroup
+  \__luamml_amsmath_finalize_inner_table:
+}
+
 \cs_set:Npn \align@preamble {
   &
     \hfil
@@ -11,9 +70,8 @@
       \@lign
       $
         \m@th
-        \displaystyle {
-          ##
-        }
+        \displaystyle
+        {##}
         \ifmeasuring@
           \luamml_flag_ignore:
         \else
