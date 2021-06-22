@@ -11,6 +11,17 @@ local write_struct = require'luamml-structelemwriter'
 local filename_token = token.create'l__luamml_filename_tl'
 
 local properties = node.get_properties_table()
+local mmode, hmode, vmode do
+  local result, input = {}, tex.getmodevalues()
+  for k,v in next, tex.getmodevalues() do
+    if v == 'math' then mmode = k
+    elseif v == 'horizontal' then hmode = k
+    elseif v == 'vertical' then vmode = k
+    else assert(v == 'unset')
+    end
+  end
+  assert(mmode and hmode and vmode)
+end
 
 local funcid = luatexbase.new_luafunction'RegisterFamilyMapping'
 token.set_lua('RegisterFamilyMapping', funcid, 'protected')
@@ -76,6 +87,9 @@ local function save_result(xml, display, structelem)
 end
 
 luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
+  if tex.nest.top.mode == mmode then -- This is a equation label generated with \eqno
+    return true
+  end
   local flag = tex.count.l__luamml_flag_int
   if flag & 3 == 0 then
     return true
