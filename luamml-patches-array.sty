@@ -12,32 +12,47 @@
       \hfil
       \hskip 1sp
       \d@llarbegin
-      \__luamml_array_init_col:
-      \insert@column
-      \luamml_flag_save:
-      \d@llarend
-      \__luamml_array_finalize_col:w 0~
+      \cs_if_eq:NNTF \d@llarbegin \begingroup {
+        \insert@column
+        \d@llarend
+      } {
+        \__luamml_array_init_col:
+        \insert@column
+        \luamml_flag_save:
+        \d@llarend
+        \__luamml_array_finalize_col:w 0~
+      }
       \do@row@strut
       \hfil
     \or
       \hskip 1sp
       \d@llarbegin
-      \__luamml_array_init_col:
-      \insert@column
-      \luamml_flag_save:
-      \d@llarend
-      \__luamml_array_finalize_col:w 1~
+      \cs_if_eq:NNTF \d@llarbegin \begingroup {
+        \insert@column
+        \d@llarend
+      } {
+        \__luamml_array_init_col:
+        \insert@column
+        \luamml_flag_save:
+        \d@llarend
+        \__luamml_array_finalize_col:w 1~
+      }
       \do@row@strut
       \hfil
     \or
       \hfil
       \hskip 1sp
       \d@llarbegin
-      \__luamml_array_init_col:
-      \insert@column
-      \luamml_flag_save:
-      \d@llarend
-      \__luamml_array_finalize_col:w 2~
+      \cs_if_eq:NNTF \d@llarbegin \begingroup {
+        \insert@column
+        \d@llarend
+      } {
+        \__luamml_array_init_col:
+        \insert@column
+        \luamml_flag_save:
+        \d@llarend
+        \__luamml_array_finalize_col:w 2~
+      }
       \do@row@strut
     \or
       \setbox \ar@mcellbox \vbox \@startpbox { \@nextchar }
@@ -65,7 +80,7 @@
   \__luamml_array_save_array:
   \egroup
   \egroup
-  \__luamml_array_finalize_array:
+  \mode_if_math:T { \__luamml_array_finalize_array: }
   \@arrayright
   \gdef \@preamble {}
 }
