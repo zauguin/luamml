@@ -20,23 +20,25 @@ local function store_get_row()
 end
 
 local function store_column_xml(mml, display)
-  if display and mml[0] == 'mstyle' and mml.displaystyle == true then
-    mml[0], mml.displaystyle, mml.scriptlevel = 'mtd', nil, nil
-  else
-    if display and mml[0] ~= 'mstyle' then
-      mml = {[0] = 'mstyle', displaystyle = false, mml}
+  if mml[0] ~= 'mtd' then
+    if display and mml[0] == 'mstyle' and mml.displaystyle == true then
+      mml[0], mml.displaystyle, mml.scriptlevel = 'mtd', nil, nil
+    else
+      if display and mml[0] ~= 'mstyle' then
+        mml = {[0] = 'mstyle', displaystyle = false, mml}
+      end
+      mml = {[0] = 'mtd', mml}
     end
-    mml = {[0] = 'mtd', mml}
   end
   table.insert(store_get_row(), mml)
   return mml
 end
 
-local function store_column(startmath, display)
+local function store_column(startmath)
   local props = properties[startmath]
   if not props then return end
   local mml = props.saved_mathml_table or props.saved_mathml_core
-  if mml then return store_column_xml(mml, display) end
+  if mml then return store_column_xml(mml) end
 end
 
 local function store_tag(xml)

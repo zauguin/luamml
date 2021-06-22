@@ -22,7 +22,7 @@ lua.get_functions_table()[funcid] = function()
   until startmath == head or (startmath.id == math_t and startmath.subtype == 0)
   if startmath == head then return end
   assert(startmath.id == node.id"math")
-  store_column(startmath, true)
+  store_column(startmath)
 end
 
 local funcid = luatexbase.new_luafunction'__luamml_amsmath_add_box_to_row:'
@@ -33,7 +33,7 @@ lua.get_functions_table()[funcid] = function()
   local boxnum = 0
   local startmath = tex.box[boxnum].list
   assert(startmath.id == math_t)
-  store_column(startmath, true)
+  store_column(startmath)
 end
 
 do

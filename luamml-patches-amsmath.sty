@@ -36,7 +36,7 @@
           \m@th
           \displaystyle
           {##}
-          \luamml_flag_save:N \displaystyle
+          \luamml_flag_save:Nn \displaystyle {mtd}
         $
         \__luamml_amsmath_add_last_to_row:
         \tabskip \z@skip
@@ -48,7 +48,7 @@
             {}
             ##
           }
-          \luamml_flag_save:N \displaystyle
+          \luamml_flag_save:Nn \displaystyle {mtd}
         $
         \__luamml_amsmath_add_last_to_row:
         \hfil
@@ -79,7 +79,7 @@
         \ifmeasuring@
           \luamml_flag_ignore:
         \else
-          \luamml_flag_save:N \displaystyle
+          \luamml_flag_save:Nn \displaystyle {mtd}
         \fi
       $
     }
@@ -103,7 +103,7 @@
       \ifmeasuring@
         \luamml_flag_ignore:
       \else
-        \luamml_flag_save:N \displaystyle
+        \luamml_flag_save:Nn \displaystyle {mtd}
       \fi
       $
     }
