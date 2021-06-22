@@ -1,8 +1,9 @@
 module = "luamml"
 
-typesetexe = "lualatex"
-tdsroot = "lualatex"
+tdsroot      = "lualatex"
 installfiles = { "luamml-*.lua", "*.sty" }
-stdengine     = "luatex"
-checkengines  = {"luatex"}
-sourcefiles  = installfiles
+sourcefiles  = { "luamml-*.lua", "*.sty", "*.dtx" }
+stdengine    = "luatex"
+checkengines = {"luatex"}
+unpackfiles  = { "*.dtx" }
+typesetexe   = "lualatex"
