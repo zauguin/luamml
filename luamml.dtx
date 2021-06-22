@@ -1,0 +1,237 @@
+% \iffalse meta-comment
+%
+%% Copyright (C) 2020-2021 by Marcel Krueger
+%%
+%% This file may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either
+%% version 1.3c of this license or (at your option) any later
+%% version. The latest version of this license is in:
+%%
+%% http://www.latex-project.org/lppl.txt
+%%
+%% and version 1.3 or later is part of all distributions of
+%% LaTeX version 2005/12/01 or later.
+%
+%<*batch>
+%<*gobble>
+\ifx\jobname\relax\let\documentclass\undefined\fi
+\ifx\documentclass\undefined
+\csname fi\endcsname
+%</gobble>
+\input docstrip.tex
+\keepsilent
+\generate{\file{luamml.sty}{\from{luamml.dtx}{package}}}
+\endbatchfile
+%</batch>
+%<*gobble>
+\fi
+\expandafter\ifx\csname @currname\endcsname\empty
+\csname fi\endcsname
+%</gobble>
+%<*driver>
+\documentclass{l3doc}
+\usepackage{luamml}
+\usepackage{csquotes,luacolor}
+\RecordChanges
+\begin{document}
+\tracingmathml2
+\DocInput{luamml.dtx}
+\PrintIndex
+\PrintChanges
+\end{document}
+%</driver>
+%<*gobble>
+\fi
+%</gobble>
+% \fi
+%
+% \title{The \pkg{luamml} package}
+%
+% \author{Marcel Krüger}
+%
+% \maketitle
+%
+% \begin{documentation}
+% \end{documentation}
+%
+% \begin{implementation}
+% \section{Package Implementation}
+% \iffalse
+%<*package>
+% \fi
+%    \begin{macrocode}
+%<@@=luamml>
+\ProvidesExplPackage {luamml} {2021-04-23} {0.0.1-alpha}
+  {Automatically generate presentational MathML from LuaTeX math expressions}
+%    \end{macrocode}
+%
+% \subsection{Initialization}
+% These variable have to appear before the Lua module is loaded and will be used to
+% communicate information to the callback.
+%
+% Here \cs{tracingmathml} does not use a expl3 name since it is not intended for
+% programming use but only as a debugging helper for the user.
+% The other variables are internal, but we provide public interfaces for setting
+% them later.
+%    \begin{macrocode}
+\int_new:N \l__luamml_flag_int
+\tl_new:N \l__luamml_filename_tl
+\tl_new:N \l__luamml_root_tl
+\tl_set:Nn \l__luamml_root_tl { mrow }
+\int_new:N \tracingmathml
+%    \end{macrocode}
+%
+% Now we can load the Lua module which defines the callback.
+%    \begin{macrocode}
+\lua_now:n { require'luamml-tex' }
+%    \end{macrocode}
+%
+% \subsection{Flags}
+% The most important interface is for setting the flag which controls how the
+% formulas should be converted.
+%
+% \begin{macro}{\luamml_flag_process:}
+%   Consider the current formula to be a complete, free-standing mathematical
+%   expression which should be converted to MathML. Additionally, the formula
+%   is also saved in the \texttt{start\_math} node as with
+%   \cs{luamml_flag_save:}.
+%    \begin{macrocode}
+\cs_new:Npn \luamml_flag_process: {
+  \int_set:Nn \l__luamml_flag_int { 3 }
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\luamml_flag_save:,
+%               \luamml_flag_save:N,
+%               \luamml_flag_save:n,
+%               \luamml_flag_save:Nn}
+%   Convert the current formula but only save it's representation in the math
+%   node without emitting it as a complete formula. This is useful when the
+%   expression forms part of a bigger formula and will be intergrated into it's
+%   MathML tables later by special code.
+%   It optinally accepts two parameters: One math style command
+%   (\cs{displaystyle}, \cs{textstyle}, etc.) which is the implicit math style
+%   (so the style which the surrounding code expects this style to have) and a
+%   name for the root element (defaults to \texttt{mrow}).
+%   If the root element name is \texttt{mrow}, it will get suppressed in some
+%   cases.
+%    \begin{macrocode}
+\cs_new:Npn \luamml_flag_save: {
+  \int_set:Nn \l__luamml_flag_int { 1 }
+}
+\cs_new:Npn \luamml_flag_save:N #1 {
+  \int_set:Nn \l__luamml_flag_int { 17 + 32 * #1 }
+}
+\cs_new:Npn \luamml_flag_save:n {
+  \int_set:Nn \l__luamml_flag_int { 5 }
+  \tl_set:Nn \l__luamml_root_tl
+}
+\cs_new:Npn \luamml_flag_save:Nn #1 {
+  \int_set:Nn \l__luamml_flag_int { 21 + 32 * #1 }
+  \tl_set:Nn \l__luamml_root_tl
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\luamml_flag_ignore:}
+%   Completely ignore the math mode material.
+%    \begin{macrocode}
+\cs_new:Npn \luamml_flag_ignore: {
+  \int_set:Nn \l__luamml_flag_int { 0 }
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\luamml_flag_structelem:}
+%   Like \cs{luamml_flag_process:}, but additionally add PDF structure
+%   elements. This only works if \pkg{tagpdf} has been loaded \emph{before}
+%   \texttt{luamml}.
+%    \begin{macrocode}
+\cs_new:Npn \luamml_flag_structelem: {
+  \int_set:Nn \l__luamml_flag_int { 11 }
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\luamml_set_filename:n}
+%   Allows to set a filename to which the generated MathML gets written.
+%   Previous content from the file will get overwritten. This includes results
+%   written by a previous formula. Therefore this has to be called separately
+%   for every formula or it must expand to different values to be useful.
+%   The value is fully expanded when the file is written.
+%   
+%   Only complete formulas get written into files (so formulas where
+%   \cs{luamml_flag_process:} or \cs{luamml_flag_structelem:} are in effect).
+%    \begin{macrocode}
+\cs_new:Npn \luamml_set_filename:n {
+  \tl_set:Nn \l__luamml_filename_tl
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% By default, the flag is set to assume complete formulas.
+%    \begin{macrocode}
+\luamml_flag_process:
+%    \end{macrocode}
+%
+% \subsection{Annotations}
+% \begin{macro}{\luamml_annotate:nen, \luamml_annotate:en}
+% A simple annotation scheme: The first argument is the number of top level
+% noads to be annotated, the second parameter the annotation and the third
+% parameter the actual list of math tokens. The first argument can be omitted to
+% let Lua\TeX detrmine the number itself.
+%
+% Passing the first parameter explicitly is useful for any annotations which
+% should be compatible with fututre pdf\TeX versions of this functionality.
+%    \begin{macrocode}
+\cs_new_protected:Npn \luamml_annotate:nen #1#2#3 {
+  \__luamml_annotate_begin:
+    #3
+    \__luamml_annotate_end:we \tex_numexpr:D #1 \scan_stop: {#2}
+}
+
+\cs_new_protected:Npn \luamml_annotate:en #1#2 {
+  \__luamml_annotate_begin:
+    #2
+  \__luamml_annotate_end:e {#1}
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{Patching}
+% For some packages, we ship with patches to make them more compatible and to
+% demonstrate how other code can be patched to work with \texttt{luamml}.
+% 
+% These are either loaded directly if the packages are loaded or delayed using
+% \LaTeX's hook system otherwise.
+% \begin{macro}{\__luamml_patch_package:nn, \__luamml_patch_package:n}
+% For this, we use two helpers: First a wrapper which runs arbitrary code either
+% now (if the package is already loaded) or as soon as the package loads, second
+% an application of the first one to load packages following \texttt{luamml}'s
+% naming scheme for these patch packages.
+%    \begin{macrocode}
+\cs_new:Npn \__luamml_patch_package:nn #1 #2 {
+  \@ifpackageloaded {#1} {#2} {
+    \hook_gput_code:nnn {package/after/#1} {luamml} {#2}
+  }
+}
+\cs_new:Npn \__luamml_patch_package:n #1 {
+  \__luamml_patch_package:nn {#1} {
+    \RequirePackage { luamml-patches-#1 }
+  }
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\RequirePackage { luamml-patches-kernel }
+\__luamml_patch_package:n {amsmath}
+\__luamml_patch_package:n {array}
+%    \end{macrocode}
+
+% \iffalse
+%</package>
+% \fi
+% \end{implementation}
+% \Finale
