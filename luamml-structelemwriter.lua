@@ -61,15 +61,18 @@ local function write_elem(tree, stash)
     stash = '__luamml_stashed_' .. stash_cnt
     tree[':struct'] = stash
     stash = ', stash, label = ' .. stash
-  else
-    stash = ''
   end
 
-  if i == 0 then
-    tex.sprint(struct_begin, '{tag=' .. tree[0] .. '/mathml' .. stash .. '}')
-  else
-    tex.sprint(struct_begin, '{tag=' .. tree[0] .. '/mathml, attribute=' .. attributes[table.concat(attrs)] .. stash .. '}')
+  local attr_flag = i ~= 0 and ', attribute=' .. attributes[table.concat(attrs)]
+  tex.sprint(struct_begin, '{tag=' .. tree[0] .. '/mathml')
+  if stash then tex.sprint(stash) end
+  if attr_flag then tex.sprint(attr_flag) end
+  if tree[':actual'] then
+    tex.sprint(', actualtext = {')
+    tex.cprint(12, tree[':actual'])
+    tex.sprint'}'
   end
+  tex.sprint'}'
   for j = 1, i do attrs[j] = nil end
 
   if tree[':nodes'] then

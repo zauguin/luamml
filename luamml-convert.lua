@@ -139,7 +139,7 @@ local function delim_to_table(delim)
   else
     local fam = delim.small_fam
     char = remap_lookup[fam << 21 | char]
-    local result = {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = not stretchy[char] or nil, lspace = 0, rspace = 0, [':nodes'] = {delim} }
+    local result = {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = not stretchy[char] or nil, lspace = 0, rspace = 0, [':nodes'] = {delim}, [':actual'] = char}
     if mathml_filter then
       return mathml_filter(result, result)
     else
@@ -166,7 +166,7 @@ local function acc_to_table(acc, cur_style, stretch)
   if stretch ~= not stretchy[char] then -- Handle nil gracefully in stretchy
     stretch = nil
   end
-  local result = {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = stretch, [':nodes'] = {acc}}
+  local result = {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = stretch, [':nodes'] = {acc}, [':actual'] = stretch and char or nil}
   if mathml_filter then
     return mathml_filter(result)
   else

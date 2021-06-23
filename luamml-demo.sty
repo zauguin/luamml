@@ -13,10 +13,14 @@
 }
 
 \ExplSyntaxOn
+
+\bool_new:N \l__luamml_demo_structelem_bool
+
 \DeclareOption{tracing}{
   \tracingmathml=2
 }
 \DeclareOption{structelem}{
+  \bool_set_true:N \l__luamml_demo_structelem_bool
   \luamml_flag_structelem:
 }
 \DeclareOption{files}{
@@ -36,7 +40,9 @@
   \int_gincr:N \g__luamml_demo_af_int
   \exp_args:Ne \pdf_object_new:nn{__luamml_demo_\int_use:N \g__luamml_demo_af_int}{dict}
   \exp_args:Ne \tagstructbegin{tag=Formula,AF=__luamml_demo_\int_use:N \g__luamml_demo_af_int,#1}
-  \tagmcbegin{tag=Formula}
+  \bool_if:NF \l__luamml_demo_structelem_bool {
+    \tagmcbegin{tag=Formula}
+  }
   #2
   \group_begin:
     \pdfdict_put:nnn {l_pdffile/Filespec} {AFRelationship}{/Supplement}
@@ -45,7 +51,9 @@
       { test.xml }
       { \luamml_get_last_mathml_stream:e{}\c_space_tl 0~R}
   \group_end:
-  \tagmcend
+  \bool_if:NF \l__luamml_demo_structelem_bool {
+    \tagmcend
+  }
   \tagstructend
 }
 
