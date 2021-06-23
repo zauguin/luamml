@@ -4,6 +4,7 @@ local save_result = require'luamml-tex'.save_result
 local store_column = require'luamml-table'.store_column
 local store_tag = require'luamml-table'.store_tag
 local get_table = require'luamml-table'.get_table
+local set_row_attribute = require'luamml-table'.set_row_attribute
 local to_text = require'luamml-lr'
 
 local properties = node.get_properties_table()
@@ -34,6 +35,12 @@ lua.get_functions_table()[funcid] = function()
   local startmath = tex.box[boxnum].list
   assert(startmath.id == math_t)
   store_column(startmath)
+end
+
+local funcid = luatexbase.new_luafunction'__luamml_amsmath_set_row_columnalign:n'
+token.set_lua('__luamml_amsmath_set_row_columnalign:n', funcid, 'protected')
+lua.get_functions_table()[funcid] = function()
+  set_row_attribute('columnalign', token.scan_argument())
 end
 
 do
@@ -81,6 +88,7 @@ lua.get_functions_table()[funcid] = function()
   mml_table.displaystyle = true
   local columns = node.count(node.id'align_record', tex.lists.align_head)//2
   mml_table.columnalign = kind == 'align' and string.rep('right left', columns, ' ') or nil
+  mml_table.width = kind == 'multline' and '100%' or nil
   local spacing = {}
   for n in node.traverse_id(node.id'glue', tex.lists.align_head) do
     spacing[#spacing+1] = n.width == 0 and '0' or '.8em'

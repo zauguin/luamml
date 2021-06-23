@@ -4,8 +4,23 @@ local save_result = require'luamml-tex'.save_result
 
 local properties = node.get_properties_table()
 
+local glue_id = node.id'glue'
+local tabskip_sub = 12
+assert(node.subtypes'glue'[tabskip_sub] == 'tabskip')
+
 local function store_get_row()
-  local row_temp = tex.nest[tex.nest.ptr-1].head
+  local row_temp
+  for i=tex.nest.ptr-1, 0, -1 do
+    local head = tex.nest[i].head
+    local glue = head.next
+    if glue and glue.id == glue_id and glue.subtype == tabskip_sub then
+      row_temp = head
+      break
+    end
+  end
+  if not row_temp then
+    error[[luamml_table's store function called outside of table]]
+  end
   local props = properties[row_temp]
   if not props then
     props = {}
@@ -48,6 +63,11 @@ local function store_tag(xml)
   last_tag = nil
 end
 
+local function set_row_attribute(name, value)
+  local mml_row = store_get_row()
+  mml_row[name] = value
+end
+
 luatexbase.add_to_callback('hpack_filter', function(_, group)
   if group ~= 'fin_row' then return true end
 
@@ -85,5 +105,6 @@ return {
   store_column = store_column,
   store_column_xml = store_column_xml,
   store_tag = store_tag,
+  set_row_attribute = set_row_attribute,
   get_table = get_table,
 }

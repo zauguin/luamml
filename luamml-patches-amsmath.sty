@@ -271,6 +271,83 @@
   \ignorespacesafterend
 }
 
+% For a more interesting one, let's consider multline:
+\cs_new_eq:NN \__luamml_amsmath_original_multline:n \multline@
+\cs_set:Npn \multline@ #1 {
+  \__luamml_amsmath_original_multline:n {
+    \ifmeasuring@ \else
+      \__luamml_amsmath_set_row_columnalign:n {left}
+    \fi
+    #1
+    \ifmeasuring@ \else
+      \__luamml_amsmath_set_row_columnalign:n {right}
+    \fi
+  }
+}
+
+\cs_new_eq:NN \__luamml_amsmath_original_mmeasure:n \mmeasure@
+\cs_set:Npn \mmeasure@ #1 {
+  \exp_last_unbraced:Nno
+    \use_ii_i:nn
+    { \luamml_flag_ignore: }
+    { \__luamml_amsmath_original_mmeasure:n {#1} }
+}
+
+% Luckily, {multline} uses \endmultline@math in exactly
+% the spot where we have to set the flag.
+% Less luckily, \endmultline@math sometimes get overwritten for the last line.
+% But that isn't a problem since we want special behavior there anyway.
+\cs_set:Npn \endmultline@math {
+  \luamml_flag_save:Nn \displaystyle {mtd}
+  $
+  \__luamml_amsmath_add_last_to_row:
+}
+
+\cs_set:Npn \rendmultline@ {
+    \iftag@
+      \luamml_flag_save:Nn \displaystyle {mtd}
+      $
+      \__luamml_amsmath_add_last_to_row:
+      \let \endmultline@math \relax
+      \ifshifttag@
+        \hskip \multlinegap
+        \llap {
+          \vtop {
+            \raise@tag
+            \normalbaselines
+            \setbox \@ne \null
+            \dp \@ne \lineht@
+            \box \@ne
+            \hbox {
+              \strut@
+              \make@display@tag
+            }
+          }
+        }
+      \else
+        \hskip \multlinetaggap
+        \make@display@tag
+      \fi
+      \__luamml_amsmath_set_tag:
+    \else
+      \hskip \multlinegap
+    \fi
+    \hfilneg
+    \math@cr
+    \__luamml_amsmath_finalize_table:n {multline}
+  \egroup
+  $$
+}
+
+\cs_set:Npn \lendmultline@ {
+    \hfilneg
+    \hskip\multlinegap
+    \math@cr
+    \__luamml_amsmath_finalize_table:n {multline}
+  \egroup
+  $$
+}
+
 \cs_set:Npn \bBigg@ #1 #2 {
   {
     \ensuremath {
