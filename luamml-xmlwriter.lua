@@ -30,14 +30,17 @@ local function write_elem(tree, indent)
   end
   out = out .. '>'
   local inner_indent = indent and indent .. '  '
+  local is_string
   for _, elem in ipairs(tree) do
     if type(elem) == 'string' then
-      if inner_indent then
+      if inner_indent and not is_string then
         out = out .. inner_indent
       end
       out = out .. escape_text(elem)
+      is_string = true
     else
       out = out .. write_elem(elem, inner_indent)
+      is_string = nil
     end
   end
   if indent then out = out .. indent end
