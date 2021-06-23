@@ -102,6 +102,19 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\__luamml_maybe_structelem:}
+% A internal helper which can be added to a tag to preserve the external state
+% of the structelem flag.
+%    \begin{macrocode}
+\cs_new:Npn \__luamml_maybe_structelem: {
+  (
+    8 * \int_mod:nn {
+      \int_div_truncate:nn { \l__luamml_flag_int } {8}
+    } {2}
+  ) +
+}
+% \end{macro}
+%
 % \begin{macro}{\luamml_flag_save:,
 %               \luamml_flag_save:N,
 %               \luamml_flag_save:n,
@@ -118,17 +131,17 @@
 %   cases.
 %    \begin{macrocode}
 \cs_new_protected:Npn \luamml_flag_save: {
-  \int_set:Nn \l__luamml_flag_int { 1 }
+  \int_set:Nn \l__luamml_flag_int { \__luamml_maybe_structelem: 1 }
 }
 \cs_new_protected:Npn \luamml_flag_save:N #1 {
-  \int_set:Nn \l__luamml_flag_int { 17 + 32 * #1 }
+  \int_set:Nn \l__luamml_flag_int { \__luamml_maybe_structelem: 17 + 32 * #1 }
 }
 \cs_new_protected:Npn \luamml_flag_save:n {
-  \int_set:Nn \l__luamml_flag_int { 5 }
+  \int_set:Nn \l__luamml_flag_int { \__luamml_maybe_structelem: 5 }
   \tl_set:Nn \l__luamml_root_tl
 }
 \cs_new_protected:Npn \luamml_flag_save:Nn #1 {
-  \int_set:Nn \l__luamml_flag_int { 21 + 32 * #1 }
+  \int_set:Nn \l__luamml_flag_int { \__luamml_maybe_structelem: 21 + 32 * #1 }
   \tl_set:Nn \l__luamml_root_tl
 }
 %    \end{macrocode}

@@ -89,6 +89,7 @@ lua.get_functions_table()[funcid] = function()
   local columns = node.count(node.id'align_record', tex.lists.align_head)//2
   mml_table.columnalign = kind == 'align' and string.rep('right left', columns, ' ') or nil
   mml_table.width = kind == 'multline' and '100%' or nil
+  -- mml_table.side = kind == 'multline' and 'rightoverlap' or nil
   local spacing = {}
   for n in node.traverse_id(node.id'glue', tex.lists.align_head) do
     spacing[#spacing+1] = n.width == 0 and '0' or '.8em'

@@ -83,6 +83,9 @@ local function save_result(xml, display, structelem)
   if tracing then
     texio.write_nl(write_xml(mlist_result) .. '\n')
   end
+  if tex.count.l__luamml_flag_int & 8 == 8 then
+    write_struct(mlist_result)
+  end
   return mlist_result
 end
 
@@ -95,11 +98,11 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
     return true
   end
   local display = style == 'display'
+  local startmath = tex.nest.top.tail -- Must come before any write_struct calls which adds nodes
   style = flag & 4 == 4 and flag>>5 & 0x7 or display and 0 or 2
   local xml, core = process_mlist(mlist, style)
-  local processed_xml
   if flag & 2 == 2 then
-    processed_xml = save_result(shallow_copy(xml), display)
+    save_result(shallow_copy(xml), display)
   else
     local element_type = token.get_macro'l__luamml_root_tl'
     if element_type ~= 'mrow' then
@@ -109,19 +112,17 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
         xml = {[0] = element_type, xml}
       end
     end
-    processed_xml = xml
   end
   if not display and flag & 1 == 1 then
-    local startmath = tex.nest.top.tail
     local props = properties[startmath]
     if not props then
       props = {}
       properties[startmath] = props
     end
     props.saved_mathml_table, props.saved_mathml_core = xml, core
-  end
-  if flag & 8 == 8 then
-    write_struct(shallow_copy(processed_xml), display and 0 or 2)
+    if flag & 10 == 8 then
+      write_struct(xml, true) -- This modifies xml in-place to reference the struture element
+    end
   end
   return true
 end, 'dump_list')

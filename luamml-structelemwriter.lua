@@ -39,8 +39,9 @@ local mc_type = token.create'l__tag_mc_type_attr'.index
 local mc_cnt = token.create'l__tag_mc_cnt_attr'.index
 -- print('!!!', mc_type, mc_cnt)
 
+local stash_cnt = 0
 local attrs = {}
-local function write_elem(tree, indent)
+local function write_elem(tree, stash)
   if tree[':struct'] then
     return tex.runtoks(function()
       return tex.sprint(struct_use, '{', tree[':struct'], '}')
@@ -54,22 +55,34 @@ local function write_elem(tree, indent)
     attrs[i] = string.format('/%s(%s)', escape_name(attr), escape_string(val))
   end end
   table.sort(attrs)
-  local attr_name
-  if i == 0 then
-    tex.sprint(struct_begin, '{tag=', tree[0], '/mathml}')
+
+  if stash then
+    stash_cnt = stash_cnt + 1
+    stash = '__luamml_stashed_' .. stash_cnt
+    tree[':struct'] = stash
+    stash = ', stash, label = ' .. stash
   else
-    tex.sprint(struct_begin, '{tag=', tree[0], '/mathml,attribute=', attributes[table.concat(attrs)], '}')
+    stash = ''
+  end
+
+  if i == 0 then
+    tex.sprint(struct_begin, '{tag=' .. tree[0] .. '/mathml' .. stash .. '}')
+  else
+    tex.sprint(struct_begin, '{tag=' .. tree[0] .. '/mathml, attribute=' .. attributes[table.concat(attrs)] .. stash .. '}')
   end
   for j = 1, i do attrs[j] = nil end
 
-  if tree[':node'] then
-    local n = tree[':node']
+  if tree[':nodes'] then
+    local n = tree[':nodes']
     tex.runtoks(function()
       tex.sprint{mc_begin, string.format('{tag=%s}', tree[0])}
       -- NOTE: This will also flush all previous sprint's... That's often annoying, but in this case actually intentional.
     end)
-    node.set_attribute(tree[':node'], mc_type, tex.attribute[mc_type])
-    node.set_attribute(tree[':node'], mc_cnt, tex.attribute[mc_cnt])
+    local mct, mcc = tex.attribute[mc_type], tex.attribute[mc_cnt]
+    for i = 1, #n do
+      node.set_attribute(n[i], mc_type, mct)
+      node.set_attribute(n[i], mc_cnt, mcc)
+    end
     tex.runtoks(function()
       tex.sprint(mc_end)
     end)
@@ -84,6 +97,6 @@ local function write_elem(tree, indent)
   end)
 end
 
-return function(element)
-  return write_elem(element)
+return function(element, stash)
+  return write_elem(element, stash)
 end

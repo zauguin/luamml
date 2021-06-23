@@ -139,7 +139,7 @@ local function delim_to_table(delim)
   else
     local fam = delim.small_fam
     char = remap_lookup[fam << 21 | char]
-    local result = {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = not stretchy[char] or nil, lspace = 0, rspace = 0, [':node'] = delim }
+    local result = {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = not stretchy[char] or nil, lspace = 0, rspace = 0, [':nodes'] = {delim} }
     if mathml_filter then
       return mathml_filter(result, result)
     else
@@ -166,7 +166,7 @@ local function acc_to_table(acc, cur_style, stretch)
   if stretch ~= not stretchy[char] then -- Handle nil gracefully in stretchy
     stretch = nil
   end
-  local result = {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = stretch, [':node'] = acc}
+  local result = {[0] = 'mo', char, ['tex:family'] = fam ~= 0 and fam or nil, stretchy = stretch, [':nodes'] = {acc}}
   if mathml_filter then
     return mathml_filter(result)
   else
@@ -190,7 +190,7 @@ local function kernel_to_table(kernel, cur_style)
       char,
       ['tex:family'] = fam ~= 0 and fam or nil,
       mathvariant = utf8.len(char) == 1 and elem == 'mi' and utf8.codepoint(char) < 0x10000 and 'normal' or nil,
-      [':node'] = kernel,
+      [':nodes'] = {kernel},
     }
     if mathml_filter then
       return mathml_filter(result, result)
@@ -202,7 +202,7 @@ local function kernel_to_table(kernel, cur_style)
     if kernel.list.id == hlist_t then -- We directly give up for vlists
       result = to_text(kernel.list.head)
     else
-      result = {[0] = 'mi', {[0] = 'mglyph', ['tex:box'] = kernel.list, [':node'] = kernel}}
+      result = {[0] = 'mi', {[0] = 'mglyph', ['tex:box'] = kernel.list, [':nodes'] = {kernel}}}
     end
     if mathml_filter then
       return mathml_filter(result, result)
@@ -272,6 +272,15 @@ local function noad_to_table(noad, sub, cur_style, joining)
           or core[0] == 'mn' or text_families[core['tex:family']] then
         if joining and core[0] == joining[0] and core['tex:family'] == joining['tex:family'] then
           joining[#joining+1] = core[1]
+          local cnodes = core[':nodes']
+          if cnodes then -- very likely
+            local jnodes = joining[':nodes']
+            if jnodes then -- very likely
+              table.move(cnodes, 1, #cnodes, #jnodes+1, jnodes)
+            else
+              joining[':nodes'] = cnodes
+            end
+          end
           nucleus = do_sub_sup(joining, joining, noad, cur_style)
           if nucleus == joining then
             return nil, joining, joining
