@@ -38,20 +38,21 @@ end
 
 do
   local saved
-  funcid = luatexbase.new_luafunction'__luamml_amsmath_save_inner_table:'
-  token.set_lua('__luamml_amsmath_save_inner_table:', funcid)
+  funcid = luatexbase.new_luafunction'__luamml_amsmath_save_inner_table:n'
+  token.set_lua('__luamml_amsmath_save_inner_table:n', funcid)
   lua.get_functions_table()[funcid] = function()
     -- TODO: Error handling etc
+    local kind = token.scan_argument()
     local mml_table = get_table()
     if not mml_table then return end
     mml_table.displaystyle = true
     local columns = node.count(node.id'align_record', tex.lists.align_head)//2
-    mml_table.columnalign = string.rep('right left', columns, ' ')
+    mml_table.columnalign = kind == 'gathered' and 'center' or string.rep('right left', columns, ' ')
     local spacing = {}
     for n in node.traverse_id(node.id'glue', tex.lists.align_head) do
       spacing[#spacing+1] = n.width == 0 and '0' or string.format('%.3f', n.width/65781.76)
     end
-    mml_table.columnspacing = table.concat(spacing, ' ', 2, #spacing-2)
+    mml_table.columnspacing = #spacing > 3 and table.concat(spacing, ' ', 2, #spacing-2) or nil
     saved = mml_table
   end
 
@@ -70,20 +71,21 @@ do
   end
 end
 
-funcid = luatexbase.new_luafunction'__luamml_amsmath_finalize_table:'
-token.set_lua('__luamml_amsmath_finalize_table:', funcid)
+funcid = luatexbase.new_luafunction'__luamml_amsmath_finalize_table:n'
+token.set_lua('__luamml_amsmath_finalize_table:n', funcid)
 lua.get_functions_table()[funcid] = function()
   -- TODO: Error handling etc
+  local kind = token.scan_argument()
   local mml_table = get_table()
   if not mml_table then return end
   mml_table.displaystyle = true
   local columns = node.count(node.id'align_record', tex.lists.align_head)//2
-  mml_table.columnalign = string.rep('right left', columns, ' ')
+  mml_table.columnalign = kind == 'align' and string.rep('right left', columns, ' ') or nil
   local spacing = {}
   for n in node.traverse_id(node.id'glue', tex.lists.align_head) do
     spacing[#spacing+1] = n.width == 0 and '0' or '.8em'
   end
-  mml_table.columnspacing = table.concat(spacing, ' ', 2, #spacing-2)
+  mml_table.columnspacing = #spacing > 3 and table.concat(spacing, ' ', 2, #spacing-2) or nil
   save_result(mml_table, true)
 end
 

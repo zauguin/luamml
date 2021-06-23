@@ -63,9 +63,39 @@
       \ams@return@opt@arg
 }
 
+\renewcommand \gathered [1] [c] {
+  \RIfM@
+  \else
+    \nonmatherr@ { \begin {gathered} }
+  \fi
+  \luamml_annotate:en {
+    nucleus = true, core = false
+  } {
+    \alignedspace@left
+  }
+  \ams@start@box {#1} \bgroup
+    \Let@
+    \chardef \dspbrk@context \@ne
+    \restore@math@cr
+    \spread@equation
+    \ialign \bgroup
+        \hfil
+        \strut@
+        $
+          \m@th
+          \displaystyle
+          ##
+          \luamml_flag_save:Nn \displaystyle {mtd}
+        $
+        \__luamml_amsmath_add_last_to_row:
+        \hfil
+      \crcr
+        \ams@return@opt@arg
+}
+
 \cs_set:Npn \endaligned {
       \crcr
-      \__luamml_amsmath_save_inner_table:
+      \__luamml_amsmath_save_inner_table:n \@currenvir
     \egroup
     \restorecolumn@
   \egroup
@@ -104,8 +134,12 @@
         \strut@
         {##}
       }
+      \dim_compare:nNnF {0pt} = {
+        \box_wd:N \c_zero_int
+      } {
+        \__luamml_amsmath_set_tag:
+      }
       \place@tag@gather
-      \__luamml_amsmath_set_tag:
       \tabskip \iftagsleft@
         \gdisplaywidth@
       \else
@@ -114,6 +148,7 @@
       \crcr
       #1
 }
+
 \cs_new_eq:NN \__luamml_amsmath_original_gmeasure:n \gmeasure@
 \cs_set:Npn \gmeasure@ #1 {
   \exp_last_unbraced:Nno
@@ -125,7 +160,7 @@
 \cs_set:Npn \endgather {
       \math@cr
       \black@ \totwidth@
-      \__luamml_amsmath_finalize_table:
+      \__luamml_amsmath_finalize_table:n {gather}
   \egroup
   $$
   \ignorespacesafterend
@@ -223,7 +258,7 @@
 \cs_set:Npn \endalign {
   \math@cr
   \black@ \totwidth@
-  \__luamml_amsmath_finalize_table:
+  \__luamml_amsmath_finalize_table:n {align}
   \egroup
   \ifingather@
     \restorealignstate@
