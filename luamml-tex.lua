@@ -102,7 +102,7 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   style = flag & 4 == 4 and flag>>5 & 0x7 or display and 0 or 2
   local xml, core = process_mlist(mlist, style)
   if flag & 2 == 2 then
-    save_result(shallow_copy(xml), display)
+    xml = save_result(shallow_copy(xml), display)
   else
     local element_type = token.get_macro'l__luamml_root_tl'
     if element_type ~= 'mrow' then
