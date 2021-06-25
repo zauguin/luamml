@@ -63,6 +63,19 @@ do
     saved = mml_table
   end
 
+  funcid = luatexbase.new_luafunction'__luamml_amsmath_save_smallmatrix:'
+  token.set_lua('__luamml_amsmath_save_smallmatrix:', funcid)
+  lua.get_functions_table()[funcid] = function()
+    -- TODO: Error handling etc
+    local mml_table = get_table()
+    mml_table.align = 'axis'
+    mml_table.columnalign = 'center'
+    mml_table.columnspacing = '0.278em'
+    mml_table.rowspacing = string.format('%.3fpt', tex.lineskip.width/65781.76)
+    saved = {[0] = 'mpadded', width = '+0.333em', lspace = '0.167em', mml_table}
+    saved = mml_table
+  end
+
   funcid = luatexbase.new_luafunction'__luamml_amsmath_finalize_inner_table:'
   token.set_lua('__luamml_amsmath_finalize_inner_table:', funcid)
   lua.get_functions_table()[funcid] = function()

@@ -348,6 +348,57 @@
   $$
 }
 
+% Finally some slightly different stuff.
+% While {matrix} is covered by {array}, we still have {smallmatrix}:
+\renewenvironment {smallmatrix} {
+  \luamml_annotate:en {
+    core = false
+  } {
+    \null
+    \,
+  }
+  \vcenter \bgroup
+    \Let@
+    \restore@math@cr
+    \default@tag
+    \baselineskip 6 \ex@
+    \lineskip 1.5 \ex@
+    \lineskiplimit \lineskip
+    \ialign \bgroup
+        \hfil
+        $
+        \m@th
+        \scriptstyle
+        ##
+        \luamml_flag_save:n {mtd} % No \scriptsize here since we want to add the mstyle nodes
+        $
+        \__luamml_amsmath_add_last_to_row:
+        \hfil
+      &&
+        \thickspace
+        \hfil
+        $
+        \m@th
+        \scriptstyle
+        ##
+        \luamml_flag_save:n {mtd} % No \scriptsize here since we want to add the mstyle nodes
+        $
+        \__luamml_amsmath_add_last_to_row:
+        \hfil
+      \crcr
+}{%
+      \crcr
+      \__luamml_amsmath_save_smallmatrix:
+    \egroup
+  \egroup
+  \__luamml_amsmath_finalize_inner_table:
+  \luamml_annotate:en {
+    core = false
+  } {
+    \,
+  }
+}
+
 \cs_set:Npn \bBigg@ #1 #2 {
   {
     \ensuremath {
