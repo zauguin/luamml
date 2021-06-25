@@ -57,7 +57,7 @@ do
     mml_table.columnalign = kind == 'gathered' and 'center' or string.rep('right left', columns, ' ')
     local spacing = {}
     for n in node.traverse_id(node.id'glue', tex.lists.align_head) do
-      spacing[#spacing+1] = n.width == 0 and '0' or string.format('%.3f', n.width/65781.76)
+      spacing[#spacing+1] = n.width == 0 and '0' or string.format('%.3fpt', n.width/65781.76)
     end
     mml_table.columnspacing = #spacing > 3 and table.concat(spacing, ' ', 2, #spacing-2) or nil
     saved = mml_table
