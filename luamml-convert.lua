@@ -104,6 +104,11 @@ local digit_map = {["0"] = true, ["1"] = true,
      ["5"] = true, ["6"] = true, ["7"] = true,
      ["8"] = true, ["9"] = true,}
 
+local always_mo = {["%"] = true, ["&"] = true, ["."] = true, ["/"] = true,
+    ["\\"] = true, ["¬"] = true, ["′"] = true, ["″"] = true, ["‴"] = true,
+    ["⁗"] = true, ["‵"] = true, ["‶"] = true, ["‷"] = true, ["|"] = true,
+    ["∀"] = true, ["∁"] = true, ["∃"] = true,  ["∂"] = true, ["∄"] = true,}
+
 -- Marker tables replacing the core operator for space like elements
 local space_like = {}
 
@@ -251,14 +256,14 @@ local function maybe_to_mn(noad, core)
   core[0] = 'mn'
 end
 
-local function noad_to_table(noad, sub, cur_style, joining)
+local function noad_to_table(noad, sub, cur_style, joining, bin_replacements)
   local nucleus, core = kernel_to_table(noad.nucleus, sub == noad_over and cur_style//2*2+1 or cur_style)
   if not nucleus then return end
   if core and core[0] == 'mo' and core.minsize and not core.maxsize then
     core.maxsize = core.minsize -- This happens when a half-specified delimiter appears alone in a list.
                                 -- If it has a minimal size, it should be fixed to that size (since there is nothing bigger in it's list)
   end
-  if sub == noad_ord then
+  if sub == noad_ord and not (bin_replacements[node.direct.todirect(noad)] or (nucleus == core and #core == 1 and always_mo[core[1]])) then
     if core and core[0] == 'mo' then
       core['tex:class'] = nil
       if not core.minsize then
@@ -293,7 +298,7 @@ local function noad_to_table(noad, sub, cur_style, joining)
       end
     end
   elseif sub == noad_op or sub == noad_oplimits or sub == noad_opnolimits or sub == noad_bin or sub == noad_rel or sub == noad_open
-      or sub == noad_close or sub == noad_punct or sub == noad_inner then
+      or sub == noad_close or sub == noad_punct or sub == noad_inner or sub == noad_ord then
     if not core or not core[0] then
       -- TODO
     else
@@ -471,6 +476,7 @@ end
 -- The only part which changes the nodelist, we are converting bin into ord
 -- nodes in the same way TeX would do it later anyway.
 local function cleanup_mathbin(head)
+  local replacements = {}
   local last = 'open' -- last sub if id was noad_t, left fence acts fakes being a open noad, bin are themselves. Every other noad is ord
   for n, id, sub in node.traverse(head) do
     if id == noad_t then
@@ -478,6 +484,7 @@ local function cleanup_mathbin(head)
         if node.is_node(last) or last == noad_opdisplaylimits
             or last == noad_oplimits or last == noad_opnolimits
             or last == noad_rel or last == noad_open or last == noad_punct then
+          replacements[node.direct.todirect(n)] = true
           n.subtype, last = noad_ord, noad_ord
         else
           last = n
@@ -485,6 +492,7 @@ local function cleanup_mathbin(head)
       else
         if (sub == noad_rel or sub == noad_close or sub == noad_punct)
             and node.is_node(last) then
+          replacements[node.direct.todirect(last)] = true
           last.subtype = noad_ord
         end
         last = sub
@@ -494,6 +502,7 @@ local function cleanup_mathbin(head)
         last = noad_open
       else
         if node.is_node(last) then
+          replacements[node.direct.todirect(last)] = true
           last.subtype = noad_ord, noad_ord
         end
         last = noad_ord
@@ -503,12 +512,14 @@ local function cleanup_mathbin(head)
     end
   end
   if node.is_node(last) then
+    replacements[node.direct.todirect(last)] = true
     last.subtype = noad_ord
   end
+  return replacements
 end
 
 function nodes_to_table(head, cur_style)
-  cleanup_mathbin(head)
+  local bin_replacements = cleanup_mathbin(head)
   local t = {[0] = 'mrow'}
   local result = t
   local nonscript
@@ -522,7 +533,7 @@ function nodes_to_table(head, cur_style)
       new_node, new_core = mathml_table, mathml_core
     elseif id == noad_t then
       local new_n
-      new_n, new_core, new_joining = noad_to_table(n, sub, cur_style, joining)
+      new_n, new_core, new_joining = noad_to_table(n, sub, cur_style, joining, bin_replacements)
       if new_joining == false then
         t[#t], new_joining = new_n, nil
       else
