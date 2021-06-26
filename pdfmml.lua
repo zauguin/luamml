@@ -52,13 +52,40 @@ else
     out_stream = assert(io.open(arg[2], 'w'))
   end
 end
+parsed.mathml = {}
+
+local function shallow_copy(t)
+  local new = {}
+  for k, v in next, t do
+    new[k] = v
+  end
+  return new
+end
+
+-- Currently only 3 flag values are supported:
+--   0: Ignore (Doesn't make a lot of sense here)
+--   1: Only save
+--   3: Generate normally
 for i, block in ipairs(parsed.groups) do
-  local stream = out_stream or assert(io.open(out_prefix .. tostring(i) .. out_suffix, 'w'))
+  local flag, tag = block.flag, block.tag
   block = block[1]
-  local parsed = parse_showlists(block, nil, nil, parsed)
-  local style = block.display and 0 or 2
-  stream:write(
-    to_xml(convert.make_root(convert.process(parsed, style), style)), '\n'
-  )
-  if not out_stream then stream:close() end
+  if flag & 3 ~= 0 then
+    local style = block.display and 0 or 2
+    local xml = convert.process(parse_showlists(block, nil, nil, parsed), style)
+    if flag & 2 == 2 then
+      local stream = out_stream or assert(io.open(out_prefix .. tostring(i) .. out_suffix, 'w'))
+      stream:write(to_xml(convert.make_root(shallow_copy(xml), style)), '\n')
+      if not out_stream then stream:close() end
+    end
+    if tag ~= 'mrow' then
+      if xml[0] == 'mrow' then
+        xml[0] = tag
+      else
+        xml = {[0] = tag, xml}
+      end
+    end
+    if style == 2 and flag & 1 == 1 then
+      parsed.mathml[i] = xml
+    end
+  end
 end

@@ -32,5 +32,8 @@ node = {
   traverse = function(head)
     return traverse_iter, head, nil
   end,
+  direct = {
+    todirect = function(n) return n end,
+  },
 }
 tex.nulldelimiterspace = tex.nulldelimiterspace or 78643 -- 1.2pt
