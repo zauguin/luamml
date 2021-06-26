@@ -67,7 +67,7 @@ end
 --   1: Only save
 --   3: Generate normally
 for i, block in ipairs(parsed.groups) do
-  local flag, tag = block.flag, block.tag
+  local flag, tag, label = block.flag, block.tag, block.label
   block = block[1]
   if flag & 3 ~= 0 then
     local style = block.display and 0 or 2
@@ -84,8 +84,11 @@ for i, block in ipairs(parsed.groups) do
         xml = {[0] = tag, xml}
       end
     end
-    if style == 2 and flag & 1 == 1 then
-      parsed.mathml[i] = xml
+    if style == 2 and flag & 1 == 1 and label ~= '' then
+      if parsed.mathml[label] then
+        error'Invalid label reuse'
+      end
+      parsed.mathml[label] = xml
     end
   end
 end

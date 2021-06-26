@@ -88,6 +88,7 @@
 %<luatex>\tl_new:N \l__luamml_filename_tl
 \tl_new:N \l__luamml_root_tl
 \tl_set:Nn \l__luamml_root_tl { mrow }
+\tl_new:N \l__luamml_label_tl
 %<pdftex>\int_new:N \g__luamml_formula_id_int
 %<luatex>\int_new:N \tracingmathml
 %    \end{macrocode}
@@ -110,6 +111,7 @@
 %   \cs{luamml_flag_save:}.
 %    \begin{macrocode}
 \cs_new_protected:Npn \luamml_flag_process: {
+  \tl_set:Nn \l__luamml_label_tl {}
   \int_set:Nn \l__luamml_flag_int { 3 }
 }
 %    \end{macrocode}
@@ -128,33 +130,37 @@
 }
 % \end{macro}
 %
-% \begin{macro}{\luamml_flag_save:,
-%               \luamml_flag_save:N,
-%               \luamml_flag_save:n,
-%               \luamml_flag_save:Nn}
+% \begin{macro}{\luamml_flag_save:n,
+%               \luamml_flag_save:nN,
+%               \luamml_flag_save:nn,
+%               \luamml_flag_save:nNn}
 %   Convert the current formula but only save it's representation in the math
 %   node without emitting it as a complete formula. This is useful when the
 %   expression forms part of a bigger formula and will be intergrated into it's
 %   MathML tables later by special code.
-%   It optinally accepts two parameters: One math style command
+%   It optinally accepts three parameters: A label, one math style command
 %   (\cs{displaystyle}, \cs{textstyle}, etc.) which is the implicit math style
 %   (so the style which the surrounding code expects this style to have) and a
 %   name for the root element (defaults to \texttt{mrow}).
 %   If the root element name is \texttt{mrow}, it will get suppressed in some
 %   cases.
 %    \begin{macrocode}
-\cs_new_protected:Npn \luamml_flag_save: {
+\cs_new_protected:Npn \luamml_flag_save:n #1 {
+  \tl_set:Nn \l__luamml_label_tl {#1}
   \int_set:Nn \l__luamml_flag_int { \__luamml_maybe_structelem: 1 }
 }
-\cs_new_protected:Npn \luamml_flag_save:N #1 {
-  \int_set:Nn \l__luamml_flag_int { \__luamml_maybe_structelem: 17 + 32 * #1 }
+\cs_new_protected:Npn \luamml_flag_save:nN #1#2 {
+  \tl_set:Nn \l__luamml_label_tl {#1}
+  \int_set:Nn \l__luamml_flag_int { \__luamml_maybe_structelem: 17 + 32 * #2 }
 }
-\cs_new_protected:Npn \luamml_flag_save:n {
+\cs_new_protected:Npn \luamml_flag_save:nn #1 {
+  \tl_set:Nn \l__luamml_label_tl {#1}
   \int_set:Nn \l__luamml_flag_int { \__luamml_maybe_structelem: 5 }
   \tl_set:Nn \l__luamml_root_tl
 }
-\cs_new_protected:Npn \luamml_flag_save:Nn #1 {
-  \int_set:Nn \l__luamml_flag_int { \__luamml_maybe_structelem: 21 + 32 * #1 }
+\cs_new_protected:Npn \luamml_flag_save:nNn #1#2 {
+  \tl_set:Nn \l__luamml_label_tl {#1}
+  \int_set:Nn \l__luamml_flag_int { \__luamml_maybe_structelem: 21 + 32 * #2 }
   \tl_set:Nn \l__luamml_root_tl
 }
 %    \end{macrocode}
@@ -176,6 +182,7 @@
 %    \begin{macrocode}
 %<*luatex>
 \cs_new_protected:Npn \luamml_flag_structelem: {
+  \tl_set:Nn \l__luamml_label_tl {}
   \int_set:Nn \l__luamml_flag_int { 11 }
 }
 %</luatex>
@@ -350,21 +357,13 @@
     \int_use:N \l__luamml_flag_int
     :
     \l__luamml_root_tl
+    :
+    \l__luamml_label_tl
   }
   \__luamml_pdf_showlists:
   \iow_now:Nx \l__luamml_pdf_stream {
     LUAMML_FORMULA_END
   }
-}
-%    \end{macrocode}
-% \end{macro}
-%
-% \begin{macro}{\luamml_pdf_last_formula:}
-% A unique identifier for the last formula written with \cs{luamml_pdf_write:}.
-% Some form of this will probably be added to the Lua\TeX insterface at some point.
-%    \begin{macrocode}
-\cs_new:Npn \luamml_pdf_last_formula: {
-  \int_use:N \g__luamml_formula_id_int
 }
 %    \end{macrocode}
 % \end{macro}

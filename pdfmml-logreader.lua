@@ -8,7 +8,7 @@ local math_lists_block = l.Ct('### ' * l.Cg(l.C'display' * ' ', 'display')^-1 * 
                        * non_final_list_block)^1
 local generic_list_block = '### ' * (line - 'current page:') * non_final_list_block
 local luamml_block = l.Cg('LUAMML_FORMULA_BEGIN:' * id * ':' * l.Ct(
-   l.Cg(id, 'flag') * ':' * l.Cg((1-l.P'\n')^0, 'tag') * l.P'\n'^1
+   l.Cg(id, 'flag') * ':' * l.Cg((1-l.S':\n')^0, 'tag') * ':' * l.Cg((1-l.P'\n')^1, 'label')^-1 * l.P'\n'^1
    
  * (math_lists_block + generic_list_block/0)^0
  * (line - 'LUAMML_FORMULA_END\n')^0

@@ -9,6 +9,7 @@ local write_xml = require'luamml-xmlwriter'
 local write_struct = require'luamml-structelemwriter'
 
 local filename_token = token.create'l__luamml_filename_tl'
+local label_token = token.create'l__luamml_label_tl'
 
 local properties = node.get_properties_table()
 local mmode, hmode, vmode do
@@ -70,6 +71,8 @@ local mlist_result
 local undefined_cmd = token.command_id'undefined_cs'
 local call_cmd = token.command_id'call'
 
+local labelled_mathml = {}
+
 local function save_result(xml, display, structelem)
   mlist_result = make_root(xml, display and 0 or 2)
   token.put_next(filename_token)
@@ -121,6 +124,18 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
       properties[startmath] = props
     end
     props.saved_mathml_table, props.saved_mathml_core = xml, core
+    token.put_next(label_token)
+    local label = token.scan_argument()
+    if label ~= '' then
+      if labelled_mathml[label] then
+        tex.error('MathML Label already in use', {
+            'A MathML expression has a label which is already used by another \z
+             formula. If you do not want to label this formula with a unique \z
+             label, set a empty label instead.'})
+      else
+        labelled_mathml[label] = xml
+      end
+    end
     if flag & 10 == 8 then
       write_struct(xml, true) -- This modifies xml in-place to reference the struture element
     end
@@ -148,4 +163,5 @@ require'luamml-tex-annotate'
 
 return {
   save_result = save_result,
+  labelled = labelled_mathml,
 }
