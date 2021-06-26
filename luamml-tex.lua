@@ -61,7 +61,7 @@ end
 --    Bit 5-7: See Bit 4
 --    Bit 4: Overwrite mathstyle with bit 9-11
 --    Bit 3: Generate MathML structure elements
---    Bit 2: Reserved
+--    Bit 2: Change root element name for saved element
 --    Bit 1: Save MathML as a fully converted formula
 --    Bit 0: Save MathML for later usage in startmath node. Ignored for display math.
 
@@ -99,11 +99,12 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   end
   local display = style == 'display'
   local startmath = tex.nest.top.tail -- Must come before any write_struct calls which adds nodes
-  style = flag & 4 == 4 and flag>>5 & 0x7 or display and 0 or 2
+  style = flag & 16 == 4 and flag>>5 & 0x7 or display and 0 or 2
   local xml, core = process_mlist(mlist, style)
   if flag & 2 == 2 then
     xml = save_result(shallow_copy(xml), display)
-  else
+  end
+  if flag & 4 == 4 then
     local element_type = token.get_macro'l__luamml_root_tl'
     if element_type ~= 'mrow' then
       if xml[0] == 'mrow' then
