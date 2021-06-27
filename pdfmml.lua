@@ -84,7 +84,7 @@ for i, block in ipairs(parsed.groups) do
         xml = {[0] = tag, xml}
       end
     end
-    if style == 2 and flag & 1 == 1 and label ~= '' then
+    if style == 2 and flag & 1 == 1 and label then
       if parsed.mathml[label] then
         error'Invalid label reuse'
       end

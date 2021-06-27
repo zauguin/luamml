@@ -56,6 +56,8 @@ local simple_noad = l.Ct(
   + '\\kern' * l.Cg(' ' * l.Cc(1) + l.Cc(0), 'subtype') * l.Cg(scaled, 'kern') * (' (for ' * (l.R'az' + l.S'/\\') * ')')^-1 * l.Cg(l.Cc'kern', 'id')
   ) * -1
 
+local box_node = '\\' * l.S'hv' * 'box('
+
 local fraction_noad = l.Ct('\\fraction, thickness '
                     * l.Cg('= default' * l.Cc(0x40000000) + scaled, 'width')
                     * l.Cg(', left-delimiter ' * delimiter_code, 'left')^-1 * l.Cg(', right-delimiter ' * delimiter_code, 'right')^-1
@@ -72,8 +74,17 @@ local function parse_kernel(lines, i, prefix, parsed)
   if not line or line:sub(1, #prefix) ~= prefix then return nil, i end
   local result = math_char:match(lines[i], #prefix + 1)
   if result then return result, i+1 end
+  if box_node:match(lines[i], #prefix + 1) then return skip_list(lines, i+1, prefix .. '.') end
   result, i = parse_list(lines, i, prefix, parsed)
   return {list = result, id = 'sub_mlist'}, i
+end
+function skip_list(lines, i, prefix)
+  i = i or 1
+  local count = #lines
+  while i <= count and lines[i]:sub(1, #prefix) == prefix do
+    i = i + 1
+  end
+  return {id = 'sub_box', list = {}}, i
 end
 function parse_list(lines, i, prefix, parsed)
   i = i or 1

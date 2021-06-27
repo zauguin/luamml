@@ -130,6 +130,25 @@
 }
 % \end{macro}
 %
+% \begin{macro}{\__luamml_style_to_num:N}
+%    \begin{macrocode}
+\cs_new:Npn \__luamml_style_to_num:N #1 {
+%<luatex>  32 * #1
+%<*pdftex>
+  \token_case_meaning:NnF #1 {
+    \displaystyle {0}
+    \textstyle {32}
+    \scriptstyle {64}
+    \scriptscriptstyle {96}
+  } {
+    \Invalid_mathstyle
+  }
+%</pdftex>
+}
+%    \end{macrocode}
+% \end{macro}
+%
+%
 % \begin{macro}{\luamml_flag_save:n,
 %               \luamml_flag_save:nN,
 %               \luamml_flag_save:nn,
@@ -151,7 +170,7 @@
 }
 \cs_new_protected:Npn \luamml_flag_save:nN #1#2 {
   \tl_set:Nn \l__luamml_label_tl {#1}
-  \int_set:Nn \l__luamml_flag_int { \__luamml_maybe_structelem: 17 + 32 * #2 }
+  \int_set:Nn \l__luamml_flag_int { \__luamml_maybe_structelem: 17 + \__luamml_style_to_num:N #2 }
 }
 \cs_new_protected:Npn \luamml_flag_save:nn #1 {
   \tl_set:Nn \l__luamml_label_tl {#1}
@@ -160,7 +179,7 @@
 }
 \cs_new_protected:Npn \luamml_flag_save:nNn #1#2 {
   \tl_set:Nn \l__luamml_label_tl {#1}
-  \int_set:Nn \l__luamml_flag_int { \__luamml_maybe_structelem: 21 + 32 * #2 }
+  \int_set:Nn \l__luamml_flag_int { \__luamml_maybe_structelem: 21 + \__luamml_style_to_num:N #2 }
   \tl_set:Nn \l__luamml_root_tl
 }
 %    \end{macrocode}
