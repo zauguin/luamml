@@ -313,14 +313,17 @@
 \cs_new_protected:Npn \luamml_annotate:nen #1#2#3 {
   \int_gincr:N \g__luamml_annotation_id_int
   \iow_shipout_x:Nx \l__luamml_pdf_stream {
-    \tl_to_str:e {
-      LUAMML_MARK:
-      \int_use:N \g__luamml_annotation_id_int
-      :
-      count = \int_eval:n {#1},
-      #2
-    }
-    \exp_not:N \iow_newline:
+    LUAMML_MARK_REF:
+    \int_use:N \g__luamml_annotation_id_int
+    :
+  }
+  \iow_now:Nx \l__luamml_pdf_stream {
+    LUAMML_MARK:
+    \int_use:N \g__luamml_annotation_id_int
+    :
+    count = \int_eval:n {#1},
+    #2
+    \iow_newline:
     LUAMML_MARK_END
   }
   #3
@@ -328,26 +331,32 @@
 \cs_new_protected:Npn \luamml_annotate:en #1#2 {
   \int_gincr:N \g__luamml_annotation_id_int
   \iow_shipout_x:Nx \l__luamml_pdf_stream {
-    \tl_to_str:e {
-      LUAMML_MARK:
-      \int_use:N \g__luamml_annotation_id_int
-      :
-      count = data.count[\int_use:N \g__luamml_annotation_id_int],
-      #1
-    }
-    \exp_not:N \iow_newline:
+    LUAMML_MARK_REF:
+    \int_use:N \g__luamml_annotation_id_int
+    :
+  }
+  \iow_now:Nx \l__luamml_pdf_stream {
+    LUAMML_MARK:
+    \int_use:N \g__luamml_annotation_id_int
+    :
+    count = data.count[\int_use:N \g__luamml_annotation_id_int],
+    #1
+    \iow_newline:
     LUAMML_MARK_END
   }
-  \iow_now:Nx \l__luamml_pdf_stream {
-    LUAMML_COUNT:
-    \int_use:N \g__luamml_annotation_id_int
+  \use:x {
+    \iow_now:Nn \l__luamml_pdf_stream {
+      LUAMML_COUNT:
+      \int_use:N \g__luamml_annotation_id_int
+    }
+    \__luamml_pdf_showlists:
+    \exp_not:n {#2}
+    \iow_now:Nn \l__luamml_pdf_stream {
+      LUAMML_COUNT_END:
+      \int_use:N \g__luamml_annotation_id_int
+    }
+    \__luamml_pdf_showlists:
   }
-  \__luamml_pdf_showlists:
-  #2
-  \iow_now:Nx \l__luamml_pdf_stream {
-    LUAMML_COUNT_END
-  }
-  \__luamml_pdf_showlists:
 }
 %    \end{macrocode}
 % \end{macro}

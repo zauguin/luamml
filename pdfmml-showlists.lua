@@ -66,7 +66,7 @@ local fraction_noad = l.Ct('\\fraction, thickness '
 
 local mathchoice_noad = l.Ct('\\mathchoice' * l.Cg(l.Cc'choice', 'id') * -1)
 
-local mark_whatsit = '\\write' * ('-' + l.R'09'^1) * '{LUAMML_MARK:' * (l.R'09'^1/tonumber) * ':'
+local mark_whatsit = '\\write' * ('-' + l.R'09'^1) * '{LUAMML_MARK_REF:' * (l.R'09'^1/tonumber) * ':'
 
 local parse_list
 local function parse_kernel(lines, i, prefix, parsed)
