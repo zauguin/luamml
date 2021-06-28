@@ -70,7 +70,7 @@ for i, block in ipairs(parsed.groups) do
   local flag, tag, label = block.flag, block.tag, block.label
   block = block[1]
   if flag & 3 ~= 0 then
-    local style = block.display and 0 or 2
+    local style = flag & 16 == 16 and flag>>5 & 0x7 or block.display and 0 or 2
     local xml = convert.process(parse_showlists(block, nil, nil, parsed), style)
     if flag & 2 == 2 then
       local stream = out_stream or assert(io.open(out_prefix .. tostring(i) .. out_suffix, 'w'))
@@ -84,7 +84,7 @@ for i, block in ipairs(parsed.groups) do
         xml = {[0] = tag, xml}
       end
     end
-    if style == 2 and flag & 1 == 1 and label then
+    if (not block.display) and flag & 1 == 1 and label then
       if parsed.mathml[label] then
         error'Invalid label reuse'
       end

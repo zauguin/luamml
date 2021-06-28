@@ -102,7 +102,7 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   end
   local display = style == 'display'
   local startmath = tex.nest.top.tail -- Must come before any write_struct calls which adds nodes
-  style = flag & 16 == 4 and flag>>5 & 0x7 or display and 0 or 2
+  style = flag & 16 == 16 and flag>>5 & 0x7 or display and 0 or 2
   local xml, core = process_mlist(mlist, style)
   if flag & 2 == 2 then
     xml = save_result(shallow_copy(xml), display)
