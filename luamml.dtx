@@ -439,10 +439,11 @@
 %    \end{macrocode}
 % \end{macro}
 %
-%
+% We currently provide minimal patching for the kernel, \pkg{amsmath} and \pkg{array}.
+% Currently only the kernel code supports pdf\TeX, but it's planned to extend this.
 %    \begin{macrocode}
-%<*luatex>
 \RequirePackage { luamml-patches-kernel }
+%<*luatex>
 \__luamml_patch_package:n {amsmath}
 \__luamml_patch_package:n {array}
 %</luatex>

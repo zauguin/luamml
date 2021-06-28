@@ -1,17 +1,35 @@
 \ProvidesExplPackage {luamml-patches-kernel} {2021-05-30} {0.0.1-alpha}
   {Feel free to add a description here}
 
-\lua_now:n { require'luamml-kernel' }
-
-\cs_set:Npn \mathph@nt #1 #2 {
+\cs_new:Npn \__luamml_kernel_phantom:nnn #1#2#3 {
   \hbox_set:Nn \c_zero_int {
     $
     \m@th
-    #1
-    {#2}
-    \luamml_flag_save:nNn {} #1 {mphantom}
+    #2
+    {#3}
+    \luamml_flag_save:nNn {mathphant_#1} #2 {mphantom}
+    \luamml_pdf_write:
     $
   }
-  \finph@nt
-  \__luamml_kernel_finalize_phantom:
+  \luamml_annotate:nen {1} {
+    nucleus = true,
+    core = {[0] = 'mpadded',
+      \ifh@\else
+        width = 0,
+      \fi
+      \ifv@\else
+        height = 0, depth = 0,
+      \fi
+      data.mathml.mathphant_#1,
+    }
+  } {
+    \finph@nt
+  }
+}
+\cs_generate_variant:Nn \__luamml_kernel_phantom:nnn {V}
+
+\int_new:N \g__luamml_kernel_phantom_int
+\cs_set:Npn \mathph@nt {
+  \int_gincr:N \g__luamml_kernel_phantom_int
+  \__luamml_kernel_phantom:Vnn \g__luamml_kernel_phantom_int
 }
