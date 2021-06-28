@@ -366,16 +366,14 @@
 %    \end{macrocode}
 %
 % \subsection{Trigger for specific formula}
-% This only applies for pdf\TeX\ since in Lua\TeX\ everything is controlled by the callback.
-%
-%    \begin{macrocode}
-%<*pdftex>
-%    \end{macrocode}
+% This only applies for pdf\TeX\ since in Lua\TeX\ everything is controlled by the callback,
+% but for compatibility the function is defined anyway.
 %
 % \begin{macro}{\luamml_pdf_write:}
 % We could accept parameters for the flag and tag here, but for compatibility
 % with Lua\TeX they are passed in macros instead.
 %    \begin{macrocode}
+%<*pdftex>
 \cs_new_protected:Npn \luamml_pdf_write: {
   \int_gincr:N \g__luamml_formula_id_int
   \iow_now:Nx \l__luamml_pdf_stream {
@@ -393,11 +391,12 @@
     LUAMML_FORMULA_END
   }
 }
+%</pdftex>
+%<luatex>\cs_new_eq:NN \luamml_pdf_write: \scan_stop:
 %    \end{macrocode}
 % \end{macro}
 %
 %    \begin{macrocode}
-%</pdftex>
 %    \end{macrocode}
 %
 % \subsection{Further helpers}

@@ -2,7 +2,10 @@ local nest = tex.nest
 
 local properties = node.get_properties_table()
 
-local mark_environment = {}
+local mark_environment = {
+  data = {
+  },
+}
 
 local function annotate()
   local annotation, err = load( 'return {'
@@ -98,3 +101,5 @@ end
 funcid = luatexbase.new_luafunction'__luamml_annotate_end:e'
 token.set_lua('__luamml_annotate_end:e', funcid, 'protected')
 lua.get_functions_table()[funcid] = annotate
+
+return mark_environment

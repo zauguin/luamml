@@ -159,7 +159,8 @@ lua.get_functions_table()[funcid] = function()
   mlist_result = nil
 end
 
-require'luamml-tex-annotate'
+local annotate_context = require'luamml-tex-annotate'
+annotate_context.data.mathml = labelled_mathml
 
 return {
   save_result = save_result,
