@@ -130,8 +130,15 @@ function parse_list(lines, i, prefix, parsed)
           local mark = mark_whatsit:match(line, #prefix+1)
           if mark then
             local mark_table = assert(load('return {' .. assert(parsed.marks[mark], 'Undefined mark encountered') .. '}', nil, 't', mark_environment))()
-            current_mark, current_count = mark_table, mark_table.count or 1
-            current_offset = mark_table.offset or current_count
+            if current_mark then
+              if (mark_table.count or 1) > current_count then
+                error'Invalid mark nesting'
+              end
+              -- Ignore new mark if existing mark is evaluated. This should be replaced with proper nesting
+            else
+              current_mark, current_count = mark_table, mark_table.count or 1
+              current_offset = mark_table.offset or current_count
+            end
             i = i + 1
           else
             print(line, prefix, i)
