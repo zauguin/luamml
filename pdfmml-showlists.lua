@@ -11,6 +11,19 @@ local tex_char = l.Cg('^^' * (hex_digit * hex_digit / hex_to_int
                    + l.P(1) / string.byte)
 
 local scaled = l.P'-'^-1 * l.R'09'^1 * '.' * l.R'09'^1 / function(s) return (tonumber(s * 0x10000) + .5) // 1 end
+local int = l.P'-'^-1 * l.R'09'^1 / tonumber
+local glue_order_mu = 'filll' * l.Cc(3)
+                    + 'fill' * l.Cc(2)
+                    + 'fil' * l.Cc(1)
+                    + 'mu' * l.Cc(0)
+local glue_order_pt = 'filll' * l.Cc(3)
+                    + 'fill' * l.Cc(2)
+                    + 'fil' * l.Cc(1)
+                    + 'pt' * l.Cc(0)
+local glue_order = 'filll' * l.Cc(3)
+                 + 'fill' * l.Cc(2)
+                 + 'fil' * l.Cc(1)
+                 + l.Cc(0)
 local delimiter_code = '"' * (l.R('09', 'AF')^1 / function(s)
   local code = tonumber(s, 16)
   return {id = 'delim',
@@ -21,7 +34,42 @@ local delimiter_code = '"' * (l.R('09', 'AF')^1 / function(s)
   }
 end)
 
+local balanced_braces = l.Ct{'{' * (1-l.S'{}'+l.V(1))^0 * '}'}
+
 local math_char = l.Ct('\\fam' * l.Cg(l.R'09'^1 / tonumber, 'fam') * ' ' * l.Cg(tex_char, 'char') * l.Cg(l.Cc'math_char', 'id'))
+
+local hdw = '(' * l.Cg(scaled + '*' * l.Cc(-0x40000000), 'height') * '+' * l.Cg(scaled + '*' * l.Cc(-0x40000000), 'depth') * ')x' * l.Cg(scaled + '*' * l.Cc(-0x40000000), 'width')
+
+local generic_simple_node = l.Ct(
+  '\\' * l.Cg('rule', 'id') * hdw
+  + '\\kern' * l.Cg(' ' * l.Cc(1) + l.Cc(0), 'subtype') * l.Cg(scaled, 'kern') * (' (for ' * (l.R'az' + l.S'/\\') * ')')^-1 * l.Cg(l.Cc'kern', 'id')
+  + '\\glue' * l.Cg('(\\' * (
+        'line' * l.Cc(1)
+      + 'baseline' * l.Cc(2)
+      + 'par' * l.Cc(3)
+      + 'abovedisplay' * l.Cc(4)
+      + 'belowdisplay' * l.Cc(5)
+      + 'abovedisplayshort' * l.Cc(6)
+      + 'belowdisplayshort' * l.Cc(7)
+      + 'left' * l.Cc(8)
+      + 'right' * l.Cc(9)
+      + 'top' * l.Cc(10)
+      + 'splittop' * l.Cc(11)
+      + 'tab' * l.Cc(12)
+      + 'space' * l.Cc(13)
+      + 'xspace' * l.Cc(14)
+      + 'parfill' * l.Cc(15)
+      + 'math' * l.Cc(16)
+      + 'thinmu' * l.Cc(17)
+      + 'medmu' * l.Cc(18)
+      + 'thickmu' * l.Cc(19)) * 'skip)' + l.Cc(0), 'subtype')
+    * ' ' * l.Cg(scaled, 'width')
+    * (' plus ' * l.Cg(scaled, 'stretch') * l.Cg(glue_order, 'stretch_order') + l.Cg(l.Cc(0), 'stretch') * l.Cg(l.Cc(0), 'stretch_order'))
+    * (' minus ' * l.Cg(scaled, 'shrink') * l.Cg(glue_order, 'shrink_order') + l.Cg(l.Cc(0), 'shrink') * l.Cg(l.Cc(0), 'shrink_order'))
+    * l.Cg(l.Cc'glue', 'id')
+  + '\\penalty ' * l.Cg(int, 'penalty') * l.Cg(l.Cc'penalty', 'id')
+  + '\\mark' * l.Cg('s' * int + l.Cc(0), 'class') * l.Cg(balanced_braces, 'mark') * l.Cg(l.Cc'mark', 'id')
+) * -1
 
 local simple_noad = l.Ct(
     '\\math' * l.Cg(
@@ -52,11 +100,32 @@ local simple_noad = l.Ct(
     + 'text' * l.Cc(2)
     + 'scriptscript' * l.Cc(6)
     + 'script' * l.Cc(4), 'subtype') * l.Cg('style', 'id')
+  + '\\glue(\\nonscript)' * l.Cg(l.Cc(98), 'subtype') * l.Cg(l.Cc'glue', 'id')
   + '\\mkern' * l.Cg(scaled, 'kern') * 'mu' * l.Cg(l.Cc(99), 'subtype') * l.Cg(l.Cc'kern', 'id')
-  + '\\kern' * l.Cg(' ' * l.Cc(1) + l.Cc(0), 'subtype') * l.Cg(scaled, 'kern') * (' (for ' * (l.R'az' + l.S'/\\') * ')')^-1 * l.Cg(l.Cc'kern', 'id')
+  + '\\glue(\\mskip)' * l.Cg(l.Cc(99), 'subtype')
+    * ' ' * l.Cg(scaled, 'width') * 'mu'
+    * (' plus ' * l.Cg(scaled, 'stretch') * l.Cg(glue_order_mu, 'stretch_order') + l.Cg(l.Cc(0), 'stretch') * l.Cg(l.Cc(0), 'stretch_order'))
+    * (' minus ' * l.Cg(scaled, 'shrink') * l.Cg(glue_order_mu, 'shrink_order') + l.Cg(l.Cc(0), 'shrink') * l.Cg(l.Cc(0), 'shrink_order'))
+    * l.Cg(l.Cc'glue', 'id')
   ) * -1
++ generic_simple_node
 
-local box_node = '\\' * l.S'hv' * 'box('
+local simple_text = l.Ct(
+    '\\math' * l.Cg(
+        'on' * l.Cc(0)
+      + 'off' * l.Cc(6)
+      , 'subtype') * l.Cg(', surrounded ' * scaled + l.Cc(0), 'surround') * l.Cg(l.Cc'math', 'id')
+  ) * -1
++ generic_simple_node
+
+local box_node = l.Ct('\\' * l.Cg('h' * l.Cc'hlist'
+                                + 'v' * l.Cc'vlist') * 'box'
+                              * hdw
+                              * (', glue set ' * l.Cg('- ' * l.Cc(2) + l.Cc(1), 'glue_sign')
+                                 * l.Cg(scaled/function (s) return s/65536 end, 'glue_set')
+                                 * l.Cg(glue_order, 'glue_order')
+                                 + l.Cg(l.Cc(0), 'glue_sign') * l.Cg(l.Cc(0), 'glue_set') * l.Cg(l.Cc(0), 'glue_order'))
+                              * l.Cg(', shifted ' * scaled + l.Cc(0), 'shift')) * -1
 
 local fraction_noad = l.Ct('\\fraction, thickness '
                     * l.Cg('= default' * l.Cc(0x40000000) + scaled, 'width')
