@@ -1,5 +1,13 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{luamml-demo}[2021-06-16 Reasonable default definitions for luamml]
+\ProvidesExplPackage{luamml-demo}{2021-06-16}{v0.0.1}{Reasonable default definitions for luamml}
+
+\sys_if_engine_luatex:F {
+  \msg_new:nnn {luamml-demo} {pdftex-option-ignored} {Option~`#1'~is~being~ignored~in~pdfTeX~mode.}
+  \DeclareOption*{\msg_warning:nnx {luamml-demo} {pdftex-option-ignored} {\CurrentOption}}
+  \ProcessOptions\relax
+  \RequirePackage{luamml-pdf-demo}
+  \endinput
+}
 
 \RequirePackage{luamml}% Loading luamml is pretty much the point
 \RequirePackage{amsmath,array}% These are more or less expected in luamml especially for advanced constructs
@@ -11,8 +19,6 @@
     \RegisterFamilyMapping\symlargesymbols{omx}%
   }
 }
-
-\ExplSyntaxOn
 
 \bool_new:N \l__luamml_demo_structelem_bool
 
@@ -65,6 +71,4 @@
   }{#2}{#3}
 }
 
-\ExplSyntaxOff
-
-\endinput
+\cs_set_eq:NN \WriteoutFormula \luamml_pdf_write:

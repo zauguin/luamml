@@ -1,24 +1,6 @@
 \documentclass{article}
-\usepackage{luamml-pdf}
-
-\RegisterFamilyMapping\symsymbols{oms}
-\RegisterFamilyMapping\symletters{oml}
-\RegisterFamilyMapping\symlargesymbols{omx}
-
-\ExplSyntaxOn
-\cs_set_eq:NN \WriteoutFormula \luamml_pdf_write:
-\NewDocumentCommand\AnnotateFormula{ o m m }{%
-  \IfValueTF{#1}{%
-    \luamml_annotate:nen{#1}%
-  }{
-    \luamml_annotate:en
-  }{#2}{#3}
-}
-\ExplSyntaxOff
-
-\protected\edef\models{\AnnotateFormula{%
-    nucleus = true, core = {[0] = 'mi', '\noexpand\string\noexpand\u{22a7}'},
-  }{\unexpanded\expandafter{\models}}}
+\usepackage{amsmath}
+\usepackage[files]{luamml-demo}
 
 \begin{document}
 \[
