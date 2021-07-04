@@ -40,10 +40,10 @@ local math_char = l.Ct('\\fam' * l.Cg(l.R'09'^1 / tonumber, 'fam') * ' ' * l.Cg(
 
 local hdw = '(' * l.Cg(scaled + '*' * l.Cc(-0x40000000), 'height') * '+' * l.Cg(scaled + '*' * l.Cc(-0x40000000), 'depth') * ')x' * l.Cg(scaled + '*' * l.Cc(-0x40000000), 'width')
 
-local generic_simple_node = l.Ct(
-  '\\' * l.Cg('rule', 'id') * hdw
-  + '\\kern' * l.Cg(' ' * l.Cc(1) + l.Cc(0), 'subtype') * l.Cg(scaled, 'kern') * (' (for ' * (l.R'az' + l.S'/\\') * ')')^-1 * l.Cg(l.Cc'kern', 'id')
-  + '\\glue' * l.Cg('(\\' * (
+local generic_simple_node = l.Ct('\\' * (
+  l.Cg('rule', 'id') * hdw
+  + l.Cg('kern', 'id') * l.Cg(' ' * l.Cc(1) + l.Cc(0), 'subtype') * l.Cg(scaled, 'kern') * (' (for ' * (l.R'az' + l.S'/\\') * ')')^-1
+  + l.Cg('glue', 'id') * l.Cg('(\\' * (
         'line' * l.Cc(1)
       + 'baseline' * l.Cc(2)
       + 'par' * l.Cc(3)
@@ -66,13 +66,12 @@ local generic_simple_node = l.Ct(
     * ' ' * l.Cg(scaled, 'width')
     * (' plus ' * l.Cg(scaled, 'stretch') * l.Cg(glue_order, 'stretch_order') + l.Cg(l.Cc(0), 'stretch') * l.Cg(l.Cc(0), 'stretch_order'))
     * (' minus ' * l.Cg(scaled, 'shrink') * l.Cg(glue_order, 'shrink_order') + l.Cg(l.Cc(0), 'shrink') * l.Cg(l.Cc(0), 'shrink_order'))
-    * l.Cg(l.Cc'glue', 'id')
-  + '\\penalty ' * l.Cg(int, 'penalty') * l.Cg(l.Cc'penalty', 'id')
-  + '\\mark' * l.Cg('s' * int + l.Cc(0), 'class') * l.Cg(balanced_braces, 'mark') * l.Cg(l.Cc'mark', 'id')
-) * -1
+  + l.Cg('penalty', 'id') * ' ' * l.Cg(int, 'penalty')
+  + l.Cg('mark', 'id') * l.Cg('s' * int + l.Cc(0), 'class') * l.Cg(balanced_braces, 'mark')
+)) * -1
 
-local simple_noad = l.Ct(
-    '\\math' * l.Cg(
+local simple_noad = l.Ct('\\' * (
+    'math' * l.Cg(
         'ord' * l.Cc(0)
       + 'open' * l.Cc(6)
       + 'op\\limits' * l.Cc(2)
@@ -87,35 +86,36 @@ local simple_noad = l.Ct(
       + 'over' * l.Cc(11)
       + 'vcenter' * l.Cc(12)
       , 'subtype') * l.Cg(l.Cc'noad', 'id')
-  + '\\radical' * l.Cg(delimiter_code, 'left') * l.Cg(l.Cc(0), 'subtype') * l.Cg(l.Cc'radical', 'id')
-  + '\\accent' * l.Cg(math_char, 'accent') * l.Cg(l.Cc(0), 'subtype') * l.Cg(l.Cc'accent', 'id')
-  + l.Cg('\\left' * l.Cc(1)
-       + '\\middle' * l.Cc(2)
-       + '\\right' * l.Cc(3), 'subtype') * l.Cg(delimiter_code, 'delim')
+  + l.Cg('radical', 'id') * l.Cg(delimiter_code, 'left') * l.Cg(l.Cc(0), 'subtype')
+  + l.Cg('accent', 'id') * l.Cg(math_char, 'accent') * l.Cg(l.Cc(0), 'subtype')
+  + l.Cg('left' * l.Cc(1)
+       + 'middle' * l.Cc(2)
+       + 'right' * l.Cc(3), 'subtype') * l.Cg(delimiter_code, 'delim')
            * l.Cg(l.Cc(0), 'options') * l.Cg(l.Cc(0), 'height')
            * l.Cg(l.Cc(0), 'depth') * l.Cg(l.Cc(0), 'height')
            * l.Cg(l.Cc(-1), 'class') * l.Cg(l.Cc'fence', 'id')
-  + '\\' * l.Cg(
+  + l.Cg(
       'display' * l.Cc(0)
     + 'text' * l.Cc(2)
     + 'scriptscript' * l.Cc(6)
     + 'script' * l.Cc(4), 'subtype') * l.Cg('style', 'id')
-  + '\\glue(\\nonscript)' * l.Cg(l.Cc(98), 'subtype') * l.Cg(l.Cc'glue', 'id')
-  + '\\mkern' * l.Cg(scaled, 'kern') * 'mu' * l.Cg(l.Cc(99), 'subtype') * l.Cg(l.Cc'kern', 'id')
-  + '\\glue(\\mskip)' * l.Cg(l.Cc(99), 'subtype')
-    * ' ' * l.Cg(scaled, 'width') * 'mu'
-    * (' plus ' * l.Cg(scaled, 'stretch') * l.Cg(glue_order_mu, 'stretch_order') + l.Cg(l.Cc(0), 'stretch') * l.Cg(l.Cc(0), 'stretch_order'))
-    * (' minus ' * l.Cg(scaled, 'shrink') * l.Cg(glue_order_mu, 'shrink_order') + l.Cg(l.Cc(0), 'shrink') * l.Cg(l.Cc(0), 'shrink_order'))
-    * l.Cg(l.Cc'glue', 'id')
-  ) * -1
+  + 'm' * l.Cg('kern', 'id') * l.Cg(scaled, 'kern') * 'mu' * l.Cg(l.Cc(99), 'subtype')
+  + l.Cg('glue', 'id') * (
+      '(\\nonscript)' * l.Cg(l.Cc(98), 'subtype')
+    + '(\\mskip)' * l.Cg(l.Cc(99), 'subtype')
+      * ' ' * l.Cg(scaled, 'width') * 'mu'
+      * (' plus ' * l.Cg(scaled, 'stretch') * l.Cg(glue_order_mu, 'stretch_order') + l.Cg(l.Cc(0), 'stretch') * l.Cg(l.Cc(0), 'stretch_order'))
+      * (' minus ' * l.Cg(scaled, 'shrink') * l.Cg(glue_order_mu, 'shrink_order') + l.Cg(l.Cc(0), 'shrink') * l.Cg(l.Cc(0), 'shrink_order'))
+    )
+  )) * -1
 + generic_simple_node
 
-local simple_text = l.Ct(
-    '\\math' * l.Cg(
+local simple_text = l.Ct('\\' * (
+    l.Cg('math', 'id') * l.Cg(
         'on' * l.Cc(0)
-      + 'off' * l.Cc(6)
-      , 'subtype') * l.Cg(', surrounded ' * scaled + l.Cc(0), 'surround') * l.Cg(l.Cc'math', 'id')
-  ) * -1
+      + 'off' * l.Cc(1)
+      , 'subtype') * l.Cg(', surrounded ' * scaled + l.Cc(0), 'surround')
+  )) * -1
 + generic_simple_node
 
 local box_node = l.Ct('\\' * l.Cg('h' * l.Cc'hlist'
