@@ -66,6 +66,8 @@ end
 --    Bit 1: Save MathML as a fully converted formula
 --    Bit 0: Save MathML for later usage in startmath node. Ignored for display math.
 
+local out_file
+
 local mlist_result
 
 local undefined_cmd = token.command_id'undefined_cs'
@@ -75,14 +77,18 @@ local labelled_mathml = {}
 
 local function save_result(xml, display, structelem)
   mlist_result = make_root(xml, display and 0 or 2)
-  token.put_next(filename_token)
-  local filename = token.scan_argument()
-  local tracing = tex.count.tracingmathml > 1
-  if filename ~= '' then
-    assert(io.open(filename, 'w'))
-      :write(write_xml(mlist_result, true):sub(2) .. '\n')
-      :close()
+  if out_file then
+    out_file:write(write_xml(mlist_result, true):sub(2) .. '\n')
+  else
+    token.put_next(filename_token)
+    local filename = token.scan_argument()
+    if filename ~= '' then
+      assert(io.open(filename, 'w'))
+        :write(write_xml(mlist_result, true):sub(2) .. '\n')
+        :close()
+    end
   end
+  local tracing = tex.count.tracingmathml > 1
   if tracing then
     texio.write_nl(write_xml(mlist_result) .. '\n')
   end
@@ -157,6 +163,25 @@ lua.get_functions_table()[funcid] = function()
   end
   tex.sprint(-2, tostring(pdf.immediateobj('stream', mml, '/Subtype/application#2Fmathml+xml' .. token.scan_argument(true))))
   mlist_result = nil
+end
+
+funcid = luatexbase.new_luafunction'luamml_begin_single_file:'
+token.set_lua('luamml_begin_single_file:', funcid, protected)
+lua.get_functions_table()[funcid] = function()
+  token.put_next(filename_token)
+  local filename = token.scan_argument()
+  if filename ~= '' then
+    out_file = assert(io.open(filename, 'w'))
+  end
+end
+
+funcid = luatexbase.new_luafunction'luamml_end_single_file:'
+token.set_lua('luamml_end_single_file:', funcid, protected)
+lua.get_functions_table()[funcid] = function()
+  if out_file then
+    out_file:close()
+    out_file = nil
+  end
 end
 
 local annotate_context = require'luamml-tex-annotate'

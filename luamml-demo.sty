@@ -36,6 +36,12 @@
     \jobname -formula- \int_use:N \g__luamml_demo_mathml_int .xml
   }
 }
+\DeclareOption{l3build}{
+  \luamml_set_filename:n {
+    \jobname .mml
+  }
+  \luamml_begin_single_file:
+}
 \ProcessOptions\relax
 
 \cs_new_eq:NN \LuaMMLSetFilename \luamml_set_filename:n
