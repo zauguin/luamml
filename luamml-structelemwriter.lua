@@ -35,8 +35,8 @@ local attributes = setmetatable({}, {__index = function(t, k)
   return attr_name
 end})
 
-local mc_type = token.create'l__tag_mc_type_attr'.index
-local mc_cnt = token.create'l__tag_mc_cnt_attr'.index
+local mc_type = luatexbase.attributes.g__tag_mc_type_attr
+local mc_cnt = luatexbase.attributes.g__tag_mc_cnt_attr
 -- print('!!!', mc_type, mc_cnt)
 
 local stash_cnt = 0
