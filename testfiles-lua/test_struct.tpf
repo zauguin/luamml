@@ -1,0 +1,1758 @@
+%PDF-2.0
+%���������
+42 0 obj
+<< /O/NSO/NS 13 0 R/width(9.963pt) >>
+endobj
+44 0 obj
+<< /O/NSO/NS 13 0 R/intent(@ignore) >>
+endobj
+48 0 obj
+<< /O/NSO/NS 13 0 R/lspace(0.278em)/rspace(0.278em) >>
+endobj
+56 0 obj
+<< /O/NSO/NS 13 0 R/display(block) >>
+endobj
+59 0 obj
+<< /O/NSO/NS 13 0 R/fence(true)/lspace(0)/rspace(0)/symmetric(true) >>
+endobj
+61 0 obj
+<< /O/NSO/NS 13 0 R/width(-4.981pt) >>
+endobj
+63 0 obj
+<< /O/NSO/NS 13 0 R/lspace(+4.981pt)/width(+9.963pt) >>
+endobj
+77 0 obj
+<< /O/NSO/NS 13 0 R/columnalign(left) >>
+endobj
+83 0 obj
+<< /O/NSO/NS 13 0 R/width(1.196pt) >>
+endobj
+84 0 obj
+<</Subtype/application#2Fmathml+xml
+ /Length 1167 >>       
+stream
+<math display="block" xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML"><mrow tex:class="inner"><mo fence="true" lspace="0" rspace="0" symmetric="true">(</mo><mspace width="-4.981pt"/><mpadded lspace="+4.981pt" width="+9.963pt"><mtable><mtr><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd></mtr><mtr><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd><mtd><mn>0</mn></mtd></mtr><mtr><mtd><mn>0</mn></mtd><mtd><mn>0</mn></mtd><mtd><mn>1</mn></mtd></mtr></mtable></mpadded><mspace width="-4.981pt"/><mo fence="true" lspace="0" rspace="0" symmetric="true">)</mo></mrow><mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo><mrow tex:class="inner"><mo fence="true" lspace="0" rspace="0" symmetric="true">{</mo><mpadded lspace="+4.981pt" width="+9.963pt"><mtable><mtr><mtd columnalign="left"><mn>1</mn></mtd><mtd columnalign="left"><mtext>if <mtd><mi>𝑎</mi><mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo><mi>𝑏</mi></mtd></mtext></mtd></mtr><mtr><mtd columnalign="left"><mn>2</mn></mtd><mtd columnalign="left"><mtext>else</mtext></mtd></mtr></mtable></mpadded><mspace width="1.196pt"/></mrow></math>
+endstream
+endobj
+18 0 obj
+<< /Type /Filespec /AFRelationship /Supplement /F <FEFF0074006500730074002E0078006D006C> /UF <FEFF0074006500730074002E0078006D006C> /EF<</F 84 0 R/UF 84 0 R>> >>
+endobj
+93 0 obj
+<< /O/NSO/NS 13 0 R/lspace(0)/rspace(0.222em) >>
+endobj
+96 0 obj
+<< /O/NSO/NS 13 0 R/lspace(0.222em)/rspace(0.222em) >>
+endobj
+110 0 obj
+<< /O/NSO/NS 13 0 R/lspace(0)/rspace(0) >>
+endobj
+111 0 obj
+<</Subtype/application#2Fmathml+xml
+ /Length 598 >>        
+stream
+<math display="block" xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML"><mi>𝑥</mi><mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo><mfrac><mrow><mo lspace="0" rspace="0.222em" tex:class="bin">−</mo><mi>𝑏</mi><mo lspace="0.222em" rspace="0.222em" tex:class="bin">±</mo><msqrt><mrow><msup><mi>𝑏</mi><mn>2</mn></msup><mo lspace="0.222em" rspace="0.222em" tex:class="bin">−</mo><mn>4</mn><mi>𝑎</mi><mi>𝑐</mi></mrow></msqrt></mrow><mrow><mn>2</mn><mi>𝑎</mi></mrow></mfrac><mo lspace="0" rspace="0" tex:class="ord">.</mo></math>
+endstream
+endobj
+85 0 obj
+<< /Type /Filespec /AFRelationship /Supplement /F <FEFF0074006500730074002E0078006D006C> /UF <FEFF0074006500730074002E0078006D006C> /EF<</F 111 0 R/UF 111 0 R>> >>
+endobj
+117 0 obj
+<< /O/NSO/NS 13 0 R/lspace(0)/movablelimits(true)/rspace(0.167em) >>
+endobj
+125 0 obj
+<< /O/NSO/NS 13 0 R/stretchy(true) >>
+endobj
+129 0 obj
+<< /O/NSO/NS 13 0 R/mathvariant(normal) >>
+endobj
+130 0 obj
+<</Subtype/application#2Fmathml+xml
+ /Length 393 >>        
+stream
+<math display="block" xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML"><munder><mo lspace="0" movablelimits="true" rspace="0.167em" tex:class="opdisplaylimits">∑</mo><mi>𝑎</mi></munder><munder><mi>𝑐</mi><mo>_</mo></munder><mover><mi>𝑏</mi><mo stretchy="true">.</mo></mover><msup><mi>𝑐</mi><mi mathvariant="normal">′</mi></msup></math>
+endstream
+endobj
+112 0 obj
+<< /Type /Filespec /AFRelationship /Supplement /F <FEFF0074006500730074002E0078006D006C> /UF <FEFF0074006500730074002E0078006D006C> /EF<</F 130 0 R/UF 130 0 R>> >>
+endobj
+152 0 obj
+<< /O/NSO/NS 13 0 R/lspace(0.278em)/rspace(0) >>
+endobj
+157 0 obj
+<< /O/NSO/NS 13 0 R/fence(true)/lspace(0)/maxsize(17.861pt)/minsize(17.861pt)/rspace(0)/symmetric(true) >>
+endobj
+180 0 obj
+<< /O/NSO/NS 13 0 R/columnalign(right left right left)/columnspacing(0 .8em 0)/displaystyle(true) >>
+endobj
+190 0 obj
+<</Subtype/application#2Fmathml+xml
+ /Length 1405 >>       
+stream
+<math display="block" xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML"><mtable columnalign="right left right left" columnspacing="0 .8em 0" displaystyle="true"><mlabeledtr><mtd><mtext>(1)</mtext></mtd><mtd><mi>𝑎</mi><mi>𝑏</mi><mi>𝑐</mi></mtd><mtd><mi intent="@ignore"/><mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo><mi>𝑑</mi><mi>𝑒</mi><mi>𝑓</mi></mtd><mtd><msup><mi>𝑒</mi><mrow><mi mathvariant="normal" tex:family="4">i</mi><mi>𝜋</mi></mrow></msup></mtd><mtd><mi intent="@ignore"/><mo lspace="0.278em" rspace="0" tex:class="rel">=</mo><mo lspace="0.278em" rspace="0" tex:class="ord">−</mo><mn>1</mn></mtd></mlabeledtr><mlabeledtr><mtd><mtext>(2)</mtext></mtd><mtd><mo fence="true" lspace="0" maxsize="17.861pt" minsize="17.861pt" rspace="0" symmetric="true">(</mo><mn>1</mn><mo lspace="0.222em" rspace="0.222em" tex:class="bin">+</mo><mn>2</mn></mtd><mtd><mi intent="@ignore"/><mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo><mn>3</mn><mo fence="true" lspace="0" maxsize="17.861pt" minsize="17.861pt" rspace="0" symmetric="true">)</mo></mtd><mtd><mi intent="@ignore"/></mtd><mtd><mi intent="@ignore"/></mtd></mlabeledtr><mlabeledtr><mtd><mtext>(3)</mtext></mtd><mtd><mn>5</mn></mtd><mtd><mi intent="@ignore"/></mtd><mtd><mi intent="@ignore"/></mtd><mtd><mi intent="@ignore"/></mtd></mlabeledtr></mtable></math>
+endstream
+endobj
+131 0 obj
+<< /Type /Filespec /AFRelationship /Supplement /F <FEFF0074006500730074002E0078006D006C> /UF <FEFF0074006500730074002E0078006D006C> /EF<</F 190 0 R/UF 190 0 R>> >>
+endobj
+199 0 obj
+<< /O/NSO/NS 13 0 R/lspace(0)/rspace(0)/stretchy(false) >>
+endobj
+215 0 obj
+<</Subtype/application#2Fmathml+xml
+ /Length 960 >>        
+stream
+<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML"><mrow tex:class="opnolimits"><mi mathvariant="normal" tex:family="4">s</mi><mi mathvariant="normal" tex:family="4">i</mi><mi mathvariant="normal" tex:family="4">n</mi></mrow><mo lspace="0" rspace="0" stretchy="false" tex:class="open">(</mo><mi>𝑥</mi><mo lspace="0" rspace="0" stretchy="false" tex:class="close">)</mo><mo lspace="0.222em" rspace="0.222em" tex:class="bin">−</mo><mrow tex:class="opnolimits"><mi mathvariant="normal" tex:family="4">s</mi><mi mathvariant="normal" tex:family="4">i</mi><mi mathvariant="normal" tex:family="4">n</mi></mrow><mo lspace="0" rspace="0" stretchy="false" tex:class="open">(</mo><mi>𝑥</mi><mo lspace="0.222em" rspace="0.222em" tex:class="bin">+</mo><mn>2</mn><mi>𝜋</mi><mo lspace="0" rspace="0" stretchy="false" tex:class="close">)</mo><mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo><mn>0</mn></math>
+endstream
+endobj
+191 0 obj
+<< /Type /Filespec /AFRelationship /Supplement /F <FEFF0074006500730074002E0078006D006C> /UF <FEFF0074006500730074002E0078006D006C> /EF<</F 215 0 R/UF 215 0 R>> >>
+endobj
+218 0 obj
+<< /Length 7986 >>       
+stream
+/opacity1 gs
+/Artifact BMC
+EMC
+/mo<</MCID 0>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 244.284 689.457 Tm [<09C9>]TJ
+1 0 0 1 244.284 685.715 Tm [<09C8>]TJ
+1 0 0 1 244.284 672.041 Tm [<09C7>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mn<</MCID 1>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 253.001 697.76 Tm [<0012>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mn<</MCID 2>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 267.945 697.76 Tm [<0011>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mn<</MCID 3>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 282.889 697.76 Tm [<0011>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mn<</MCID 4>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 253.001 685.805 Tm [<0011>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mn<</MCID 5>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 267.945 685.805 Tm [<0012>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mn<</MCID 6>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 282.889 685.805 Tm [<0011>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mn<</MCID 7>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 253.001 673.85 Tm [<0011>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mn<</MCID 8>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 267.945 673.85 Tm [<0011>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mn<</MCID 9>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 282.889 673.85 Tm [<0012>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mo<</MCID 10>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 287.871 689.457 Tm [<09CC>]TJ
+1 0 0 1 287.871 685.715 Tm [<09CB>]TJ
+1 0 0 1 287.871 672.041 Tm [<09CA>]TJ
+ET
+EMC
+/mo<</MCID 11>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 299.355 685.706 Tm [<001E>]TJ
+ET
+EMC
+/mo<</MCID 12>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 309.873 685.705 Tm [<09D3>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mn<</MCID 13>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 318.859 692.5 Tm [<0012>]TJ
+ET
+EMC
+/Artifact BMC
+BT
+/F23 9.96264 Tf
+1 0 0 1 333.803 692.5 Tm [<004200370067>]TJ
+ET
+EMC
+/mi<</MCID 14>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 342.939 692.5 Tm [<0510>]TJ
+ET
+EMC
+/mo<</MCID 15>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 350.976 692.5 Tm [<001E>]TJ
+ET
+EMC
+/mi<</MCID 16>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 361.494 692.5 Tm [<0511>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mn<</MCID 17>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 318.859 678.154 Tm [<0013>]TJ
+ET
+EMC
+/Artifact BMC
+BT
+/F23 9.96264 Tf
+1 0 0 1 333.803 678.154 Tm [<0032004800620032>]TJ
+ET
+EMC
+/mi<</MCID 18>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 259.389 646.021 Tm [<0527>]TJ
+ET
+EMC
+/mo<</MCID 19>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 267.855 646.021 Tm [<001E>]TJ
+ET
+EMC
+/mo<</MCID 20>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 279.569 652.765 Tm [<0A37>]TJ
+ET
+EMC
+/mi<</MCID 21>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 287.32 652.765 Tm [<0511>]TJ
+ET
+EMC
+/mo<</MCID 22>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 293.947 652.765 Tm [<0A3B>]TJ
+ET
+EMC
+/Artifact BMC
+BT
+/F28 9.96264 Tf
+1 0 0 1 303.911 661.496 Tm [<0C05>]TJ
+ET
+q
+1 0 0 1 312.21 661.696 cm
+[] 0 d 0 J 0.398 w 0 0 m 35.683 0 l S
+Q
+EMC
+/mi<</MCID 23>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 312.21 652.765 Tm [<0511>]TJ
+ET
+EMC
+/mn<</MCID 24>> BDC
+BT
+/F29 6.97385 Tf
+1 0 0 1 316.624 655.644 Tm [<03F5>]TJ
+ET
+EMC
+/mo<</MCID 25>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 323.363 652.765 Tm [<0A37>]TJ
+ET
+EMC
+/mn<</MCID 26>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 333.328 652.765 Tm [<0015>]TJ
+ET
+EMC
+/mi<</MCID 27>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 338.309 652.765 Tm [<0510>]TJ
+ET
+EMC
+/mi<</MCID 28>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 343.579 652.765 Tm [<0512>]TJ
+ET
+EMC
+/Artifact BMC
+q
+1 0 0 1 279.569 648.512 cm
+[] 0 d 0 J 0.398 w 0 0 m 68.325 0 l S
+Q
+EMC
+/mn<</MCID 29>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 308.605 639.188 Tm [<0013>]TJ
+ET
+EMC
+/mi<</MCID 30>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 313.587 639.188 Tm [<0510>]TJ
+ET
+EMC
+/mo<</MCID 31>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 349.089 646.021 Tm [<000F>]TJ
+ET
+EMC
+/mo<</MCID 32>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 289.258 616.133 Tm [<0C02>]TJ
+ET
+EMC
+/mi<</MCID 33>> BDC
+BT
+/F29 6.97385 Tf
+1 0 0 1 294.289 605.673 Tm [<057C>]TJ
+ET
+EMC
+/mi<</MCID 34>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 305.304 616.133 Tm [<0512>]TJ
+ET
+EMC
+/Artifact BMC
+q
+1 0 0 1 305.304 614.629 cm
+[] 0 d 0 J 0.398 w 0 0 m 4.314 0 l S
+Q
+EMC
+/mo<</MCID 35>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 313.902 618.564 Tm [<06FE>]TJ
+ET
+EMC
+/mi<</MCID 36>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 309.618 616.133 Tm [<0511>]TJ
+ET
+EMC
+/mi<</MCID 37>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 314.031 616.133 Tm [<0512>]TJ
+ET
+EMC
+/mi<</MCID 38>> BDC
+BT
+/F29 6.97385 Tf
+1 0 0 1 318.594 619.749 Tm [<0BA5>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mi<</MCID 39>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 231.386 576.283 Tm [<0510>]TJ
+ET
+EMC
+/mi<</MCID 40>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 236.656 576.283 Tm [<0511>]TJ
+ET
+EMC
+/mi<</MCID 41>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 241.07 576.283 Tm [<0512>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mo<</MCID 42>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 248.151 576.283 Tm [<001E>]TJ
+ET
+EMC
+/mi<</MCID 43>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 258.669 576.283 Tm [<0513>]TJ
+ET
+EMC
+/mi<</MCID 44>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 264.088 576.283 Tm [<0514>]TJ
+ET
+EMC
+/mi<</MCID 45>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 268.731 576.283 Tm [<0515>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mi<</MCID 46>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 356.482 576.283 Tm [<0514>]TJ
+ET
+EMC
+/mi<</MCID 47>> BDC
+BT
+/F40 6.97385 Tf
+1 0 0 1 361.124 579.899 Tm [<0042>]TJ
+ET
+EMC
+/mi<</MCID 48>> BDC
+BT
+/F29 6.97385 Tf
+1 0 0 1 363.377 579.899 Tm [<11CE>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mo<</MCID 49>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 371.36 576.283 Tm [<001E>]TJ
+ET
+EMC
+/mo<</MCID 50>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 381.878 576.283 Tm [<0A37>]TJ
+ET
+EMC
+/mn<</MCID 51>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 389.629 576.283 Tm [<0012>]TJ
+ET
+EMC
+/Artifact BMC
+BT
+/F23 9.96264 Tf
+1 0 0 1 464.747 576.283 Tm [<005500520056>]TJ
+ET
+EMC
+/mo<</MCID 52>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 216.637 555.8 Tm [<0997>]TJ
+ET
+EMC
+/mn<</MCID 53>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 223.243 555.8 Tm [<0012>]TJ
+ET
+EMC
+/mo<</MCID 54>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 230.438 555.8 Tm [<000C>]TJ
+ET
+EMC
+/mn<</MCID 55>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 240.402 555.8 Tm [<0013>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+/mo<</MCID 56>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 248.151 555.8 Tm [<001E>]TJ
+ET
+EMC
+/mn<</MCID 57>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 258.669 555.8 Tm [<0014>]TJ
+ET
+EMC
+/mo<</MCID 58>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 263.65 555.8 Tm [<0998>]TJ
+ET
+EMC
+/Artifact BMC
+BT
+/F23 9.96264 Tf
+1 0 0 1 464.747 555.8 Tm [<0055006B0056>]TJ
+ET
+EMC
+/mn<</MCID 59>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 240.402 535.516 Tm [<0016>]TJ
+ET
+EMC
+/Artifact BMC
+BT
+/F23 9.96264 Tf
+1 0 0 1 464.747 535.516 Tm [<0055006A0056>]TJ
+1 0 0 1 148.712 513.598 Tm [<003100620067003B0042004800690067>]TJ
+ET
+EMC
+/mi<</MCID 60>> BDC
+BT
+/F23 9.96264 Tf
+1 0 0 1 180.453 513.598 Tm [<0062>]TJ
+ET
+EMC
+/mi<</MCID 61>> BDC
+BT
+/F23 9.96264 Tf
+1 0 0 1 184.379 513.598 Tm [<0042>]TJ
+ET
+EMC
+/mi<</MCID 62>> BDC
+BT
+/F23 9.96264 Tf
+1 0 0 1 187.148 513.598 Tm [<004D>]TJ
+ET
+EMC
+/mo<</MCID 63>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 192.687 513.598 Tm [<0009>]TJ
+ET
+EMC
+/mi<</MCID 64>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 196.563 513.598 Tm [<0527>]TJ
+ET
+EMC
+/mo<</MCID 65>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 202.262 513.598 Tm [<000A>]TJ
+ET
+EMC
+/mo<</MCID 66>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 208.351 513.598 Tm [<0A37>]TJ
+ET
+EMC
+/mi<</MCID 67>> BDC
+BT
+/F23 9.96264 Tf
+1 0 0 1 218.315 513.598 Tm [<0062>]TJ
+ET
+EMC
+/mi<</MCID 68>> BDC
+BT
+/F23 9.96264 Tf
+1 0 0 1 222.241 513.598 Tm [<0042>]TJ
+ET
+EMC
+/mi<</MCID 69>> BDC
+BT
+/F23 9.96264 Tf
+1 0 0 1 225.01 513.598 Tm [<004D>]TJ
+ET
+EMC
+/mo<</MCID 70>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 230.549 513.598 Tm [<0009>]TJ
+ET
+EMC
+/mi<</MCID 71>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 234.425 513.598 Tm [<0527>]TJ
+ET
+EMC
+/mo<</MCID 72>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 242.337 513.598 Tm [<000C>]TJ
+ET
+EMC
+/mn<</MCID 73>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 252.302 513.598 Tm [<0013>]TJ
+ET
+EMC
+/mi<</MCID 74>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 257.283 513.598 Tm [<117A>]TJ
+ET
+EMC
+/mo<</MCID 75>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 263.211 513.598 Tm [<000A>]TJ
+ET
+EMC
+/mo<</MCID 76>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 269.853 513.598 Tm [<001E>]TJ
+ET
+EMC
+/mn<</MCID 77>> BDC
+BT
+/F28 9.96264 Tf
+1 0 0 1 280.371 513.598 Tm [<0011>]TJ
+ET
+EMC
+/Artifact BMC
+BT
+/F23 9.96264 Tf
+1 0 0 1 285.353 513.598 Tm [<0058>]TJ
+ET
+EMC
+/Artifact BMC
+BT
+/F23 9.96264 Tf
+1 0 0 1 303.133 139.255 Tm [<0052>]TJ
+ET
+EMC
+/Artifact BMC
+EMC
+endstream
+endobj
+217 0 obj
+<< /Type /Page /Contents 218 0 R /Resources 216 0 R /MediaBox [ 0 0 595.276 841.89 ] /StructParents 0/Tabs /S /Parent 223 0 R >>
+endobj
+216 0 obj
+<< /ExtGState 1 0 R /Font << /F28 219 0 R /F23 220 0 R /F29 221 0 R /F40 222 0 R >> >>
+endobj
+1 0 obj
+<< /opacity1 <</ca 1/CA 1>>  >>
+endobj
+224 0 obj
+<< /Marked true  >>
+endobj
+6 0 obj
+<< /Nums [0 [ 58 0 R 21 0 R 23 0 R 25 0 R 27 0 R 29 0 R 31 0 R 33 0 R 35 0 R 37 0 R 69 0 R 70 0 R 72 0 R 39 0 R 46 0 R 47 0 R 49 0 R 51 0 R 88 0 R 89 0 R 92 0 R 94 0 R 95 0 R 100 0 R 101 0 R 102 0 R 103 0 R 104 0 R 105 0 R 107 0 R 108 0 R 109 0 R 116 0 R 118 0 R 120 0 R 124 0 R 123 0 R 127 0 R 128 0 R 134 0 R 135 0 R 136 0 R 139 0 R 140 0 R 141 0 R 142 0 R 145 0 R 147 0 R 148 0 R 151 0 R 153 0 R 154 0 R 156 0 R 158 0 R 159 0 R 160 0 R 163 0 R 164 0 R 165 0 R 171 0 R 195 0 R 196 0 R 197 0 R 198 0 R 200 0 R 201 0 R 202 0 R 204 0 R 205 0 R 206 0 R 207 0 R 208 0 R 209 0 R 210 0 R 211 0 R 212 0 R 213 0 R 214 0 R] 
+] >>
+endobj
+7 0 obj
+<<  >>
+endobj
+9 0 obj
+<< /Type /Namespace /NS (http://iso.org/pdf/ssn)  >>
+endobj
+11 0 obj
+<< /Type /Namespace /NS (http://iso.org/pdf2/ssn)  >>
+endobj
+13 0 obj
+<< /Type /Namespace /NS (http://www.w3.org/1998/Math/MathML)  >>
+endobj
+15 0 obj
+<< /Type /Namespace /NS (data:,A63761E-9D7-4FBB-9B27-C3BC8D9BFB06)  >>
+endobj
+8 0 obj
+[ 9 0 R 11 0 R 13 0 R 15 0 R  ]
+endobj
+17 0 obj
+<<  /Type /StructElem /S /Document /P 5 0 R /K [19 0 R 86 0 R 113 0 R 132 0 R 192 0 R] /NS 11 0 R  >>
+endobj
+19 0 obj
+<<  /Type /StructElem /S /Formula /P 17 0 R /K [40 0 R 52 0 R 55 0 R] /AF 18 0 R /NS 11 0 R  >>
+endobj
+20 0 obj
+<<  /Type /StructElem /S /mtd /P 65 0 R /K 21 0 R /NS 13 0 R  >>
+endobj
+21 0 obj
+<<  /Type /StructElem /S /mn /P 20 0 R /K <</Type /MCR /Pg 217 0 R /MCID 1>>  /NS 13 0 R  >>
+endobj
+22 0 obj
+<<  /Type /StructElem /S /mtd /P 65 0 R /K 23 0 R /NS 13 0 R  >>
+endobj
+23 0 obj
+<<  /Type /StructElem /S /mn /P 22 0 R /K <</Type /MCR /Pg 217 0 R /MCID 2>>  /NS 13 0 R  >>
+endobj
+24 0 obj
+<<  /Type /StructElem /S /mtd /P 65 0 R /K 25 0 R /NS 13 0 R  >>
+endobj
+25 0 obj
+<<  /Type /StructElem /S /mn /P 24 0 R /K <</Type /MCR /Pg 217 0 R /MCID 3>>  /NS 13 0 R  >>
+endobj
+26 0 obj
+<<  /Type /StructElem /S /mtd /P 66 0 R /K 27 0 R /NS 13 0 R  >>
+endobj
+27 0 obj
+<<  /Type /StructElem /S /mn /P 26 0 R /K <</Type /MCR /Pg 217 0 R /MCID 4>>  /NS 13 0 R  >>
+endobj
+28 0 obj
+<<  /Type /StructElem /S /mtd /P 66 0 R /K 29 0 R /NS 13 0 R  >>
+endobj
+29 0 obj
+<<  /Type /StructElem /S /mn /P 28 0 R /K <</Type /MCR /Pg 217 0 R /MCID 5>>  /NS 13 0 R  >>
+endobj
+30 0 obj
+<<  /Type /StructElem /S /mtd /P 66 0 R /K 31 0 R /NS 13 0 R  >>
+endobj
+31 0 obj
+<<  /Type /StructElem /S /mn /P 30 0 R /K <</Type /MCR /Pg 217 0 R /MCID 6>>  /NS 13 0 R  >>
+endobj
+32 0 obj
+<<  /Type /StructElem /S /mtd /P 67 0 R /K 33 0 R /NS 13 0 R  >>
+endobj
+33 0 obj
+<<  /Type /StructElem /S /mn /P 32 0 R /K <</Type /MCR /Pg 217 0 R /MCID 7>>  /NS 13 0 R  >>
+endobj
+34 0 obj
+<<  /Type /StructElem /S /mtd /P 67 0 R /K 35 0 R /NS 13 0 R  >>
+endobj
+35 0 obj
+<<  /Type /StructElem /S /mn /P 34 0 R /K <</Type /MCR /Pg 217 0 R /MCID 8>>  /NS 13 0 R  >>
+endobj
+36 0 obj
+<<  /Type /StructElem /S /mtd /P 67 0 R /K 37 0 R /NS 13 0 R  >>
+endobj
+37 0 obj
+<<  /Type /StructElem /S /mn /P 36 0 R /K <</Type /MCR /Pg 217 0 R /MCID 9>>  /NS 13 0 R  >>
+endobj
+38 0 obj
+<<  /Type /StructElem /S /mtd /P 75 0 R /K 39 0 R /NS 13 0 R  >>
+endobj
+39 0 obj
+<<  /Type /StructElem /S /mn /P 38 0 R /K <</Type /MCR /Pg 217 0 R /MCID 13>>  /NS 13 0 R  >>
+endobj
+40 0 obj
+<<  /Type /StructElem /S /math /P 19 0 R /K [41 0 R 43 0 R] /NS 13 0 R  >>
+endobj
+41 0 obj
+<<  /Type /StructElem /S /mspace /P 40 0 R /A  42 0 R /NS 13 0 R  >>
+endobj
+43 0 obj
+<<  /Type /StructElem /S /mi /P 40 0 R /A  44 0 R /NS 13 0 R  >>
+endobj
+45 0 obj
+<<  /Type /StructElem /S /mtd /P 78 0 R /K [46 0 R 47 0 R 49 0 R] /NS 13 0 R  >>
+endobj
+46 0 obj
+<<  /Type /StructElem /S /mi /P 45 0 R /K <</Type /MCR /Pg 217 0 R /MCID 14>>  /NS 13 0 R  >>
+endobj
+47 0 obj
+<<  /Type /StructElem /S /mo /P 45 0 R /K <</Type /MCR /Pg 217 0 R /MCID 15>>  /A  48 0 R /NS 13 0 R  >>
+endobj
+49 0 obj
+<<  /Type /StructElem /S /mi /P 45 0 R /K <</Type /MCR /Pg 217 0 R /MCID 16>>  /NS 13 0 R  >>
+endobj
+50 0 obj
+<<  /Type /StructElem /S /mtd /P 79 0 R /K 51 0 R /NS 13 0 R  >>
+endobj
+51 0 obj
+<<  /Type /StructElem /S /mn /P 50 0 R /K <</Type /MCR /Pg 217 0 R /MCID 17>>  /NS 13 0 R  >>
+endobj
+52 0 obj
+<<  /Type /StructElem /S /math /P 19 0 R /K [53 0 R 54 0 R] /NS 13 0 R  >>
+endobj
+53 0 obj
+<<  /Type /StructElem /S /mspace /P 52 0 R /A  42 0 R /NS 13 0 R  >>
+endobj
+54 0 obj
+<<  /Type /StructElem /S /mi /P 52 0 R /A  44 0 R /NS 13 0 R  >>
+endobj
+55 0 obj
+<<  /Type /StructElem /S /math /P 19 0 R /K [57 0 R 70 0 R 71 0 R] /A  56 0 R /NS 13 0 R  >>
+endobj
+57 0 obj
+<<  /Type /StructElem /S /mrow /P 55 0 R /K [58 0 R 60 0 R 62 0 R 68 0 R 69 0 R] /NS 13 0 R  >>
+endobj
+58 0 obj
+<<  /Type /StructElem /S /mo /P 57 0 R /K <</Type /MCR /Pg 217 0 R /MCID 0>>  /A  59 0 R /ActualText <FEFF0028> /NS 13 0 R  >>
+endobj
+60 0 obj
+<<  /Type /StructElem /S /mspace /P 57 0 R /A  61 0 R /NS 13 0 R  >>
+endobj
+62 0 obj
+<<  /Type /StructElem /S /mpadded /P 57 0 R /K 64 0 R /A  63 0 R /NS 13 0 R  >>
+endobj
+64 0 obj
+<<  /Type /StructElem /S /mtable /P 62 0 R /K [65 0 R 66 0 R 67 0 R] /NS 13 0 R  >>
+endobj
+65 0 obj
+<<  /Type /StructElem /S /mtr /P 64 0 R /K [20 0 R 22 0 R 24 0 R] /NS 13 0 R  >>
+endobj
+66 0 obj
+<<  /Type /StructElem /S /mtr /P 64 0 R /K [26 0 R 28 0 R 30 0 R] /NS 13 0 R  >>
+endobj
+67 0 obj
+<<  /Type /StructElem /S /mtr /P 64 0 R /K [32 0 R 34 0 R 36 0 R] /NS 13 0 R  >>
+endobj
+68 0 obj
+<<  /Type /StructElem /S /mspace /P 57 0 R /A  61 0 R /NS 13 0 R  >>
+endobj
+69 0 obj
+<<  /Type /StructElem /S /mo /P 57 0 R /K <</Type /MCR /Pg 217 0 R /MCID 10>>  /A  59 0 R /ActualText <FEFF0029> /NS 13 0 R  >>
+endobj
+70 0 obj
+<<  /Type /StructElem /S /mo /P 55 0 R /K <</Type /MCR /Pg 217 0 R /MCID 11>>  /A  48 0 R /NS 13 0 R  >>
+endobj
+71 0 obj
+<<  /Type /StructElem /S /mrow /P 55 0 R /K [72 0 R 73 0 R 82 0 R] /NS 13 0 R  >>
+endobj
+72 0 obj
+<<  /Type /StructElem /S /mo /P 71 0 R /K <</Type /MCR /Pg 217 0 R /MCID 12>>  /A  59 0 R /ActualText <FEFF007B> /NS 13 0 R  >>
+endobj
+73 0 obj
+<<  /Type /StructElem /S /mpadded /P 71 0 R /K 74 0 R /A  63 0 R /NS 13 0 R  >>
+endobj
+74 0 obj
+<<  /Type /StructElem /S /mtable /P 73 0 R /K [75 0 R 79 0 R] /NS 13 0 R  >>
+endobj
+75 0 obj
+<<  /Type /StructElem /S /mtr /P 74 0 R /K [38 0 R 76 0 R] /NS 13 0 R  >>
+endobj
+76 0 obj
+<<  /Type /StructElem /S /mtd /P 75 0 R /K 78 0 R /A  77 0 R /NS 13 0 R  >>
+endobj
+78 0 obj
+<<  /Type /StructElem /S /mtext /P 76 0 R /K 45 0 R /NS 13 0 R  >>
+endobj
+79 0 obj
+<<  /Type /StructElem /S /mtr /P 74 0 R /K [50 0 R 80 0 R] /NS 13 0 R  >>
+endobj
+80 0 obj
+<<  /Type /StructElem /S /mtd /P 79 0 R /K 81 0 R /A  77 0 R /NS 13 0 R  >>
+endobj
+81 0 obj
+<<  /Type /StructElem /S /mtext /P 80 0 R /NS 13 0 R  >>
+endobj
+82 0 obj
+<<  /Type /StructElem /S /mspace /P 71 0 R /A  83 0 R /NS 13 0 R  >>
+endobj
+86 0 obj
+<<  /Type /StructElem /S /Formula /P 17 0 R /K 87 0 R /AF 85 0 R /NS 11 0 R  >>
+endobj
+87 0 obj
+<<  /Type /StructElem /S /math /P 86 0 R /K [88 0 R 89 0 R 90 0 R 109 0 R] /A  56 0 R /NS 13 0 R  >>
+endobj
+88 0 obj
+<<  /Type /StructElem /S /mi /P 87 0 R /K <</Type /MCR /Pg 217 0 R /MCID 18>>  /NS 13 0 R  >>
+endobj
+89 0 obj
+<<  /Type /StructElem /S /mo /P 87 0 R /K <</Type /MCR /Pg 217 0 R /MCID 19>>  /A  48 0 R /NS 13 0 R  >>
+endobj
+90 0 obj
+<<  /Type /StructElem /S /mfrac /P 87 0 R /K [91 0 R 106 0 R] /NS 13 0 R  >>
+endobj
+91 0 obj
+<<  /Type /StructElem /S /mrow /P 90 0 R /K [92 0 R 94 0 R 95 0 R 97 0 R] /NS 13 0 R  >>
+endobj
+92 0 obj
+<<  /Type /StructElem /S /mo /P 91 0 R /K <</Type /MCR /Pg 217 0 R /MCID 20>>  /A  93 0 R /NS 13 0 R  >>
+endobj
+94 0 obj
+<<  /Type /StructElem /S /mi /P 91 0 R /K <</Type /MCR /Pg 217 0 R /MCID 21>>  /NS 13 0 R  >>
+endobj
+95 0 obj
+<<  /Type /StructElem /S /mo /P 91 0 R /K <</Type /MCR /Pg 217 0 R /MCID 22>>  /A  96 0 R /NS 13 0 R  >>
+endobj
+97 0 obj
+<<  /Type /StructElem /S /msqrt /P 91 0 R /K 98 0 R /NS 13 0 R  >>
+endobj
+98 0 obj
+<<  /Type /StructElem /S /mrow /P 97 0 R /K [99 0 R 102 0 R 103 0 R 104 0 R 105 0 R] /NS 13 0 R  >>
+endobj
+99 0 obj
+<<  /Type /StructElem /S /msup /P 98 0 R /K [100 0 R 101 0 R] /NS 13 0 R  >>
+endobj
+100 0 obj
+<<  /Type /StructElem /S /mi /P 99 0 R /K <</Type /MCR /Pg 217 0 R /MCID 23>>  /NS 13 0 R  >>
+endobj
+101 0 obj
+<<  /Type /StructElem /S /mn /P 99 0 R /K <</Type /MCR /Pg 217 0 R /MCID 24>>  /NS 13 0 R  >>
+endobj
+102 0 obj
+<<  /Type /StructElem /S /mo /P 98 0 R /K <</Type /MCR /Pg 217 0 R /MCID 25>>  /A  96 0 R /NS 13 0 R  >>
+endobj
+103 0 obj
+<<  /Type /StructElem /S /mn /P 98 0 R /K <</Type /MCR /Pg 217 0 R /MCID 26>>  /NS 13 0 R  >>
+endobj
+104 0 obj
+<<  /Type /StructElem /S /mi /P 98 0 R /K <</Type /MCR /Pg 217 0 R /MCID 27>>  /NS 13 0 R  >>
+endobj
+105 0 obj
+<<  /Type /StructElem /S /mi /P 98 0 R /K <</Type /MCR /Pg 217 0 R /MCID 28>>  /NS 13 0 R  >>
+endobj
+106 0 obj
+<<  /Type /StructElem /S /mrow /P 90 0 R /K [107 0 R 108 0 R] /NS 13 0 R  >>
+endobj
+107 0 obj
+<<  /Type /StructElem /S /mn /P 106 0 R /K <</Type /MCR /Pg 217 0 R /MCID 29>>  /NS 13 0 R  >>
+endobj
+108 0 obj
+<<  /Type /StructElem /S /mi /P 106 0 R /K <</Type /MCR /Pg 217 0 R /MCID 30>>  /NS 13 0 R  >>
+endobj
+109 0 obj
+<<  /Type /StructElem /S /mo /P 87 0 R /K <</Type /MCR /Pg 217 0 R /MCID 31>>  /A  110 0 R /NS 13 0 R  >>
+endobj
+113 0 obj
+<<  /Type /StructElem /S /Formula /P 17 0 R /K 114 0 R /AF 112 0 R /NS 11 0 R  >>
+endobj
+114 0 obj
+<<  /Type /StructElem /S /math /P 113 0 R /K [115 0 R 119 0 R 122 0 R 126 0 R] /A  56 0 R /NS 13 0 R  >>
+endobj
+115 0 obj
+<<  /Type /StructElem /S /munder /P 114 0 R /K [116 0 R 118 0 R] /NS 13 0 R  >>
+endobj
+116 0 obj
+<<  /Type /StructElem /S /mo /P 115 0 R /K <</Type /MCR /Pg 217 0 R /MCID 32>>  /A  117 0 R /NS 13 0 R  >>
+endobj
+118 0 obj
+<<  /Type /StructElem /S /mi /P 115 0 R /K <</Type /MCR /Pg 217 0 R /MCID 33>>  /NS 13 0 R  >>
+endobj
+119 0 obj
+<<  /Type /StructElem /S /munder /P 114 0 R /K [120 0 R 121 0 R] /NS 13 0 R  >>
+endobj
+120 0 obj
+<<  /Type /StructElem /S /mi /P 119 0 R /K <</Type /MCR /Pg 217 0 R /MCID 34>>  /NS 13 0 R  >>
+endobj
+121 0 obj
+<<  /Type /StructElem /S /mo /P 119 0 R /NS 13 0 R  >>
+endobj
+122 0 obj
+<<  /Type /StructElem /S /mover /P 114 0 R /K [123 0 R 124 0 R] /NS 13 0 R  >>
+endobj
+123 0 obj
+<<  /Type /StructElem /S /mi /P 122 0 R /K <</Type /MCR /Pg 217 0 R /MCID 36>>  /NS 13 0 R  >>
+endobj
+124 0 obj
+<<  /Type /StructElem /S /mo /P 122 0 R /K <</Type /MCR /Pg 217 0 R /MCID 35>>  /A  125 0 R /ActualText <FEFF002E> /NS 13 0 R  >>
+endobj
+126 0 obj
+<<  /Type /StructElem /S /msup /P 114 0 R /K [127 0 R 128 0 R] /NS 13 0 R  >>
+endobj
+127 0 obj
+<<  /Type /StructElem /S /mi /P 126 0 R /K <</Type /MCR /Pg 217 0 R /MCID 37>>  /NS 13 0 R  >>
+endobj
+128 0 obj
+<<  /Type /StructElem /S /mi /P 126 0 R /K <</Type /MCR /Pg 217 0 R /MCID 38>>  /A  129 0 R /NS 13 0 R  >>
+endobj
+132 0 obj
+<<  /Type /StructElem /S /Formula /P 17 0 R /K 178 0 R /AF 131 0 R /NS 11 0 R  >>
+endobj
+133 0 obj
+<<  /Type /StructElem /S /mtd /P 181 0 R /K [134 0 R 135 0 R 136 0 R] /NS 13 0 R  >>
+endobj
+134 0 obj
+<<  /Type /StructElem /S /mi /P 133 0 R /K <</Type /MCR /Pg 217 0 R /MCID 39>>  /NS 13 0 R  >>
+endobj
+135 0 obj
+<<  /Type /StructElem /S /mi /P 133 0 R /K <</Type /MCR /Pg 217 0 R /MCID 40>>  /NS 13 0 R  >>
+endobj
+136 0 obj
+<<  /Type /StructElem /S /mi /P 133 0 R /K <</Type /MCR /Pg 217 0 R /MCID 41>>  /NS 13 0 R  >>
+endobj
+137 0 obj
+<<  /Type /StructElem /S /mtd /P 181 0 R /K [138 0 R 139 0 R 140 0 R 141 0 R 142 0 R] /NS 13 0 R  >>
+endobj
+138 0 obj
+<<  /Type /StructElem /S /mi /P 137 0 R /A  44 0 R /NS 13 0 R  >>
+endobj
+139 0 obj
+<<  /Type /StructElem /S /mo /P 137 0 R /K <</Type /MCR /Pg 217 0 R /MCID 42>>  /A  48 0 R /NS 13 0 R  >>
+endobj
+140 0 obj
+<<  /Type /StructElem /S /mi /P 137 0 R /K <</Type /MCR /Pg 217 0 R /MCID 43>>  /NS 13 0 R  >>
+endobj
+141 0 obj
+<<  /Type /StructElem /S /mi /P 137 0 R /K <</Type /MCR /Pg 217 0 R /MCID 44>>  /NS 13 0 R  >>
+endobj
+142 0 obj
+<<  /Type /StructElem /S /mi /P 137 0 R /K <</Type /MCR /Pg 217 0 R /MCID 45>>  /NS 13 0 R  >>
+endobj
+143 0 obj
+<<  /Type /StructElem /S /mtd /P 181 0 R /K 144 0 R /NS 13 0 R  >>
+endobj
+144 0 obj
+<<  /Type /StructElem /S /msup /P 143 0 R /K [145 0 R 146 0 R] /NS 13 0 R  >>
+endobj
+145 0 obj
+<<  /Type /StructElem /S /mi /P 144 0 R /K <</Type /MCR /Pg 217 0 R /MCID 46>>  /NS 13 0 R  >>
+endobj
+146 0 obj
+<<  /Type /StructElem /S /mrow /P 144 0 R /K [147 0 R 148 0 R] /NS 13 0 R  >>
+endobj
+147 0 obj
+<<  /Type /StructElem /S /mi /P 146 0 R /K <</Type /MCR /Pg 217 0 R /MCID 47>>  /A  129 0 R /NS 13 0 R  >>
+endobj
+148 0 obj
+<<  /Type /StructElem /S /mi /P 146 0 R /K <</Type /MCR /Pg 217 0 R /MCID 48>>  /NS 13 0 R  >>
+endobj
+149 0 obj
+<<  /Type /StructElem /S /mtd /P 181 0 R /K [150 0 R 151 0 R 153 0 R 154 0 R] /NS 13 0 R  >>
+endobj
+150 0 obj
+<<  /Type /StructElem /S /mi /P 149 0 R /A  44 0 R /NS 13 0 R  >>
+endobj
+151 0 obj
+<<  /Type /StructElem /S /mo /P 149 0 R /K <</Type /MCR /Pg 217 0 R /MCID 49>>  /A  152 0 R /NS 13 0 R  >>
+endobj
+153 0 obj
+<<  /Type /StructElem /S /mo /P 149 0 R /K <</Type /MCR /Pg 217 0 R /MCID 50>>  /A  152 0 R /NS 13 0 R  >>
+endobj
+154 0 obj
+<<  /Type /StructElem /S /mn /P 149 0 R /K <</Type /MCR /Pg 217 0 R /MCID 51>>  /NS 13 0 R  >>
+endobj
+155 0 obj
+<<  /Type /StructElem /S /mtd /P 184 0 R /K [156 0 R 158 0 R 159 0 R 160 0 R] /NS 13 0 R  >>
+endobj
+156 0 obj
+<<  /Type /StructElem /S /mo /P 155 0 R /K <</Type /MCR /Pg 217 0 R /MCID 52>>  /A  157 0 R /ActualText <FEFF0028> /NS 13 0 R  >>
+endobj
+158 0 obj
+<<  /Type /StructElem /S /mn /P 155 0 R /K <</Type /MCR /Pg 217 0 R /MCID 53>>  /NS 13 0 R  >>
+endobj
+159 0 obj
+<<  /Type /StructElem /S /mo /P 155 0 R /K <</Type /MCR /Pg 217 0 R /MCID 54>>  /A  96 0 R /NS 13 0 R  >>
+endobj
+160 0 obj
+<<  /Type /StructElem /S /mn /P 155 0 R /K <</Type /MCR /Pg 217 0 R /MCID 55>>  /NS 13 0 R  >>
+endobj
+161 0 obj
+<<  /Type /StructElem /S /mtd /P 184 0 R /K [162 0 R 163 0 R 164 0 R 165 0 R] /NS 13 0 R  >>
+endobj
+162 0 obj
+<<  /Type /StructElem /S /mi /P 161 0 R /A  44 0 R /NS 13 0 R  >>
+endobj
+163 0 obj
+<<  /Type /StructElem /S /mo /P 161 0 R /K <</Type /MCR /Pg 217 0 R /MCID 56>>  /A  48 0 R /NS 13 0 R  >>
+endobj
+164 0 obj
+<<  /Type /StructElem /S /mn /P 161 0 R /K <</Type /MCR /Pg 217 0 R /MCID 57>>  /NS 13 0 R  >>
+endobj
+165 0 obj
+<<  /Type /StructElem /S /mo /P 161 0 R /K <</Type /MCR /Pg 217 0 R /MCID 58>>  /A  157 0 R /ActualText <FEFF0029> /NS 13 0 R  >>
+endobj
+166 0 obj
+<<  /Type /StructElem /S /mtd /P 184 0 R /K 167 0 R /NS 13 0 R  >>
+endobj
+167 0 obj
+<<  /Type /StructElem /S /mi /P 166 0 R /A  44 0 R /NS 13 0 R  >>
+endobj
+168 0 obj
+<<  /Type /StructElem /S /mtd /P 184 0 R /K 169 0 R /NS 13 0 R  >>
+endobj
+169 0 obj
+<<  /Type /StructElem /S /mi /P 168 0 R /A  44 0 R /NS 13 0 R  >>
+endobj
+170 0 obj
+<<  /Type /StructElem /S /mtd /P 187 0 R /K 171 0 R /NS 13 0 R  >>
+endobj
+171 0 obj
+<<  /Type /StructElem /S /mn /P 170 0 R /K <</Type /MCR /Pg 217 0 R /MCID 59>>  /NS 13 0 R  >>
+endobj
+172 0 obj
+<<  /Type /StructElem /S /mtd /P 187 0 R /K 173 0 R /NS 13 0 R  >>
+endobj
+173 0 obj
+<<  /Type /StructElem /S /mi /P 172 0 R /A  44 0 R /NS 13 0 R  >>
+endobj
+174 0 obj
+<<  /Type /StructElem /S /mtd /P 187 0 R /K 175 0 R /NS 13 0 R  >>
+endobj
+175 0 obj
+<<  /Type /StructElem /S /mi /P 174 0 R /A  44 0 R /NS 13 0 R  >>
+endobj
+176 0 obj
+<<  /Type /StructElem /S /mtd /P 187 0 R /K 177 0 R /NS 13 0 R  >>
+endobj
+177 0 obj
+<<  /Type /StructElem /S /mi /P 176 0 R /A  44 0 R /NS 13 0 R  >>
+endobj
+178 0 obj
+<<  /Type /StructElem /S /math /P 132 0 R /K 179 0 R /A  56 0 R /NS 13 0 R  >>
+endobj
+179 0 obj
+<<  /Type /StructElem /S /mtable /P 178 0 R /K [181 0 R 184 0 R 187 0 R] /A  180 0 R /NS 13 0 R  >>
+endobj
+181 0 obj
+<<  /Type /StructElem /S /mlabeledtr /P 179 0 R /K [182 0 R 133 0 R 137 0 R 143 0 R 149 0 R] /NS 13 0 R  >>
+endobj
+182 0 obj
+<<  /Type /StructElem /S /mtd /P 181 0 R /K 183 0 R /NS 13 0 R  >>
+endobj
+183 0 obj
+<<  /Type /StructElem /S /mtext /P 182 0 R /NS 13 0 R  >>
+endobj
+184 0 obj
+<<  /Type /StructElem /S /mlabeledtr /P 179 0 R /K [185 0 R 155 0 R 161 0 R 166 0 R 168 0 R] /NS 13 0 R  >>
+endobj
+185 0 obj
+<<  /Type /StructElem /S /mtd /P 184 0 R /K 186 0 R /NS 13 0 R  >>
+endobj
+186 0 obj
+<<  /Type /StructElem /S /mtext /P 185 0 R /NS 13 0 R  >>
+endobj
+187 0 obj
+<<  /Type /StructElem /S /mlabeledtr /P 179 0 R /K [188 0 R 170 0 R 172 0 R 174 0 R 176 0 R] /NS 13 0 R  >>
+endobj
+188 0 obj
+<<  /Type /StructElem /S /mtd /P 187 0 R /K 189 0 R /NS 13 0 R  >>
+endobj
+189 0 obj
+<<  /Type /StructElem /S /mtext /P 188 0 R /NS 13 0 R  >>
+endobj
+192 0 obj
+<<  /Type /StructElem /S /Formula /P 17 0 R /K 193 0 R /AF 191 0 R /NS 11 0 R  >>
+endobj
+193 0 obj
+<<  /Type /StructElem /S /math /P 192 0 R /K [194 0 R 198 0 R 200 0 R 201 0 R 202 0 R 203 0 R 207 0 R 208 0 R 209 0 R 210 0 R 211 0 R 212 0 R 213 0 R 214 0 R] /NS 13 0 R  >>
+endobj
+194 0 obj
+<<  /Type /StructElem /S /mrow /P 193 0 R /K [195 0 R 196 0 R 197 0 R] /NS 13 0 R  >>
+endobj
+195 0 obj
+<<  /Type /StructElem /S /mi /P 194 0 R /K <</Type /MCR /Pg 217 0 R /MCID 60>>  /A  129 0 R /NS 13 0 R  >>
+endobj
+196 0 obj
+<<  /Type /StructElem /S /mi /P 194 0 R /K <</Type /MCR /Pg 217 0 R /MCID 61>>  /A  129 0 R /NS 13 0 R  >>
+endobj
+197 0 obj
+<<  /Type /StructElem /S /mi /P 194 0 R /K <</Type /MCR /Pg 217 0 R /MCID 62>>  /A  129 0 R /NS 13 0 R  >>
+endobj
+198 0 obj
+<<  /Type /StructElem /S /mo /P 193 0 R /K <</Type /MCR /Pg 217 0 R /MCID 63>>  /A  199 0 R /NS 13 0 R  >>
+endobj
+200 0 obj
+<<  /Type /StructElem /S /mi /P 193 0 R /K <</Type /MCR /Pg 217 0 R /MCID 64>>  /NS 13 0 R  >>
+endobj
+201 0 obj
+<<  /Type /StructElem /S /mo /P 193 0 R /K <</Type /MCR /Pg 217 0 R /MCID 65>>  /A  199 0 R /NS 13 0 R  >>
+endobj
+202 0 obj
+<<  /Type /StructElem /S /mo /P 193 0 R /K <</Type /MCR /Pg 217 0 R /MCID 66>>  /A  96 0 R /NS 13 0 R  >>
+endobj
+203 0 obj
+<<  /Type /StructElem /S /mrow /P 193 0 R /K [204 0 R 205 0 R 206 0 R] /NS 13 0 R  >>
+endobj
+204 0 obj
+<<  /Type /StructElem /S /mi /P 203 0 R /K <</Type /MCR /Pg 217 0 R /MCID 67>>  /A  129 0 R /NS 13 0 R  >>
+endobj
+205 0 obj
+<<  /Type /StructElem /S /mi /P 203 0 R /K <</Type /MCR /Pg 217 0 R /MCID 68>>  /A  129 0 R /NS 13 0 R  >>
+endobj
+206 0 obj
+<<  /Type /StructElem /S /mi /P 203 0 R /K <</Type /MCR /Pg 217 0 R /MCID 69>>  /A  129 0 R /NS 13 0 R  >>
+endobj
+207 0 obj
+<<  /Type /StructElem /S /mo /P 193 0 R /K <</Type /MCR /Pg 217 0 R /MCID 70>>  /A  199 0 R /NS 13 0 R  >>
+endobj
+208 0 obj
+<<  /Type /StructElem /S /mi /P 193 0 R /K <</Type /MCR /Pg 217 0 R /MCID 71>>  /NS 13 0 R  >>
+endobj
+209 0 obj
+<<  /Type /StructElem /S /mo /P 193 0 R /K <</Type /MCR /Pg 217 0 R /MCID 72>>  /A  96 0 R /NS 13 0 R  >>
+endobj
+210 0 obj
+<<  /Type /StructElem /S /mn /P 193 0 R /K <</Type /MCR /Pg 217 0 R /MCID 73>>  /NS 13 0 R  >>
+endobj
+211 0 obj
+<<  /Type /StructElem /S /mi /P 193 0 R /K <</Type /MCR /Pg 217 0 R /MCID 74>>  /NS 13 0 R  >>
+endobj
+212 0 obj
+<<  /Type /StructElem /S /mo /P 193 0 R /K <</Type /MCR /Pg 217 0 R /MCID 75>>  /A  199 0 R /NS 13 0 R  >>
+endobj
+213 0 obj
+<<  /Type /StructElem /S /mo /P 193 0 R /K <</Type /MCR /Pg 217 0 R /MCID 76>>  /A  48 0 R /NS 13 0 R  >>
+endobj
+214 0 obj
+<<  /Type /StructElem /S /mn /P 193 0 R /K <</Type /MCR /Pg 217 0 R /MCID 77>>  /NS 13 0 R  >>
+endobj
+5 0 obj
+<<  /Type /StructTreeRoot /K 17 0 R /ParentTree 6 0 R /RoleMap 7 0 R /Namespaces 8 0 R >>
+endobj
+225 0 obj
+[ 66 [ 323 ] ]
+endobj
+227 0 obj
+<< /Subtype /CIDFontType0C /Length 592 >>        
+[BINARY STREAM]
+endobj
+226 0 obj
+<< /Type /FontDescriptor /FontName /QTQISS+LMRoman7-Regular /Flags 4 /FontBBox [ -483 -292 1562 1124 ] /Ascent 1124 /CapHeight 683 /Descent -292 /ItalicAngle 0 /StemV 108 /XHeight 431 /FontFile3 227 0 R >>
+endobj
+228 0 obj
+<< /Length 687 >>        
+stream
+%!PS-Adobe-3.0 Resource-CMap
+%%DocumentNeededResources: ProcSet (CIDInit)
+%%IncludeResource: ProcSet (CIDInit)
+%%BeginResource: CMap (TeX-QTQISS-LMRoman7-Regular-0)
+%%Title: (TeX-QTQISS-LMRoman7-Regular-0 TeX QTQISS-LMRoman7-Regular 0)
+%%Version: 1.000
+%%EndComments
+/CIDInit /ProcSet findresource begin
+12 dict begin
+begincmap
+/CIDSystemInfo
+<< /Registry (TeX)
+/Ordering (QTQISS-LMRoman7-Regular)
+/Supplement 0
+>> def
+/CMapName /TeX-Identity-QTQISS-LMRoman7-Regular def
+/CMapType 2 def
+1 begincodespacerange
+<0000> <FFFF>
+endcodespacerange
+0 beginbfrange
+endbfrange
+1 beginbfchar
+<0042> <0069>
+endbfchar
+endcmap
+CMapName currentdict /CMap defineresource pop
+end
+end
+%%EndResource
+%%EOF
+endstream
+endobj
+222 0 obj
+<< /Type /Font /Subtype /Type0 /Encoding /Identity-H /BaseFont /QTQISS+LMRoman7-Regular /DescendantFonts [ 229 0 R ] /ToUnicode 228 0 R >>
+endobj
+229 0 obj
+<< /Type /Font /Subtype /CIDFontType0 /BaseFont /QTQISS+LMRoman7-Regular /FontDescriptor 226 0 R /W 225 0 R /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> >>
+endobj
+230 0 obj
+[ 1013 [ 569 ] 1404 [ 620 ] 2981 [ 407 ] 4558 [ 668 ] ]
+endobj
+232 0 obj
+<< /Subtype /CIDFontType0C /Length 1102 >>       
+[BINARY STREAM]
+endobj
+231 0 obj
+<< /Type /FontDescriptor /FontName /ZIIHRW+LatinModernMath-Regular /Flags 4 /FontBBox [ -1042 -3060 4082 3560 ] /Ascent 806 /CapHeight 683 /Descent -194 /ItalicAngle 0 /StemV 113 /XHeight 431 /FontFile3 232 0 R >>
+endobj
+233 0 obj
+<< /Length 772 >>        
+stream
+%!PS-Adobe-3.0 Resource-CMap
+%%DocumentNeededResources: ProcSet (CIDInit)
+%%IncludeResource: ProcSet (CIDInit)
+%%BeginResource: CMap (TeX-ZIIHRW-LatinModernMath-Regular-0)
+%%Title: (TeX-ZIIHRW-LatinModernMath-Regular-0 TeX ZIIHRW-LatinModernMath-Regular 0)
+%%Version: 1.000
+%%EndComments
+/CIDInit /ProcSet findresource begin
+12 dict begin
+begincmap
+/CIDSystemInfo
+<< /Registry (TeX)
+/Ordering (ZIIHRW-LatinModernMath-Regular)
+/Supplement 0
+>> def
+/CMapName /TeX-Identity-ZIIHRW-LatinModernMath-Regular def
+/CMapType 2 def
+1 begincodespacerange
+<0000> <FFFF>
+endcodespacerange
+0 beginbfrange
+endbfrange
+4 beginbfchar
+<03F5> <0032>
+<057C> <D835DC4E>
+<0BA5> <2032>
+<11CE> <D835DF0B>
+endbfchar
+endcmap
+CMapName currentdict /CMap defineresource pop
+end
+end
+%%EndResource
+%%EOF
+endstream
+endobj
+221 0 obj
+<< /Type /Font /Subtype /Type0 /Encoding /Identity-H /BaseFont /ZIIHRW+LatinModernMath-Regular /DescendantFonts [ 234 0 R ] /ToUnicode 233 0 R >>
+endobj
+234 0 obj
+<< /Type /Font /Subtype /CIDFontType0 /BaseFont /ZIIHRW+LatinModernMath-Regular /FontDescriptor 231 0 R /W 230 0 R /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> >>
+endobj
+235 0 obj
+[ 49 [ 681 444 ] 55 [ 306 ] 59 [ 500 ] 66 [ 278 ] 72 [ 278 ] 77 [ 556 ] 82 [ 500 ] 85 [ 389 389 ] 88 [ 278 ] 98 [ 394 ] 103 [ 333 ] 105 [ 389 500 500 ] ]
+endobj
+237 0 obj
+<< /Subtype /CIDFontType0C /Length 2185 >>       
+[BINARY STREAM]
+endobj
+236 0 obj
+<< /Type /FontDescriptor /FontName /JBZCCA+LMRoman10-Regular /Flags 4 /FontBBox [ -430 -290 1417 1127 ] /Ascent 1127 /CapHeight 683 /Descent -290 /ItalicAngle 0 /StemV 93 /XHeight 431 /FontFile3 237 0 R >>
+endobj
+238 0 obj
+<< /Length 903 >>        
+stream
+%!PS-Adobe-3.0 Resource-CMap
+%%DocumentNeededResources: ProcSet (CIDInit)
+%%IncludeResource: ProcSet (CIDInit)
+%%BeginResource: CMap (TeX-JBZCCA-LMRoman10-Regular-0)
+%%Title: (TeX-JBZCCA-LMRoman10-Regular-0 TeX JBZCCA-LMRoman10-Regular 0)
+%%Version: 1.000
+%%EndComments
+/CIDInit /ProcSet findresource begin
+12 dict begin
+begincmap
+/CIDSystemInfo
+<< /Registry (TeX)
+/Ordering (JBZCCA-LMRoman10-Regular)
+/Supplement 0
+>> def
+/CMapName /TeX-Identity-JBZCCA-LMRoman10-Regular def
+/CMapType 2 def
+1 begincodespacerange
+<0000> <FFFF>
+endcodespacerange
+0 beginbfrange
+endbfrange
+16 beginbfchar
+<0031> <0045>
+<0032> <0065>
+<0037> <0066>
+<003B> <0067>
+<0042> <0069>
+<0048> <006C>
+<004D> <006E>
+<0052> <0031>
+<0055> <0028>
+<0056> <0029>
+<0058> <002E>
+<0062> <0073>
+<0067> <0020>
+<0069> <0074>
+<006A> <0033>
+<006B> <0032>
+endbfchar
+endcmap
+CMapName currentdict /CMap defineresource pop
+end
+end
+%%EndResource
+%%EOF
+endstream
+endobj
+220 0 obj
+<< /Type /Font /Subtype /Type0 /Encoding /Identity-H /BaseFont /JBZCCA+LMRoman10-Regular /DescendantFonts [ 239 0 R ] /ToUnicode 238 0 R >>
+endobj
+239 0 obj
+<< /Type /Font /Subtype /CIDFontType0 /BaseFont /JBZCCA+LMRoman10-Regular /FontDescriptor 236 0 R /W 235 0 R /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> >>
+endobj
+240 0 obj
+[ 9 [ 389 389 ] 12 [ 778 ] 15 [ 278 ] 17 [ 500 500 500 500 500 500 ] 30 [ 778 ] 1296 [ 529 429 433 520 466 490 ] 1319 [ 572 ] 1790 [ 0 ] 2455 [ 663 663 ] 2503 [ 875 875 875 875 875 875 ] 2515 [ 902 ] 2615 [ 778 ] 2619 [ 778 ] 3074 [ 1444 ] 3077 [ 833 ] 4474 [ 570 ] ]
+endobj
+242 0 obj
+<< /Subtype /CIDFontType0C /Length 4088 >>       
+[BINARY STREAM]
+endobj
+241 0 obj
+<< /Type /FontDescriptor /FontName /RHJXIX+LatinModernMath-Regular /Flags 4 /FontBBox [ -1042 -3060 4082 3560 ] /Ascent 806 /CapHeight 683 /Descent -194 /ItalicAngle 0 /StemV 93 /XHeight 431 /FontFile3 242 0 R >>
+endobj
+243 0 obj
+<< /Length 1203 >>       
+stream
+%!PS-Adobe-3.0 Resource-CMap
+%%DocumentNeededResources: ProcSet (CIDInit)
+%%IncludeResource: ProcSet (CIDInit)
+%%BeginResource: CMap (TeX-RHJXIX-LatinModernMath-Regular-0)
+%%Title: (TeX-RHJXIX-LatinModernMath-Regular-0 TeX RHJXIX-LatinModernMath-Regular 0)
+%%Version: 1.000
+%%EndComments
+/CIDInit /ProcSet findresource begin
+12 dict begin
+begincmap
+/CIDSystemInfo
+<< /Registry (TeX)
+/Ordering (RHJXIX-LatinModernMath-Regular)
+/Supplement 0
+>> def
+/CMapName /TeX-Identity-RHJXIX-LatinModernMath-Regular def
+/CMapType 2 def
+1 begincodespacerange
+<0000> <FFFF>
+endcodespacerange
+0 beginbfrange
+endbfrange
+33 beginbfchar
+<0009> <0028>
+<000A> <0029>
+<000C> <002B>
+<000F> <002E>
+<0011> <0030>
+<0012> <0031>
+<0013> <0032>
+<0014> <0033>
+<0015> <0034>
+<0016> <0035>
+<001E> <003D>
+<0510> <D835DC4E>
+<0511> <D835DC4F>
+<0512> <D835DC50>
+<0513> <D835DC51>
+<0514> <D835DC52>
+<0515> <D835DC53>
+<0527> <D835DC65>
+<06FE> <0307>
+<0997> <0028>
+<0998> <0029>
+<09C7> <239D>
+<09C8> <239C>
+<09C9> <239B>
+<09CA> <23A0>
+<09CB> <239F>
+<09CC> <239E>
+<09D3> <007B>
+<0A37> <2212>
+<0A3B> <00B1>
+<0C02> <2211>
+<0C05> <221A>
+<117A> <D835DF0B>
+endbfchar
+endcmap
+CMapName currentdict /CMap defineresource pop
+end
+end
+%%EndResource
+%%EOF
+endstream
+endobj
+219 0 obj
+<< /Type /Font /Subtype /Type0 /Encoding /Identity-H /BaseFont /RHJXIX+LatinModernMath-Regular /DescendantFonts [ 244 0 R ] /ToUnicode 243 0 R >>
+endobj
+244 0 obj
+<< /Type /Font /Subtype /CIDFontType0 /BaseFont /RHJXIX+LatinModernMath-Regular /FontDescriptor 241 0 R /W 240 0 R /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> >>
+endobj
+223 0 obj
+<< /Type /Pages  /Count 1 /Kids [ 217 0 R ] >>
+endobj
+245 0 obj
+<< /Type /Catalog /Pages 223 0 R /MarkInfo 224 0 R/Lang (en-US)/StructTreeRoot 5 0 R >>
+endobj
+246 0 obj
+<< /Producer (LuaTeX-1.13.2) /Creator (TeX) /CreationDate (D:20160520110000+02'00') /ModDate (D:20160520110000+02'00') /Trapped /False /PTEX.FullBanner (This is LuaHBTeX, Version 1.13.2 (TeX Live 2021)) >>
+endobj
+xref
+0 247
+0000000002 65535 f 
+0000015555 00000 n 
+0000000003 00000 f 
+0000000004 00000 f 
+0000000010 00000 f 
+0000034484 00000 n 
+0000015639 00000 n 
+0000016276 00000 n 
+0000016604 00000 n 
+0000016298 00000 n 
+0000000012 00000 f 
+0000016366 00000 n 
+0000000014 00000 f 
+0000016436 00000 n 
+0000000016 00000 f 
+0000016517 00000 n 
+0000000000 00000 f 
+0000016651 00000 n 
+0000001840 00000 n 
+0000016769 00000 n 
+0000016881 00000 n 
+0000016962 00000 n 
+0000017071 00000 n 
+0000017152 00000 n 
+0000017261 00000 n 
+0000017342 00000 n 
+0000017451 00000 n 
+0000017532 00000 n 
+0000017641 00000 n 
+0000017722 00000 n 
+0000017831 00000 n 
+0000017912 00000 n 
+0000018021 00000 n 
+0000018102 00000 n 
+0000018211 00000 n 
+0000018292 00000 n 
+0000018401 00000 n 
+0000018482 00000 n 
+0000018591 00000 n 
+0000018672 00000 n 
+0000018782 00000 n 
+0000018873 00000 n 
+0000000020 00000 n 
+0000018958 00000 n 
+0000000074 00000 n 
+0000019039 00000 n 
+0000019136 00000 n 
+0000019246 00000 n 
+0000000129 00000 n 
+0000019367 00000 n 
+0000019477 00000 n 
+0000019558 00000 n 
+0000019668 00000 n 
+0000019759 00000 n 
+0000019844 00000 n 
+0000019925 00000 n 
+0000000200 00000 n 
+0000020034 00000 n 
+0000020146 00000 n 
+0000000254 00000 n 
+0000020289 00000 n 
+0000000341 00000 n 
+0000020374 00000 n 
+0000000396 00000 n 
+0000020470 00000 n 
+0000020570 00000 n 
+0000020667 00000 n 
+0000020764 00000 n 
+0000020861 00000 n 
+0000020946 00000 n 
+0000021090 00000 n 
+0000021211 00000 n 
+0000021309 00000 n 
+0000021453 00000 n 
+0000021549 00000 n 
+0000021642 00000 n 
+0000021732 00000 n 
+0000000468 00000 n 
+0000021824 00000 n 
+0000021907 00000 n 
+0000021997 00000 n 
+0000022089 00000 n 
+0000022162 00000 n 
+0000000525 00000 n 
+0000000579 00000 n 
+0000002907 00000 n 
+0000022247 00000 n 
+0000022343 00000 n 
+0000022460 00000 n 
+0000022570 00000 n 
+0000022691 00000 n 
+0000022784 00000 n 
+0000022889 00000 n 
+0000002018 00000 n 
+0000023010 00000 n 
+0000023120 00000 n 
+0000002083 00000 n 
+0000023241 00000 n 
+0000023324 00000 n 
+0000023440 00000 n 
+0000023533 00000 n 
+0000023644 00000 n 
+0000023755 00000 n 
+0000023877 00000 n 
+0000023988 00000 n 
+0000024099 00000 n 
+0000024210 00000 n 
+0000024304 00000 n 
+0000024416 00000 n 
+0000024528 00000 n 
+0000002154 00000 n 
+0000002214 00000 n 
+0000003776 00000 n 
+0000024651 00000 n 
+0000024750 00000 n 
+0000024872 00000 n 
+0000024969 00000 n 
+0000003087 00000 n 
+0000025093 00000 n 
+0000025205 00000 n 
+0000025302 00000 n 
+0000025414 00000 n 
+0000025486 00000 n 
+0000025582 00000 n 
+0000025694 00000 n 
+0000003173 00000 n 
+0000025841 00000 n 
+0000025936 00000 n 
+0000026048 00000 n 
+0000003228 00000 n 
+0000003288 00000 n 
+0000005765 00000 n 
+0000026172 00000 n 
+0000026271 00000 n 
+0000026373 00000 n 
+0000026485 00000 n 
+0000026597 00000 n 
+0000026709 00000 n 
+0000026827 00000 n 
+0000026910 00000 n 
+0000027033 00000 n 
+0000027145 00000 n 
+0000027257 00000 n 
+0000027369 00000 n 
+0000027453 00000 n 
+0000027548 00000 n 
+0000027660 00000 n 
+0000027755 00000 n 
+0000027879 00000 n 
+0000027991 00000 n 
+0000028101 00000 n 
+0000028184 00000 n 
+0000003957 00000 n 
+0000028308 00000 n 
+0000028432 00000 n 
+0000028544 00000 n 
+0000028654 00000 n 
+0000004023 00000 n 
+0000028801 00000 n 
+0000028913 00000 n 
+0000029036 00000 n 
+0000029148 00000 n 
+0000029258 00000 n 
+0000029341 00000 n 
+0000029464 00000 n 
+0000029576 00000 n 
+0000029723 00000 n 
+0000029807 00000 n 
+0000029890 00000 n 
+0000029974 00000 n 
+0000030057 00000 n 
+0000030141 00000 n 
+0000030253 00000 n 
+0000030337 00000 n 
+0000030420 00000 n 
+0000030504 00000 n 
+0000030587 00000 n 
+0000030671 00000 n 
+0000030754 00000 n 
+0000030850 00000 n 
+0000004147 00000 n 
+0000030967 00000 n 
+0000031092 00000 n 
+0000031176 00000 n 
+0000031251 00000 n 
+0000031376 00000 n 
+0000031460 00000 n 
+0000031535 00000 n 
+0000031660 00000 n 
+0000031744 00000 n 
+0000004265 00000 n 
+0000007077 00000 n 
+0000031819 00000 n 
+0000031918 00000 n 
+0000032109 00000 n 
+0000032212 00000 n 
+0000032336 00000 n 
+0000032460 00000 n 
+0000032584 00000 n 
+0000005946 00000 n 
+0000032708 00000 n 
+0000032820 00000 n 
+0000032944 00000 n 
+0000033067 00000 n 
+0000033170 00000 n 
+0000033294 00000 n 
+0000033418 00000 n 
+0000033542 00000 n 
+0000033666 00000 n 
+0000033778 00000 n 
+0000033901 00000 n 
+0000034013 00000 n 
+0000034125 00000 n 
+0000034249 00000 n 
+0000034372 00000 n 
+0000006022 00000 n 
+0000015451 00000 n 
+0000015305 00000 n 
+0000007258 00000 n 
+0000049263 00000 n 
+0000042951 00000 n 
+0000038951 00000 n 
+0000036269 00000 n 
+0000049635 00000 n 
+0000015602 00000 n 
+0000034589 00000 n 
+0000035298 00000 n 
+0000034621 00000 n 
+0000035521 00000 n 
+0000036425 00000 n 
+0000036627 00000 n 
+0000037887 00000 n 
+0000036700 00000 n 
+0000038118 00000 n 
+0000039114 00000 n 
+0000039323 00000 n 
+0000041764 00000 n 
+0000039494 00000 n 
+0000041987 00000 n 
+0000043108 00000 n 
+0000043311 00000 n 
+0000047769 00000 n 
+0000043596 00000 n 
+0000047999 00000 n 
+0000049426 00000 n 
+0000049699 00000 n 
+0000049804 00000 n 
+trailer
+<< /Size 247 /Root 245 0 R /Info 246 0 R /ID [ <4F23DD47C2CB1E4A823FC7CBBBCDBD14> <4F23DD47C2CB1E4A823FC7CBBBCDBD14> ] >>
+startxref
+50027
+%%EOF

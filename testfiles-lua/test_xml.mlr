@@ -1,0 +1,229 @@
+<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mspace width="9.963pt" />
+  <mi intent="@ignore" />
+</math>
+<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mspace width="9.963pt" />
+  <mi intent="@ignore" />
+</math>
+<math display="block" xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mrow tex:class="inner">
+    <mo fence="true" lspace="0" rspace="0" symmetric="true">(</mo>
+    <mspace width="-4.981pt" />
+    <mpadded lspace="+4.981pt" width="+9.963pt">
+      <mtable>
+        <mtr>
+          <mtd>
+            <mn>1</mn>
+          </mtd>
+          <mtd>
+            <mn>0</mn>
+          </mtd>
+          <mtd>
+            <mn>0</mn>
+          </mtd>
+        </mtr>
+        <mtr>
+          <mtd>
+            <mn>0</mn>
+          </mtd>
+          <mtd>
+            <mn>1</mn>
+          </mtd>
+          <mtd>
+            <mn>0</mn>
+          </mtd>
+        </mtr>
+        <mtr>
+          <mtd>
+            <mn>0</mn>
+          </mtd>
+          <mtd>
+            <mn>0</mn>
+          </mtd>
+          <mtd>
+            <mn>1</mn>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mpadded>
+    <mspace width="-4.981pt" />
+    <mo fence="true" lspace="0" rspace="0" symmetric="true">)</mo>
+  </mrow>
+  <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+  <mrow tex:class="inner">
+    <mo fence="true" lspace="0" rspace="0" symmetric="true">{</mo>
+    <mpadded lspace="+4.981pt" width="+9.963pt">
+      <mtable>
+        <mtr>
+          <mtd columnalign="left">
+            <mn>1</mn>
+          </mtd>
+          <mtd columnalign="left">
+            <mtext>if&#160; 
+            <mtd>
+              <mi>𝑎</mi>
+              <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+              <mi>𝑏</mi>
+            </mtd></mtext>
+          </mtd>
+        </mtr>
+        <mtr>
+          <mtd columnalign="left">
+            <mn>2</mn>
+          </mtd>
+          <mtd columnalign="left">
+            <mtext>else</mtext>
+          </mtd>
+        </mtr>
+      </mtable>
+    </mpadded>
+    <mspace width="1.196pt" />
+  </mrow>
+</math>
+<math display="block" xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi>𝑥</mi>
+  <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+  <mfrac>
+    <mrow>
+      <mo lspace="0" rspace="0.222em" tex:class="bin">−</mo>
+      <mi>𝑏</mi>
+      <mo lspace="0.222em" rspace="0.222em" tex:class="bin">±</mo>
+      <msqrt>
+        <mrow>
+          <msup>
+            <mi>𝑏</mi>
+            <mn>2</mn>
+          </msup>
+          <mo lspace="0.222em" rspace="0.222em" tex:class="bin">−</mo>
+          <mn>4</mn>
+          <mi>𝑎</mi>
+          <mi>𝑐</mi>
+        </mrow>
+      </msqrt>
+    </mrow>
+    <mrow>
+      <mn>2</mn>
+      <mi>𝑎</mi>
+    </mrow>
+  </mfrac>
+  <mo lspace="0" rspace="0" tex:class="ord">.</mo>
+</math>
+<math display="block" xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+  <munder>
+    <mo lspace="0" movablelimits="true" rspace="0.167em" tex:class="opdisplaylimits">∑</mo>
+    <mi>𝑎</mi>
+  </munder>
+  <munder>
+    <mi>𝑐</mi>
+    <mo>_</mo>
+  </munder>
+  <mover>
+    <mi>𝑏</mi>
+    <mo stretchy="true">.</mo>
+  </mover>
+  <msup>
+    <mi>𝑐</mi>
+    <mi mathvariant="normal">′</mi>
+  </msup>
+</math>
+<math display="block" xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mtable columnalign="right left right left" columnspacing="0 .8em 0" displaystyle="true">
+    <mlabeledtr>
+      <mtd>
+        <mtext>(1)</mtext>
+      </mtd>
+      <mtd>
+        <mi>𝑎</mi>
+        <mi>𝑏</mi>
+        <mi>𝑐</mi>
+      </mtd>
+      <mtd>
+        <mi intent="@ignore" />
+        <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+        <mi>𝑑</mi>
+        <mi>𝑒</mi>
+        <mi>𝑓</mi>
+      </mtd>
+      <mtd>
+        <msup>
+          <mi>𝑒</mi>
+          <mrow>
+            <mi mathvariant="normal" tex:family="4">i</mi>
+            <mi>𝜋</mi>
+          </mrow>
+        </msup>
+      </mtd>
+      <mtd>
+        <mi intent="@ignore" />
+        <mo lspace="0.278em" rspace="0" tex:class="rel">=</mo>
+        <mo lspace="0.278em" rspace="0" tex:class="ord">−</mo>
+        <mn>1</mn>
+      </mtd>
+    </mlabeledtr>
+    <mlabeledtr>
+      <mtd>
+        <mtext>(2)</mtext>
+      </mtd>
+      <mtd>
+        <mo fence="true" lspace="0" maxsize="17.861pt" minsize="17.861pt" rspace="0" symmetric="true">(</mo>
+        <mn>1</mn>
+        <mo lspace="0.222em" rspace="0.222em" tex:class="bin">+</mo>
+        <mn>2</mn>
+      </mtd>
+      <mtd>
+        <mi intent="@ignore" />
+        <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+        <mn>3</mn>
+        <mo fence="true" lspace="0" maxsize="17.861pt" minsize="17.861pt" rspace="0" symmetric="true">)</mo>
+      </mtd>
+      <mtd>
+        <mi intent="@ignore" />
+      </mtd>
+      <mtd>
+        <mi intent="@ignore" />
+      </mtd>
+    </mlabeledtr>
+    <mlabeledtr>
+      <mtd>
+        <mtext>(3)</mtext>
+      </mtd>
+      <mtd>
+        <mn>5</mn>
+      </mtd>
+      <mtd>
+        <mi intent="@ignore" />
+      </mtd>
+      <mtd>
+        <mi intent="@ignore" />
+      </mtd>
+      <mtd>
+        <mi intent="@ignore" />
+      </mtd>
+    </mlabeledtr>
+  </mtable>
+</math>
+<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mrow tex:class="opnolimits">
+    <mi mathvariant="normal" tex:family="4">s</mi>
+    <mi mathvariant="normal" tex:family="4">i</mi>
+    <mi mathvariant="normal" tex:family="4">n</mi>
+  </mrow>
+  <mo lspace="0" rspace="0" stretchy="false" tex:class="open">(</mo>
+  <mi>𝑥</mi>
+  <mo lspace="0" rspace="0" stretchy="false" tex:class="close">)</mo>
+  <mo lspace="0.222em" rspace="0.222em" tex:class="bin">−</mo>
+  <mrow tex:class="opnolimits">
+    <mi mathvariant="normal" tex:family="4">s</mi>
+    <mi mathvariant="normal" tex:family="4">i</mi>
+    <mi mathvariant="normal" tex:family="4">n</mi>
+  </mrow>
+  <mo lspace="0" rspace="0" stretchy="false" tex:class="open">(</mo>
+  <mi>𝑥</mi>
+  <mo lspace="0.222em" rspace="0.222em" tex:class="bin">+</mo>
+  <mn>2</mn>
+  <mi>𝜋</mi>
+  <mo lspace="0" rspace="0" stretchy="false" tex:class="close">)</mo>
+  <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+  <mn>0</mn>
+</math>

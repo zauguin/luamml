@@ -25,10 +25,10 @@ local attributes = setmetatable({}, {__index = function(t, k)
   local attr_name = string.format('luamml_attr_%i', attribute_counter)
   t[k] = attr_name
   tex.runtoks(function()
-    -- tex.sprint(string.format('\\tagpdfsetup{newattribute={%s}{/O/NSO/NS %i 0 R',
-    --     attr_name, mathml_ns_obj or get_mathml_ns_obj()))
-    tex.sprint(string.format('\\tagpdfsetup{newattribute={%s}{/O/MathML-3',
-        attr_name))
+    tex.sprint(string.format('\\tagpdfsetup{newattribute={%s}{/O/NSO/NS %i 0 R',
+        attr_name, mathml_ns_obj or get_mathml_ns_obj()))
+    -- tex.sprint(string.format('\\tagpdfsetup{newattribute={%s}{/O/MathML-3',
+    --     attr_name))
     tex.cprint(12, k)
     tex.sprint'}}'
   end)
