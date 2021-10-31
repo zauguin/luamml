@@ -1,6 +1,6 @@
 \documentclass{article}
 \usepackage{amsmath}
-\usepackage[files]{luamml-demo}
+\usepackage{luamml-demo}
 
 \begin{document}
 \[

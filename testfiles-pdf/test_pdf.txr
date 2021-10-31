@@ -1,0 +1,218 @@
+LUAMML_INSTRUCTION:REGISTER_MAPPING:2:oms
+LUAMML_INSTRUCTION:REGISTER_MAPPING:1:oml
+LUAMML_INSTRUCTION:REGISTER_MAPPING:3:omx
+LUAMML_MARK:1:count=3,nucleus=true,core={[0]='mi','\u{22a7}'},
+LUAMML_MARK_END
+LUAMML_FORMULA_BEGIN:1:3:mrow:
+
+
+
+### display math mode entered at line 6
+\mathord
+.\fam2 ;
+\write3{LUAMML_MARK_REF:1:}
+\mathrel
+.\fam2 j
+\mathrel
+.\mkern-3.0mu
+\mathrel
+.\fam0 =
+\mathopen
+.\fam0 (
+\mathopen
+.\fam0 (
+\mathord
+.\fam1 p
+\mathrel
+.\fam2 )
+\mathord
+.\fam1 q
+\mathclose
+.\fam0 )
+\mathrel
+.\fam2 )
+\mathopen
+.\fam0 (
+\mathord
+.\fam1 q
+\mathrel
+.\fam2 )
+\mathord
+.\fam1 r
+\mathclose
+.\fam0 )
+\mathclose
+.\fam0 )
+\mathrel
+.\fam2 )
+\mathopen
+.\fam0 (
+\mathord
+.\fam1 p
+\mathrel
+.\fam2 )
+\mathopen
+.\fam0 (
+\mathord
+.\fam1 q
+\mathrel
+.\fam2 )
+\mathord
+.\fam1 r
+\mathclose
+.\fam0 )
+\mathclose
+.\fam0 )
+
+### vertical mode entered at line 0
+### current page:
+\write-{}
+\glue(\topskip) 10.0
+\hbox(0.0+0.0)x345.0, glue set 330.0fil
+.\hbox(0.0+0.0)x15.0
+.\penalty 10000
+.\glue(\parfillskip) 0.0 plus 1.0fil
+.\glue(\rightskip) 0.0
+
+total height 10.0
+ goal height 550.0
+
+prevdepth 0.0, prevgraf 1 line
+
+
+! OK
+LUAMML_FORMULA_END
+LUAMML_FORMULA_BEGIN:2:3:mrow:
+
+
+
+### math mode entered at line 18
+\mathop\nolimits
+.\kern 0.0
+.\mathord
+..\fam0 s
+.\mathord
+..\fam0 i
+.\mathord
+..\fam0 n
+\mathopen
+.\fam0 (
+\mathord
+.\fam1 x
+\mathclose
+.\fam0 )
+\mathbin
+.\fam2 ^^@
+\mathop\nolimits
+.\kern 0.0
+.\mathord
+..\fam0 s
+.\mathord
+..\fam0 i
+.\mathord
+..\fam0 n
+\mathopen
+.\fam0 (
+\mathord
+.\fam1 x
+\mathbin
+.\fam0 +
+\mathord
+.\fam0 2
+\mathord
+.\fam1 ^^Y
+\mathclose
+.\fam0 )
+\mathrel
+.\fam0 =
+\mathord
+.\fam0 0
+
+### horizontal mode entered at line 18
+\hbox(0.0+0.0)x15.0
+\OT1/cmr/m/n/10 E
+\OT1/cmr/m/n/10 s
+\glue 3.33333 plus 1.66666 minus 1.11111
+\OT1/cmr/m/n/10 g
+\OT1/cmr/m/n/10 i
+\OT1/cmr/m/n/10 l
+\OT1/cmr/m/n/10 t
+\glue 3.33333 plus 1.66666 minus 1.11111
+
+spacefactor 1000
+### vertical mode entered at line 0
+### current page:
+\write-{}
+\glue(\topskip) 10.0
+\hbox(0.0+0.0)x345.0, glue set 330.0fil
+.\hbox(0.0+0.0)x15.0
+.\penalty 10000
+.\glue(\parfillskip) 0.0 plus 1.0fil
+.\glue(\rightskip) 0.0
+\penalty 10000
+\glue(\abovedisplayshortskip) 0.0 plus 3.0
+\glue(\baselineskip) 4.5
+\hbox(7.5+2.5)x185.77597, shifted 79.61201, display
+.\OMS/cmsy/m/n/10 ;
+.\write3{LUAMML_MARK_REF:1:}
+.\glue(\thickmuskip) 2.77771 plus 2.77771
+.\OMS/cmsy/m/n/10 j
+.\hbox(0.0+0.0)x-1.66663
+..\kern -1.66663
+.\OT1/cmr/m/n/10 =
+.\glue(\thickmuskip) 2.77771 plus 2.77771
+.\OT1/cmr/m/n/10 (
+.\OT1/cmr/m/n/10 (
+.\OML/cmm/m/it/10 p
+.\glue(\thickmuskip) 2.77771 plus 2.77771
+.\OMS/cmsy/m/n/10 )
+.\glue(\thickmuskip) 2.77771 plus 2.77771
+.\OML/cmm/m/it/10 q
+.\kern0.35878
+.\OT1/cmr/m/n/10 )
+.\glue(\thickmuskip) 2.77771 plus 2.77771
+.\OMS/cmsy/m/n/10 )
+.\glue(\thickmuskip) 2.77771 plus 2.77771
+.\OT1/cmr/m/n/10 (
+.\OML/cmm/m/it/10 q
+.\kern0.35878
+.\glue(\thickmuskip) 2.77771 plus 2.77771
+.\OMS/cmsy/m/n/10 )
+.\glue(\thickmuskip) 2.77771 plus 2.77771
+.\OML/cmm/m/it/10 r
+.\kern0.27779
+.\OT1/cmr/m/n/10 )
+.\OT1/cmr/m/n/10 )
+.\glue(\thickmuskip) 2.77771 plus 2.77771
+.\OMS/cmsy/m/n/10 )
+.\glue(\thickmuskip) 2.77771 plus 2.77771
+.\OT1/cmr/m/n/10 (
+.\OML/cmm/m/it/10 p
+.\glue(\thickmuskip) 2.77771 plus 2.77771
+.\OMS/cmsy/m/n/10 )
+.\glue(\thickmuskip) 2.77771 plus 2.77771
+.\OT1/cmr/m/n/10 (
+.\OML/cmm/m/it/10 q
+.\kern0.35878
+.\glue(\thickmuskip) 2.77771 plus 2.77771
+.\OMS/cmsy/m/n/10 )
+.\glue(\thickmuskip) 2.77771 plus 2.77771
+.\OML/cmm/m/it/10 r
+.\kern0.27779
+.\OT1/cmr/m/n/10 )
+.\OT1/cmr/m/n/10 )
+\penalty 0
+\glue(\belowdisplayshortskip) 6.0 plus 3.0 minus 3.0
+\glue(\parskip) 0.0 plus 1.0
+\glue(\parskip) 0.0
+
+total height 30.5 plus 7.0 minus 3.0
+ goal height 550.0
+
+prevdepth 2.5
+
+
+! OK
+LUAMML_FORMULA_END
+LUAMML_MARK_REF:1:
+

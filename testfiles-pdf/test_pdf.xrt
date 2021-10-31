@@ -1,0 +1,20 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{luamml-demo}
+
+\begin{document}
+\[
+  \emptyset\models((p\Rightarrow q)\Rightarrow(q\Rightarrow r))\Rightarrow (p\Rightarrow (q\Rightarrow r))
+  \WriteoutFormula
+\]
+
+%\begin{align}
+%  abc&=def & e^{\mathrm{i}\pi}&=-1\\
+%  \Big(1+2&=3\Big)\\
+%  &4\\
+%  5
+%\end{align}
+
+Es gilt $\sin(x)-\sin(x+2\pi)=0\WriteoutFormula$.
+\end{document}
+
