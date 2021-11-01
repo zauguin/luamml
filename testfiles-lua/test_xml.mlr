@@ -1,11 +1,3 @@
-<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
-  <mspace width="9.963pt" />
-  <mi intent="@ignore" />
-</math>
-<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
-  <mspace width="9.963pt" />
-  <mi intent="@ignore" />
-</math>
 <math display="block" xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
   <mrow tex:class="inner">
     <mo fence="true" lspace="0" rspace="0" symmetric="true">(</mo>
