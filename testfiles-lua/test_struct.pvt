@@ -18,6 +18,13 @@
 
 \begin{document}
 \tagstructbegin{tag=Document}
+
+\tagstructbegin{tag=P}
+\tagmcbegin{tag=P}
+hello
+\tagmcend
+\tagstructend
+
 \LuaMMLTagAF{} {
 \[
   \begin{pmatrix}
@@ -27,8 +34,8 @@
   \end{pmatrix}
   =
   \begin{cases}
-    1 & $if $a=b\\
-    2 & $else$
+    1 & \text{if $a=b$} \\
+    2 & \text{else}
   \end{cases}
 \]
 }

@@ -59,7 +59,21 @@ local function annotate()
         props = {}
         properties[marked] = props
       end
-      props.mathml_core = annotation.core
+      if annotation.core then
+        props.mathml_core = annotation.core
+      end
+      if annotation.struct then
+        local saved = props.mathml_filter
+        local struct = annotation.struct
+        function props.mathml_filter(mml, core)
+          mml[':struct'] = struct
+          if saved then
+            return saved(mml, core)
+          else
+            return mml, core
+          end
+        end
+      end
     else
       tex.error'Unable to annotate nucleus of node without nucleus'
     end
