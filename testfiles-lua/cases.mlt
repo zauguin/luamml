@@ -11,21 +11,19 @@
   interwordspace=true,
 }
 
-\usepackage{unicode-math}
-
 \begin{document}
 \tagstructbegin{tag=Document}
 \LuaMMLTagAF{} {
 \[
-  \begin{pmatrix}
+  \left(\begin{matrix}
     1 & 0 & 0 \\
     0 & 1 & 0 \\
     0 & 0 & 1
-  \end{pmatrix}
+  \end{matrix}\right)
   =
   \begin{cases}
-    1 & \text{if $a=b$}\\
-    2 & \text{else}
+    1 & \mbox{if $a=b$}\\
+    2 & \mbox{else}
   \end{cases}
 \]
 }
@@ -38,14 +36,6 @@
 \[
   \sum_a\underline c\dot bc'
 \]
-}
-
-\LuaMMLTagAF{} {
-\begin{align}
-  abc&=def & e^{\mathrm{i}\pi}&=-1\\
-  \Big(1+2&=3\Big)\\
-  5
-\end{align}
 }
 
 Es gilt \LuaMMLTagAF{}{$\sin(x)-\sin(x+2\pi)=0$}.

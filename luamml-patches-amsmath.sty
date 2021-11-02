@@ -406,10 +406,3 @@
     }
   }
 }
-
-\cs_set:Npn \env@cases {
-  \let \@ifnextchar \new@ifnextchar
-  \left \lbrace
-    \def \arraystretch {1.2}
-    \array {@{}l@{\quad \luamml_flag_ignore:}l@{}}
-}
