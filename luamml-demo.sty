@@ -49,11 +49,12 @@
 \cs_generate_variant:Nn \pdffile_filespec:nnn {ene}
 \int_new:N \g__luamml_demo_af_int
 \cs_new_protected:Npn \LuaMMLTagAF #1#2 {
+  \tag_mc_end_push:
   \int_gincr:N \g__luamml_demo_af_int
   \exp_args:Ne \pdf_object_new:nn{__luamml_demo_\int_use:N \g__luamml_demo_af_int}{dict}
-  \exp_args:Ne \tagstructbegin{tag=Formula,AF=__luamml_demo_\int_use:N \g__luamml_demo_af_int,#1}
+  \exp_args:Ne \tag_struct_begin:n{tag=Formula,AF=__luamml_demo_\int_use:N \g__luamml_demo_af_int,#1}
   \bool_if:NF \l__luamml_demo_structelem_bool {
-    \tagmcbegin{tag=Formula}
+    \tag_mc_begin:n{tag=Formula}
   }
   #2
   \group_begin:
@@ -64,9 +65,10 @@
       { \luamml_get_last_mathml_stream:e{}\c_space_tl 0~R}
   \group_end:
   \bool_if:NF \l__luamml_demo_structelem_bool {
-    \tagmcend
+    \tag_mc_end:
   }
-  \tagstructend
+  \tag_struct_end:
+  \tag_mc_begin_pop:n{}
 }
 
 \NewDocumentCommand\AnnotateFormula{ o m m }{%
