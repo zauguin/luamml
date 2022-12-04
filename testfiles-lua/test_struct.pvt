@@ -1,18 +1,14 @@
 \ExplSyntaxOn
 \sys_gset_rand_seed:n{1000}
 \ExplSyntaxOff
-\RequirePackage{pdfmanagement-testphase}
-\DeclareDocumentMetadata{
+\DocumentMetadata{
   uncompress,
   pdfversion = 2.0,
+  testphase = phase-I,
 }
+\input{regression-test}
 \documentclass{article}
-\usepackage{tagpdf}
 \usepackage[structelem]{luamml-demo}
-\tagpdfsetup{
-  activate-all,
-  interwordspace=true,
-}
 
 \usepackage{unicode-math}
 

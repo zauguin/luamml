@@ -1,15 +1,11 @@
-\RequirePackage{pdfmanagement-testphase}
 \DeclareDocumentMetadata{
   uncompress,
   pdfversion = 2.0,
+  testphase = phase-I,
 }
+\input{regression-test}
 \documentclass{article}
 \usepackage[l3build]{luamml-demo}
-\usepackage{tagpdf}
-\tagpdfsetup{
-  activate-all,
-  interwordspace=true,
-}
 
 \begin{document}
 \tagstructbegin{tag=Document}
