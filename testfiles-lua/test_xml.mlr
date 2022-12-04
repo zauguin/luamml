@@ -1,3 +1,25 @@
+<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mstyle displaystyle="true" scriptlevel="0">
+    <mi>𝑎</mi>
+    <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+    <mi>𝑏</mi>
+  </mstyle>
+</math>
+<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi>𝑎</mi>
+  <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+  <mi>𝑏</mi>
+</math>
+<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi>𝑎</mi>
+  <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+  <mi>𝑏</mi>
+</math>
+<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi>𝑎</mi>
+  <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+  <mi>𝑏</mi>
+</math>
 <math display="block" xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
   <mrow tex:class="inner">
     <mo fence="true" lspace="0" rspace="0" symmetric="true">(</mo>
@@ -53,11 +75,12 @@
           </mtd>
           <mtd columnalign="left">
             <mtext>if&#160; 
-            <mtd>
+            <math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
               <mi>𝑎</mi>
               <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
               <mi>𝑏</mi>
-            </mtd></mtext>
+            </math></mtext>
+            <mi intent="@ignore" />
           </mtd>
         </mtr>
         <mtr>
@@ -66,6 +89,7 @@
           </mtd>
           <mtd columnalign="left">
             <mtext>else</mtext>
+            <mi intent="@ignore" />
           </mtd>
         </mtr>
       </mtable>

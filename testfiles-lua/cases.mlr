@@ -1,15 +1,7 @@
 <math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
-  <mspace width="9.963pt" />
-  <mi intent="@ignore" />
-</math>
-<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
   <mi tex:family="1">𝑎</mi>
   <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
   <mi tex:family="1">𝑏</mi>
-</math>
-<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
-  <mspace width="9.963pt" />
-  <mi intent="@ignore" />
 </math>
 <math display="block" xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
   <mrow tex:class="inner">
