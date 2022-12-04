@@ -34,13 +34,6 @@
   \__luamml_kernel_phantom:Vnn \g__luamml_kernel_phantom_int
 }
 
-\cs_set:Npn \env@cases {
-  \let \@ifnextchar \new@ifnextchar
-  \left \lbrace
-    \def \arraystretch {1.2}
-    \array {@{}l@{\quad \luamml_flag_ignore:}l@{}}
-}
-
 \@ifpackageloaded {unicode-math} {} {
   \cs_new:Npn \__luamml_kernel_define_character:Nnn #1#2#3 {
     \cs_set:cpx { \cs_to_str:N #1 ~ } {

@@ -399,6 +399,15 @@
   }
 }
 
+% {cases} is defined by the kernel, but we patch the overwritten version by amsmath.
+\cs_set:Npn \env@cases {
+  \let \@ifnextchar \new@ifnextchar
+  \left \lbrace
+    \def \arraystretch {1.2}
+    \array {@{}l@{\quad \luamml_flag_ignore:}l@{}}
+}
+
+
 \cs_set:Npn \bBigg@ #1 #2 {
   {
     \ensuremath {
