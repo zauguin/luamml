@@ -462,13 +462,13 @@ local function rule_to_table(rule, sub, cur_style)
   if height == running_length then
     height = '0.8em'
   else
-    height = height
+    height = string.format("%.3fpt", height/65781.76)
   end
   local depth = rule.depth
   if depth == running_length then
     depth = '0.2em'
   else
-    depth = depth
+    depth = string.format("%.3fpt", depth/65781.76)
   end
   return {[0] = 'mspace', mathbackground = 'currentColor', width = width, height = height, depth = depth}, space_like
 end
