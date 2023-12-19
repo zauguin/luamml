@@ -10,7 +10,7 @@ local escapes = {
   ['&'] = "&amp;",
 }
 local function escape_text(text)
-  return string.gsub(tostring(text), '("<>&)', escapes)
+  return string.gsub(tostring(text), '["<>&]', escapes)
 end
 
 local attrs = {}
