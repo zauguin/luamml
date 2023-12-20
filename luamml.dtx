@@ -100,6 +100,21 @@
 %<luatex>\lua_now:n { require'luamml-tex' }
 %    \end{macrocode}
 %
+% \subsection{Hook}
+% We also call a hook with arguments at the end of every MathML conversion with the result.
+% Currently only implemented in Lua\TeX{} since it immediately provides the output.
+%    \begin{macrocode}
+%<*luatex>
+\hook_new_with_args:nn { luamml / converted } { 1 }
+
+\cs_new_protected:Npn \__luamml_output_hook:n {
+  \hook_use:nnw { luamml / converted } { 1 }
+}
+\__luamml_register_output_hook:N \__luamml_output_hook:n
+%</luatex>
+%    \end{macrocode}
+
+%
 % \subsection{Flags}
 % The most important interface is for setting the flag which controls how the
 % formulas should be converted.
@@ -259,7 +274,7 @@
 \cs_new_protected:Npn \luamml_annotate:nen #1#2#3 {
   \__luamml_annotate_begin:
     #3
-    \__luamml_annotate_end:we \tex_numexpr:D #1 \scan_stop: {#2}
+  \__luamml_annotate_end:we \tex_numexpr:D #1 \scan_stop: {#2}
 }
 
 \cs_new_protected:Npn \luamml_annotate:en #1#2 {
@@ -434,7 +449,7 @@
 %    \begin{macrocode}
 \cs_new_protected:Npn \__luamml_patch_package:nn #1 #2 {
   \@ifpackageloaded {#1} {#2} {
-    \hook_gput_code:nnn {package/after/#1} {luamml} {#2}
+    \hook_gput_code:nnn {package/#1/after} {luamml} {#2}
   }
 }
 \cs_new_protected:Npn \__luamml_patch_package:n #1 {

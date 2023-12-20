@@ -10,7 +10,7 @@ local escapes = {
   ['&'] = "&amp;",
 }
 local function escape_text(text)
-  return string.gsub(string.gsub(tostring(text), '["<>&]', escapes), '[\x00-\x08\x0B\x0C\x0E-\x20]', function(x)
+  return string.gsub(string.gsub(tostring(text), '["<>&]', escapes), '[\x00-\x08\x0B\x0C\x0E-\x1F]', function(x)
     return string.format('^^%02x', string.byte(x))
   end)
 end

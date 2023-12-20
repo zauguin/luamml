@@ -10,6 +10,10 @@ local write_struct = require'luamml-structelemwriter'
 
 local filename_token = token.create'l__luamml_filename_tl'
 local label_token = token.create'l__luamml_label_tl'
+local left_brace = token.new(string.byte'{', 1)
+local right_brace = token.new(string.byte'}', 2)
+
+local output_hook_token
 
 local properties = node.get_properties_table()
 local mmode, hmode, vmode do
@@ -92,6 +96,11 @@ local function save_result(xml, display, structelem)
   if tracing then
     texio.write_nl(write_xml(mlist_result) .. '\n')
   end
+  if output_hook_token then
+    tex.runtoks(function()
+      tex.sprint(-2, output_hook_token, left_brace, write_xml(mlist_result), right_brace)
+    end)
+  end
   if tex.count.l__luamml_flag_int & 8 == 8 then
     write_struct(mlist_result)
   end
@@ -166,7 +175,7 @@ lua.get_functions_table()[funcid] = function()
 end
 
 funcid = luatexbase.new_luafunction'luamml_begin_single_file:'
-token.set_lua('luamml_begin_single_file:', funcid, protected)
+token.set_lua('luamml_begin_single_file:', funcid, 'protected')
 lua.get_functions_table()[funcid] = function()
   token.put_next(filename_token)
   local filename = token.scan_argument()
@@ -176,12 +185,24 @@ lua.get_functions_table()[funcid] = function()
 end
 
 funcid = luatexbase.new_luafunction'luamml_end_single_file:'
-token.set_lua('luamml_end_single_file:', funcid, protected)
+token.set_lua('luamml_end_single_file:', funcid, 'protected')
 lua.get_functions_table()[funcid] = function()
   if out_file then
     out_file:close()
     out_file = nil
   end
+end
+
+funcid = luatexbase.new_luafunction'luamml_register_output_hook:N'
+token.set_lua('__luamml_register_output_hook:N', funcid, 'protected')
+lua.get_functions_table()[funcid] = function()
+  output_hook_token = token.get_next()
+end
+
+funcid = luatexbase.new_luafunction'luamml_disable_output_hook:'
+token.set_lua('__luamml_disable_output_hook:', funcid, 'protected')
+lua.get_functions_table()[funcid] = function()
+  output_hook_token = nil
 end
 
 local annotate_context = require'luamml-tex-annotate'
