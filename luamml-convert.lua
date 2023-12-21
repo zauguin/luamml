@@ -266,8 +266,9 @@ local function noad_to_table(noad, sub, cur_style, joining, bin_replacements)
   if sub == noad_ord and not (bin_replacements[node.direct.todirect(noad)] or (nucleus == core and #core == 1 and always_mo[core[1]])) then
     if core and core[0] == 'mo' then
       core['tex:class'] = nil
-      if not core.minsize then
+      if not core.minsize and not core.movablelimits then
         core[0] = 'mi'
+        core.movablelimits = nil
         core.mathvariant = #core == 1 and type(core[1]) == 'string' and utf8.len(core[1]) == 1 and utf8.codepoint(core[1]) < 0x10000 and 'normal' or nil
         core.stretchy, core.lspace, core.rspace = nil
       end
@@ -312,7 +313,7 @@ local function noad_to_table(noad, sub, cur_style, joining, bin_replacements)
     nucleus['tex:class'] = noad_names[sub]
 
     if (noad.sup or noad.sub) and (sub == noad_op or sub == noad_oplimits) then
-      nucleus.movablelimits = sub == noad_op
+      if core and core[0] == 'mo' then core.movablelimits = sub == noad_op end
       local sub = kernel_to_table(noad.sub, sub_style(cur_style))
       local sup = kernel_to_table(noad.sup, sup_style(cur_style))
       return {[0] = sup and (sub and 'munderover' or 'mover') or 'munder',
