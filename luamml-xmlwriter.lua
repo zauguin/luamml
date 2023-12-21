@@ -14,7 +14,6 @@ local function escape_text(text)
     return string.format('^^%02x', string.byte(x))
   end)
 end
-print("<node>", escape_text"<node>")
 
 local attrs = {}
 local function write_elem(tree, indent)
