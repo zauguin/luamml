@@ -14,7 +14,7 @@ local right_brace = token.new(string.byte'}', 2)
 
 local output_hook_token
 local global_text_families = {}
-local text_families = setmetatable({}, {__index = function(t, fam)
+local text_families_meta = {__index = function(t, fam)
   if fam == nil then return nil end
   local assignment = global_text_families[fam]
   if assignment == nil then
@@ -28,7 +28,7 @@ local text_families = setmetatable({}, {__index = function(t, fam)
   end
   t[fam] = assignment
   return assignment
-end})
+end}
 
 local properties = node.get_properties_table()
 local mmode, hmode, vmode do
@@ -133,7 +133,7 @@ luatexbase.add_to_callback('pre_mlist_to_hlist_filter', function(mlist, style)
   local display = style == 'display'
   local startmath = tex.nest.top.tail -- Must come before any write_struct calls which adds nodes
   style = flag & 16 == 16 and flag>>5 & 0x7 or display and 0 or 2
-  local xml, core = process_mlist(mlist, style, text_families)
+  local xml, core = process_mlist(mlist, style, setmetatable({}, text_families_meta))
   if flag & 2 == 2 then
     xml = save_result(shallow_copy(xml), display)
   end
