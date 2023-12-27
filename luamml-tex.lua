@@ -13,7 +13,22 @@ local left_brace = token.new(string.byte'{', 1)
 local right_brace = token.new(string.byte'}', 2)
 
 local output_hook_token
-local text_families = {}
+local global_text_families = {}
+local text_families = setmetatable({}, {__index = function(t, fam)
+  if fam == nil then return nil end
+  local assignment = global_text_families[fam]
+  if assignment == nil then
+    local fid = node.family_font(fam)
+    local fontdir = font.getfont(fid)
+    if not fontdir then
+      -- FIXME(?): If there is no font...
+      error'Please load your fonts?!?'
+    end
+    assignment = not fontdir.MathConstants
+  end
+  t[fam] = assignment
+  return assignment
+end})
 
 local properties = node.get_properties_table()
 local mmode, hmode, vmode do
@@ -45,7 +60,7 @@ token.set_lua('RegisterTextFamily', funcid, 'protected')
 lua.get_functions_table()[funcid] = function()
   local fam = token.scan_int()
   local _kind = token.scan_string()
-  text_families[fam] = true
+  global_text_families[fam] = true
 end
 
 local function shallow_copy(t)
