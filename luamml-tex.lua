@@ -24,7 +24,7 @@ local text_families_meta = {__index = function(t, fam)
       -- FIXME(?): If there is no font...
       error'Please load your fonts?!?'
     end
-    assignment = not fontdir.MathConstants
+    assignment = not (fontdir.MathConstants and next(fontdir.MathConstants))
   end
   t[fam] = assignment
   return assignment
@@ -50,6 +50,9 @@ lua.get_functions_table()[funcid] = function()
   local mapping = token.scan_string()
   if mappings[mapping] then
     register_family(fam, mappings[mapping])
+    if global_text_families[fam] == nil then
+      global_text_families[fam] = false
+    end
   else
     tex.error(string.format('Unknown font mapping %q', mapping))
   end

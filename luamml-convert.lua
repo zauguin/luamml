@@ -273,7 +273,7 @@ local function noad_to_table(noad, sub, cur_style, joining, bin_replacements, te
     end
     if nucleus == core and #core == 1 then
       if joining and joining[0] == 'mn' and core[0] == 'mi' and (core[1] == '.' or core[1] == ',') and maybe_to_mn(noad, core)
-          or core[0] == 'mn' or text_families[core['tex:family']] then
+          or core[0] == 'mn' or text_families[core['tex:family'] or 0] then
         if joining and core[0] == joining[0] and core['tex:family'] == joining['tex:family'] then
           joining[#joining+1] = core[1]
           local cnodes = core[':nodes']
