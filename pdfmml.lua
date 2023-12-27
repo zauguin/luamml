@@ -7,6 +7,8 @@ local to_xml = require'luamml-xmlwriter'
 local parse_showlists = require'pdfmml-showlists'
 local parse_log = require'pdfmml-logreader'
 
+local text_families = {}
+
 local attributes = lfs.attributes
 local function try_extensions_(base, extension, ...)
   if extension == nil then return end
@@ -71,7 +73,7 @@ for i, block in ipairs(parsed.groups) do
   block = block[1]
   if flag & 3 ~= 0 then
     local style = flag & 16 == 16 and flag>>5 & 0x7 or block.display and 0 or 2
-    local xml = convert.process(parse_showlists(block, nil, nil, parsed), style)
+    local xml = convert.process(parse_showlists(block, nil, nil, parsed), style, text_families)
     if flag & 2 == 2 then
       local stream = out_stream or assert(io.open(out_prefix .. tostring(i) .. out_suffix, 'w'))
       stream:write(to_xml(convert.make_root(shallow_copy(xml), style)), '\n')

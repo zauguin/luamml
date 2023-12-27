@@ -112,8 +112,6 @@ local always_mo = {["%"] = true, ["&"] = true, ["."] = true, ["/"] = true,
 -- Marker tables replacing the core operator for space like elements
 local space_like = {}
 
-local text_families = {}
-
 local nodes_to_table
 
 local function sub_style(s) return s//4*2+5 end
@@ -179,7 +177,7 @@ local function acc_to_table(acc, cur_style, stretch)
   end
 end
 
-local function kernel_to_table(kernel, cur_style)
+local function kernel_to_table(kernel, cur_style, text_families)
   if not kernel then return end
   local props = properties[kernel]
   local mathml_core = props and props.mathml_core
@@ -216,18 +214,18 @@ local function kernel_to_table(kernel, cur_style)
     end
   elseif id == sub_mlist_t then
     if mathml_filter then
-      return mathml_filter(nodes_to_table(kernel.list, cur_style))
+      return mathml_filter(nodes_to_table(kernel.list, cur_style, text_families))
     else
-      return nodes_to_table(kernel.list, cur_style)
+      return nodes_to_table(kernel.list, cur_style, text_families)
     end
   else
     error'confusion'
   end
 end
 
-local function do_sub_sup(t, core, n, cur_style)
-  local sub = kernel_to_table(n.sub, sub_style(cur_style))
-  local sup = kernel_to_table(n.sup, sup_style(cur_style))
+local function do_sub_sup(t, core, n, cur_style, text_families)
+  local sub = kernel_to_table(n.sub, sub_style(cur_style), text_families)
+  local sup = kernel_to_table(n.sup, sup_style(cur_style), text_families)
   if sub then
     if sup then
       return {[0] = 'msubsup', t, sub, sup}, core
@@ -256,8 +254,8 @@ local function maybe_to_mn(noad, core)
   core[0] = 'mn'
 end
 
-local function noad_to_table(noad, sub, cur_style, joining, bin_replacements)
-  local nucleus, core = kernel_to_table(noad.nucleus, sub == noad_over and cur_style//2*2+1 or cur_style)
+local function noad_to_table(noad, sub, cur_style, joining, bin_replacements, text_families)
+  local nucleus, core = kernel_to_table(noad.nucleus, sub == noad_over and cur_style//2*2+1 or cur_style, text_families)
   if not nucleus then return end
   if core and core[0] == 'mo' and core.minsize and not core.maxsize then
     core.maxsize = core.minsize -- This happens when a half-specified delimiter appears alone in a list.
@@ -287,7 +285,7 @@ local function noad_to_table(noad, sub, cur_style, joining, bin_replacements)
               joining[':nodes'] = cnodes
             end
           end
-          nucleus = do_sub_sup(joining, joining, noad, cur_style)
+          nucleus = do_sub_sup(joining, joining, noad, cur_style, text_families)
           if nucleus == joining then
             return nil, joining, joining
           else
@@ -314,8 +312,8 @@ local function noad_to_table(noad, sub, cur_style, joining, bin_replacements)
 
     if (noad.sup or noad.sub) and (sub == noad_op or sub == noad_oplimits) then
       if core and core[0] == 'mo' then core.movablelimits = sub == noad_op end
-      local sub = kernel_to_table(noad.sub, sub_style(cur_style))
-      local sup = kernel_to_table(noad.sup, sup_style(cur_style))
+      local sub = kernel_to_table(noad.sub, sub_style(cur_style), text_families)
+      local sup = kernel_to_table(noad.sup, sup_style(cur_style), text_families)
       return {[0] = sup and (sub and 'munderover' or 'mover') or 'munder',
         nucleus,
         sub or sup,
@@ -336,11 +334,11 @@ local function noad_to_table(noad, sub, cur_style, joining, bin_replacements)
   else
     error[[confusion]]
   end
-  return do_sub_sup(nucleus, core, noad, cur_style)
+  return do_sub_sup(nucleus, core, noad, cur_style, text_families)
 end
 
-local function accent_to_table(accent, sub, cur_style)
-  local nucleus, core = kernel_to_table(accent.nucleus, cur_style//2*2+1)
+local function accent_to_table(accent, sub, cur_style, text_families)
+  local nucleus, core = kernel_to_table(accent.nucleus, cur_style//2*2+1, text_families)
   local top_acc = acc_to_table(accent.accent, cur_style, sub & 1 == 1)
   local bot_acc = acc_to_table(accent.bot_accent, cur_style, sub & 2 == 2)
   return {[0] = top_acc and (bot_acc and 'munderover' or 'mover') or 'munder',
@@ -362,9 +360,9 @@ style_table.crampedscript, style_table.crampedscriptscript =
   style_table.display, style_table.text,
   style_table.script, style_table.scriptscript
 
-local function radical_to_table(radical, sub, cur_style)
+local function radical_to_table(radical, sub, cur_style, text_families)
   local kind = radical_sub[sub]
-  local nucleus, core = kernel_to_table(radical.nucleus, cur_style//2*2+1)
+  local nucleus, core = kernel_to_table(radical.nucleus, cur_style//2*2+1, text_families)
   local left = delim_to_table(radical.left)
   local elem
   if kind == 'radical' or kind == 'uradical' then
@@ -372,7 +370,7 @@ local function radical_to_table(radical, sub, cur_style)
     elem, core = {[0] = 'msqrt', nucleus, }, nil
   elseif kind == 'uroot' then
     -- FIXME: Check that this is really a root
-    elem, core = {[0] = 'msqrt', nucleus, kernel_to_table(radical.degree)}, nil
+    elem, core = {[0] = 'msqrt', nucleus, kernel_to_table(radical.degree, 7, text_families)}, nil
   elseif kind == 'uunderdelimiter' then
     elem, core = {[0] = 'munder', left, nucleus}, left
   elseif kind == 'uoverdelimiter' then
@@ -384,12 +382,12 @@ local function radical_to_table(radical, sub, cur_style)
   else
     error[[confusion]]
   end
-  return do_sub_sup(elem, core, radical, cur_style)
+  return do_sub_sup(elem, core, radical, cur_style, text_families)
 end
 
-local function fraction_to_table(fraction, sub, cur_style)
-  local num, core = kernel_to_table(fraction.num, cur_style + 2 - cur_style//6*2)
-  local denom = kernel_to_table(fraction.denom, cur_style//2*2 + 3 - cur_style//6*2)
+local function fraction_to_table(fraction, sub, cur_style, text_families)
+  local num, core = kernel_to_table(fraction.num, cur_style + 2 - cur_style//6*2, text_families)
+  local denom = kernel_to_table(fraction.denom, cur_style//2*2 + 3 - cur_style//6*2, text_families)
   local left = delim_to_table(fraction.left)
   local right = delim_to_table(fraction.right)
   local mfrac = {[0] = 'mfrac',
@@ -519,7 +517,7 @@ local function cleanup_mathbin(head)
   return replacements
 end
 
-function nodes_to_table(head, cur_style)
+function nodes_to_table(head, cur_style, text_families)
   local bin_replacements = cleanup_mathbin(head)
   local t = {[0] = 'mrow'}
   local result = t
@@ -534,7 +532,7 @@ function nodes_to_table(head, cur_style)
       new_node, new_core = mathml_table, mathml_core
     elseif id == noad_t then
       local new_n
-      new_n, new_core, new_joining = noad_to_table(n, sub, cur_style, joining, bin_replacements)
+      new_n, new_core, new_joining = noad_to_table(n, sub, cur_style, joining, bin_replacements, text_families)
       if new_joining == false then
         t[#t], new_joining = new_n, nil
       else
@@ -542,7 +540,7 @@ function nodes_to_table(head, cur_style)
       end
       new_noad = sub
     elseif id == accent_t then
-      new_node, new_core = accent_to_table(n, sub, cur_style)
+      new_node, new_core = accent_to_table(n, sub, cur_style, text_families)
       new_noad = noad_ord
     elseif id == style_t then
       if sub ~= cur_style then
@@ -567,12 +565,12 @@ function nodes_to_table(head, cur_style)
                                         or size == 1 and 'text'
                                         or size == 2 and 'script'
                                         or size == 3 and 'scriptscript'
-                                        or assert(false)], 2*size), space_like
+                                        or assert(false)], 2*size, text_families), space_like
     elseif id == radical_t then
-      new_node, new_core = radical_to_table(n, sub, cur_style)
+      new_node, new_core = radical_to_table(n, sub, cur_style, text_families)
       new_noad = noad_ord
     elseif id == fraction_t then
-      new_node, new_core = fraction_to_table(n, sub, cur_style)
+      new_node, new_core = fraction_to_table(n, sub, cur_style, text_families)
       new_noad = noad_inner
     elseif id == fence_t then
       new_node, new_core = fence_to_table(n, sub, cur_style)
@@ -658,7 +656,6 @@ end
 
 return {
   register_family = register_remap,
-  register_text_family = function(fam) text_families[fam] = true end,
-  process = function(head, style) return nodes_to_table(head, style or 2) end,
+  process = function(head, style, families) return nodes_to_table(head, style or 2, families) end,
   make_root = to_math,
 }
