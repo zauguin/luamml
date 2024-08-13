@@ -100,23 +100,23 @@ local labelled_mathml = {}
 local function save_result(xml, display, structelem)
   mlist_result = make_root(xml, display and 0 or 2)
   if out_file then
-    out_file:write(write_xml(mlist_result, true):sub(2) .. '\n')
+    out_file:write(write_xml(mlist_result, tex.count.l__luamml_pretty_int & 1 == 1):sub(2) .. '\n')
   else
     token.put_next(filename_token)
     local filename = token.scan_argument()
     if filename ~= '' then
       assert(io.open(filename, 'w'))
-        :write(write_xml(mlist_result, true):sub(2) .. '\n')
+        :write(write_xml(mlist_result, tex.count.l__luamml_pretty_int & 1 == 1):sub(2) .. '\n')
         :close()
     end
   end
   local tracing = tex.count.tracingmathml > 1
   if tracing then
-    texio.write_nl(write_xml(mlist_result) .. '\n')
+    texio.write_nl(write_xml(mlist_result, tex.count.l__luamml_pretty_int & 2 == 2) .. '\n')
   end
   if output_hook_token then
     tex.runtoks(function()
-      tex.sprint(-2, output_hook_token, left_brace, write_xml(mlist_result), right_brace)
+      tex.sprint(-2, output_hook_token, left_brace, write_xml(mlist_result, tex.count.l__luamml_pretty_int & 4 == 4), right_brace)
     end)
   end
   if tex.count.l__luamml_flag_int & 8 == 8 then
@@ -184,7 +184,7 @@ lua.get_functions_table()[funcid] = function()
         "I was asked to provide MathML code for the last formula, but there weren't any new formulas since you last asked."
       })
   end
-  local mml = write_xml(mlist_result)
+  local mml = write_xml(mlist_result, tex.count.l__luamml_pretty_int & 8 == 8)
   if tex.count.tracingmathml == 1 then
     texio.write_nl(mml .. '\n')
   end

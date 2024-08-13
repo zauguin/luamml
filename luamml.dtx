@@ -85,12 +85,15 @@
 % them later.
 %    \begin{macrocode}
 \int_new:N \l__luamml_flag_int
+\int_new:N \l__luamml_pretty_int
 %<luatex>\tl_new:N \l__luamml_filename_tl
 \tl_new:N \l__luamml_root_tl
 \tl_set:Nn \l__luamml_root_tl { mrow }
 \tl_new:N \l__luamml_label_tl
 %<pdftex>\int_new:N \g__luamml_formula_id_int
 %<luatex>\int_new:N \tracingmathml
+
+\int_set:Nn \l__luamml_pretty_int { 1 }
 %    \end{macrocode}
 %
 % Now we can load the Lua module which defines the callback.
