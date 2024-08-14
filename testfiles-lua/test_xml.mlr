@@ -1,27 +1,27 @@
-<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+<math xmlns="http://www.w3.org/1998/Math/MathML">
   <mstyle displaystyle="true" scriptlevel="0">
     <mi>𝑎</mi>
-    <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+    <mo lspace="0.278em" rspace="0.278em">=</mo>
     <mi>𝑏</mi>
   </mstyle>
 </math>
-<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+<math xmlns="http://www.w3.org/1998/Math/MathML">
   <mi>𝑎</mi>
-  <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+  <mo lspace="0.278em" rspace="0.278em">=</mo>
   <mi>𝑏</mi>
 </math>
-<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+<math xmlns="http://www.w3.org/1998/Math/MathML">
   <mi>𝑎</mi>
-  <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+  <mo lspace="0.278em" rspace="0.278em">=</mo>
   <mi>𝑏</mi>
 </math>
-<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+<math xmlns="http://www.w3.org/1998/Math/MathML">
   <mi>𝑎</mi>
-  <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+  <mo lspace="0.278em" rspace="0.278em">=</mo>
   <mi>𝑏</mi>
 </math>
-<math display="block" xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
-  <mrow tex:class="inner">
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mrow>
     <mo fence="true" lspace="0" rspace="0" symmetric="true">(</mo>
     <mspace width="-4.981pt" />
     <mpadded lspace="+4.981pt" width="+9.963pt">
@@ -64,8 +64,8 @@
     <mspace width="-4.981pt" />
     <mo fence="true" lspace="0" rspace="0" symmetric="true">)</mo>
   </mrow>
-  <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
-  <mrow tex:class="inner">
+  <mo lspace="0.278em" rspace="0.278em">=</mo>
+  <mrow>
     <mo fence="true" lspace="0" rspace="0" symmetric="true">{</mo>
     <mpadded lspace="+4.981pt" width="+9.963pt">
       <mtable>
@@ -75,12 +75,12 @@
           </mtd>
           <mtd columnalign="left">
             <mtext>if&#160; 
-            <math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
               <mi>𝑎</mi>
-              <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+              <mo lspace="0.278em" rspace="0.278em">=</mo>
               <mi>𝑏</mi>
             </math></mtext>
-            <mi intent="@ignore" />
+            <mi />
           </mtd>
         </mtr>
         <mtr>
@@ -89,7 +89,7 @@
           </mtd>
           <mtd columnalign="left">
             <mtext>else</mtext>
-            <mi intent="@ignore" />
+            <mi />
           </mtd>
         </mtr>
       </mtable>
@@ -97,21 +97,21 @@
     <mspace width="1.196pt" />
   </mrow>
 </math>
-<math display="block" xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
   <mi>𝑥</mi>
-  <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+  <mo lspace="0.278em" rspace="0.278em">=</mo>
   <mfrac>
     <mrow>
-      <mo lspace="0" rspace="0.222em" tex:class="bin">−</mo>
+      <mo lspace="0" rspace="0.222em">−</mo>
       <mi>𝑏</mi>
-      <mo lspace="0.222em" rspace="0.222em" tex:class="bin">±</mo>
+      <mo lspace="0.222em" rspace="0.222em">±</mo>
       <msqrt>
         <mrow>
           <msup>
             <mi>𝑏</mi>
             <mn>2</mn>
           </msup>
-          <mo lspace="0.222em" rspace="0.222em" tex:class="bin">−</mo>
+          <mo lspace="0.222em" rspace="0.222em">−</mo>
           <mn>4</mn>
           <mi>𝑎</mi>
           <mi>𝑐</mi>
@@ -123,11 +123,11 @@
       <mi>𝑎</mi>
     </mrow>
   </mfrac>
-  <mo lspace="0" rspace="0" tex:class="ord">.</mo>
+  <mo lspace="0" rspace="0">.</mo>
 </math>
-<math display="block" xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
   <munder>
-    <mo lspace="0" movablelimits="true" rspace="0.167em" tex:class="opdisplaylimits">∑</mo>
+    <mo lspace="0" movablelimits="true" rspace="0.167em">∑</mo>
     <mi>𝑎</mi>
   </munder>
   <munder>
@@ -143,7 +143,7 @@
     <mi mathvariant="normal">′</mi>
   </msup>
 </math>
-<math display="block" xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
   <mtable columnalign="right left right left" columnspacing="0 .8em 0" displaystyle="true">
     <mlabeledtr>
       <mtd>
@@ -155,8 +155,8 @@
         <mi>𝑐</mi>
       </mtd>
       <mtd>
-        <mi intent="@ignore" />
-        <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+        <mi />
+        <mo lspace="0.278em" rspace="0.278em">=</mo>
         <mi>𝑑</mi>
         <mi>𝑒</mi>
         <mi>𝑓</mi>
@@ -165,15 +165,15 @@
         <msup>
           <mi>𝑒</mi>
           <mrow>
-            <mi mathvariant="normal" tex:family="4">i</mi>
+            <mi mathvariant="normal">i</mi>
             <mi>𝜋</mi>
           </mrow>
         </msup>
       </mtd>
       <mtd>
-        <mi intent="@ignore" />
-        <mo lspace="0.278em" rspace="0" tex:class="rel">=</mo>
-        <mo lspace="0.278em" rspace="0" tex:class="ord">−</mo>
+        <mi />
+        <mo lspace="0.278em" rspace="0">=</mo>
+        <mo lspace="0.278em" rspace="0">−</mo>
         <mn>1</mn>
       </mtd>
     </mlabeledtr>
@@ -184,20 +184,20 @@
       <mtd>
         <mo fence="true" lspace="0" maxsize="17.861pt" minsize="17.861pt" rspace="0" symmetric="true">(</mo>
         <mn>1</mn>
-        <mo lspace="0.222em" rspace="0.222em" tex:class="bin">+</mo>
+        <mo lspace="0.222em" rspace="0.222em">+</mo>
         <mn>2</mn>
       </mtd>
       <mtd>
-        <mi intent="@ignore" />
-        <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+        <mi />
+        <mo lspace="0.278em" rspace="0.278em">=</mo>
         <mn>3</mn>
         <mo fence="true" lspace="0" maxsize="17.861pt" minsize="17.861pt" rspace="0" symmetric="true">)</mo>
       </mtd>
       <mtd>
-        <mi intent="@ignore" />
+        <mi />
       </mtd>
       <mtd>
-        <mi intent="@ignore" />
+        <mi />
       </mtd>
     </mlabeledtr>
     <mlabeledtr>
@@ -208,38 +208,30 @@
         <mn>5</mn>
       </mtd>
       <mtd>
-        <mi intent="@ignore" />
+        <mi />
       </mtd>
       <mtd>
-        <mi intent="@ignore" />
+        <mi />
       </mtd>
       <mtd>
-        <mi intent="@ignore" />
+        <mi />
       </mtd>
     </mlabeledtr>
   </mtable>
 </math>
-<math xmlns:tex="http://typesetting.eu/2021/LuaMathML" xmlns="http://www.w3.org/1998/Math/MathML">
-  <mrow tex:class="opnolimits">
-    <mi mathvariant="normal" tex:family="4">s</mi>
-    <mi mathvariant="normal" tex:family="4">i</mi>
-    <mi mathvariant="normal" tex:family="4">n</mi>
-  </mrow>
-  <mo lspace="0" rspace="0" stretchy="false" tex:class="open">(</mo>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi mathvariant="normal">sin</mi>
+  <mo lspace="0" rspace="0" stretchy="false">(</mo>
   <mi>𝑥</mi>
-  <mo lspace="0" rspace="0" stretchy="false" tex:class="close">)</mo>
-  <mo lspace="0.222em" rspace="0.222em" tex:class="bin">−</mo>
-  <mrow tex:class="opnolimits">
-    <mi mathvariant="normal" tex:family="4">s</mi>
-    <mi mathvariant="normal" tex:family="4">i</mi>
-    <mi mathvariant="normal" tex:family="4">n</mi>
-  </mrow>
-  <mo lspace="0" rspace="0" stretchy="false" tex:class="open">(</mo>
+  <mo lspace="0" rspace="0" stretchy="false">)</mo>
+  <mo lspace="0.222em" rspace="0.222em">−</mo>
+  <mi mathvariant="normal">sin</mi>
+  <mo lspace="0" rspace="0" stretchy="false">(</mo>
   <mi>𝑥</mi>
-  <mo lspace="0.222em" rspace="0.222em" tex:class="bin">+</mo>
+  <mo lspace="0.222em" rspace="0.222em">+</mo>
   <mn>2</mn>
   <mi>𝜋</mi>
-  <mo lspace="0" rspace="0" stretchy="false" tex:class="close">)</mo>
-  <mo lspace="0.278em" rspace="0.278em" tex:class="rel">=</mo>
+  <mo lspace="0" rspace="0" stretchy="false">)</mo>
+  <mo lspace="0.278em" rspace="0.278em">=</mo>
   <mn>0</mn>
 </math>

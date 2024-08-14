@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-%% Copyright (C) 2020-2021 by Marcel Krueger
+%% Copyright (C) 2020-2024 by Marcel Krueger
 %%
 %% This file may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either
@@ -35,6 +35,7 @@
 \documentclass{l3doc}
 \usepackage{luamml}
 \usepackage{csquotes,luacolor}
+\MakeShortVerb{\|}
 \RecordChanges
 \begin{document}
 \tracingmathml2
@@ -48,13 +49,60 @@
 %</gobble>
 % \fi
 %
-% \title{The \pkg{luamml} package}
-%
+% \GetFileInfo{luamml.dtx}
+% \title{The \pkg{luamml} package%
+%   \thanks{This doument corresponds to \pkg{luamml}~\fileversion, dated~\filedate.}%
+% }
 % \author{Marcel Krüger}
 %
 % \maketitle
 %
 % \begin{documentation}
+% \section{Use case}
+% When generating output for the web or tagged output, mathematical content should often be represented as MathML.
+% This uses Lua\TeX~callbacks to automatically attempt to convert Lua\TeX~math mode output into MathML.
+%
+% \section{Usage}
+% The \pkg{luamml} package is designed to be used in automated ways by other packages and usually should not be invoked directly by the end user.
+% For experiments, \texttt{luamml-demo} is included which provides easier to use interfaces.
+%
+% Add in your preamble
+% \begin{verbatim}
+% \usepackage[files]{luamml-demo}
+% \end{verbatim}
+% This will trigger the output of individual files for each block of math output containing corresponding MathML.
+%
+% Alternatively
+% \begin{verbatim}
+% \usepackage[l3build]{luamml-demo}
+% \end{verbatim}
+% will generate a single file witha concatenation of all MathML blocks.
+%
+% For automated use, the \pkg{luamml} package can be included directly, followed by enclosing blocks which should generate files with \cmd{luamml_begin_single_file:} and \cmd{luamml_end_single_file:}.
+% The filename can be set with \cmd{luamml_set_filename:n}.
+%
+% \section{Improving MathML conversion}
+% When using constructs which do not automatically get converted in acceptable form, conversion hints can be provided with \cmd{luamml_annotate:en}.
+% This allows to provide a replacement MathML structure in Lua table form, for example
+% \begin{verbatim}
+% \luamml_annotate:en {
+%   nucleus = true,
+%   core = {[0] = 'mi', 'TeX'},
+% }{
+%   \hbox{\TeX}
+% }
+% \end{verbatim}
+% produces a |<mi>TeX</mi>| element in the output instead of trying to import \TeX~as a mathematical expression.
+% The table structure is explaned in an appendix.
+%
+% \section{Features \& Limitiations}
+% Currently all mathematical expressions which purely contain Unicode encoded math mode material without embedded non-math should get converted successfully.
+% Usage with non-Unicode math (\TeX's 8-bit math fonts) is highly experimental and undocumented.
+% Any attempt to build complicated structures by embedding arbitrary \TeX\ code in the middle of math mode needs to have a MathML replacement specified.
+% We try to automate more cases in the future.
+%
+% \appendix
+% \input{luamml-algorithm}
 % \end{documentation}
 %
 % \begin{implementation}
@@ -66,11 +114,11 @@
 %    \begin{macrocode}
 %<@@=luamml>
 %<*luatex>
-\ProvidesExplPackage {luamml} {2021-04-23} {0.0.1-alpha}
+\ProvidesExplPackage {luamml} {2024-08-14} {0.1.0}
   {Automatically generate presentational MathML from LuaTeX math expressions}
 %</luatex>
 %<*pdftex>
-\ProvidesExplPackage {luamml-pdf} {2021-05-31} {0.0.1-alpha}
+\ProvidesExplPackage {luamml-pdf} {2024-08-14} {0.1.0}
   {MathML generation for L̶u̶a̶pdfLaTeX}
 %</pdftex>
 %    \end{macrocode}

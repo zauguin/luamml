@@ -1,10 +1,7 @@
-\documentclass{article}
-\begin{document}
-\title{From math lists to MathML}
-\subtitle{The algorithm in luamml}
-\author{Marcel}
-\maketitle
-\section{General concepts}
+\newcommand\Luamml{\pkg{Luamml}}
+\newcommand\luamml{\pkg{luamml}}
+\newcommand\xmltag[1]{\texttt{<#1>}}
+\section{\Luamml's representation of XML and MathML}
 In the following I assume basic familiarity with both Lua\TeX's representation of math noads and MathML.
 
 \subsection{Representation of XML elements}
@@ -35,32 +32,32 @@ MathML knows the concept of \enquote{embellished operators}:
 \begin{blockquote}
   The precise definition of an \enquote{embellished operator} is:
   \begin{itemize}
-    \item an \tag{mo} element;
-    \item or one of the elements \tag{msub}, \tag{msup}, \tag{msubsup}, \tag{munder}, \tag{mover}, \tag{munderover}, \tag{mmultiscripts}, \tag{mfrac}, or \tag{semantics} (§ 5.1 Annotation Framework), whose first argument exists and is an embellished operator;
-    \item or one of the elements \tag{mstyle}, \tag{mphantom}, or \tag{mpadded}, such that an mrow containing the same arguments would be an embellished operator;
-    \item or an \tag{maction} element whose selected sub-expression exists and is an embellished operator;
-    \item or an \tag{mrow} whose arguments consist (in any order) of one embellished operator and zero or more space-like elements.
+    \item an \xmltag{mo} element;
+    \item or one of the elements \xmltag{msub}, \xmltag{msup}, \xmltag{msubsup}, \xmltag{munder}, \xmltag{mover}, \xmltag{munderover}, \xmltag{mmultiscripts}, \xmltag{mfrac}, or \xmltag{semantics} (§ 5.1 Annotation Framework), whose first argument exists and is an embellished operator;
+    \item or one of the elements \xmltag{mstyle}, \xmltag{mphantom}, or \xmltag{mpadded}, such that an mrow containing the same arguments would be an embellished operator;
+    \item or an \xmltag{maction} element whose selected sub-expression exists and is an embellished operator;
+    \item or an \xmltag{mrow} whose arguments consist (in any order) of one embellished operator and zero or more space-like elements.
   \end{itemize}
 \end{blockquote}
-For every embellished operator, MathML calls the \tag{mo} element defining the embellished operator the \enquote{core} of the embellished operator.
+For every embellished operator, MathML calls the \xmltag{mo} element defining the embellished operator the \enquote{core} of the embellished operator.
 
 \Luamml\ makes this slightly more general: Every expression is represented by a pair of two elements: The expression and it's core.
-The core is always a \tag{mo}, \tag{mi}, or \tag{mn}, \texttt{nil} or s special marker for space like elements.
+The core is always a \xmltag{mo}, \xmltag{mi}, or \xmltag{mn}, \texttt{nil} or s special marker for space like elements.
 
-If and only if the element is a embellished operator the core is a \tag{mo} element representing the core of the embellished operator.
-The core is a \tag{mi} or a \tag{mn} element if and only if the element would be an embellished operator with this core if this element where a \tag{mo} element.
+If and only if the element is a embellished operator the core is a \xmltag{mo} element representing the core of the embellished operator.
+The core is a \xmltag{mi} or a \xmltag{mn} element if and only if the element would be an embellished operator with this core if this element where a \xmltag{mo} element.
 The core is the special space like marker for space like elements. Otherwise the core is \texttt{nil}.
 
-\section{Translation of math noads}
+\subsection{Translation of math noads}
 A math lists can contain the following node types: noad, fence, fraction, radical, accent, style, choice, ins, mark, adjust, boundary, whatsit, penalty, disc, glue, and kern. The \enquote{noads}
 
-\subsection{Translation of kernel noads}
+\subsubsection{Translation of kernel noads}
 The math noads of this list contain nested kernel noads. So in the first step, we look into how kernel nodes are translated to math nodes.
 
-\subsubsection{\texttt{math_char} kernel noads}
+\paragraph{\texttt{math_char} kernel noads}
 First the family and character value in the \texttt{math_char} are used to lookup the Unicode character value of this \texttt{math_char}.
-(For \textt{unicode-math}, this is usually just the character value. Legacy maths has to be remapped based on the family.)
-Then there are two cases: The digits \texttt{0} to \texttt{9} are mapped to \tag{mn} elements, everything else becomes a \tag{mi} element with \texttt{mathvariant} set to \texttt{normal}.
+(For \texttt{unicode-math}, this is usually just the character value. Legacy maths has to be remapped based on the family.)
+Then there are two cases: The digits \texttt{0} to \texttt{9} are mapped to \xmltag{mn} elements, everything else becomes a \xmltag{mi} element with \texttt{mathvariant} set to \texttt{normal}.
 (The \texttt{mathvariant} value might get suppressed if the character defaults to mathvariant \texttt{normal}.)
 In either case, the \texttt{tex:family} attribute is set to the family number if it's not \texttt{0}.
 
@@ -73,13 +70,13 @@ The core is always set to the expression itself. E.g.\ the \texttt{math_char} ke
 }
 \end{verbatim}
 
-\subsection{\texttt{sub_box} kernel noads}
+\subsubsection{\texttt{sub_box} kernel noads}
 I am open to suggestions how to convert them properly.
 
-\subsection{\texttt{sub_mlist} kernel noads}
-The inner list is converted as a \tag{mrow} element, with the core being the core of the \tag{mrow} element. See the rules for this later.
+\subsubsection{\texttt{sub_mlist} kernel noads}
+The inner list is converted as a \xmltag{mrow} element, with the core being the core of the \xmltag{mrow} element. See the rules for this later.
 
-\subsection{\texttt{delim} kernel noads}
+\subsubsection{\texttt{delim} kernel noads}
 If the \texttt{small_char} is zero, these get converted as space like elements of the form
 \begin{verbatim}
 {[0] = 'mspace',
@@ -89,15 +86,13 @@ If the \texttt{small_char} is zero, these get converted as space like elements o
 where 1.196 is replaced by the current value of \verb+\nulldelimiterspace+ converted to \texttt{bp}.
 
 Otherwise the same rules as for \texttt{math_char} apply,
-except that instead of \texttt{mi} or \tag{mn} elements,
+except that instead of \texttt{mi} or \xmltag{mn} elements,
 \texttt{mo} elements are generated,
 \texttt{mathvariant} is never set,
 \texttt{stretchy} is set to \texttt{true} if the operator is not on the list of default stretchy operators in the MathML specification 
 nd \texttt{lspace} and \texttt{rspace} attributes are set to zero.
 
-\subsection{\texttt{acc} kernel noads}
+\subsubsection{\texttt{acc} kernel noads}
 Depending on the surrounding element containing the \texttt{acc} kernel noad, it is either stretchy or not.
 If it's stretchy, the same rules as for \texttt{delim} apply, except that \texttt{lspace} and \texttt{rspace} are not set.
-Otherwise the \textt{stretchy} attribute is set to false if the operator is on the list of default stretchy operators.
-
-\end{document}
+Otherwise the \texttt{stretchy} attribute is set to false if the operator is on the list of default stretchy operators.
