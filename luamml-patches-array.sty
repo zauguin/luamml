@@ -56,18 +56,18 @@
       \do@row@strut
     \or
       \setbox \ar@mcellbox \vbox \@startpbox { \@nextchar }
-        \insert@column
+        \insert@pcolumn
       \@endpbox
       \ar@align@mcell
       \do@row@strut
     \or
       \vtop \@startpbox { \@nextchar }
-        \insert@column
+        \insert@pcolumn
       \@endpbox
       \do@row@strut
     \or
       \vbox \@startpbox { \@nextchar }
-        \insert@column
+      \insert@pcolumn
       \@endpbox
       \do@row@strut
     \fi
@@ -75,12 +75,27 @@
   \prepnext@tok
 }
 
-\cs_set:Npn \endarray {
-  \crcr
-  \__luamml_array_save_array:
-  \egroup
-  \egroup
-  \mode_if_math:T { \__luamml_array_finalize_array: }
-  \@arrayright
-  \gdef \@preamble {}
+\IfPackageAtLeastTF {array} {2023/12/11} {
+  \cs_set:Npn \endarray {
+    \tbl_crcr:n{endarray}
+    \__luamml_array_save_array:
+    \egroup
+    \UseTaggingSocket{tbl/finalize}
+    \tbl_restore_outer_cell_data:
+    \egroup
+    \mode_if_math:T { \__luamml_array_finalize_array: }
+    \@arrayright
+    \gdef \@preamble {}
+  }
+} {
+  \cs_new_eq:NN \insert@pcolumn \insert@column
+  \cs_set:Npn \endarray {
+    \crcr
+    \__luamml_array_save_array:
+    \egroup
+    \egroup
+    \mode_if_math:T { \__luamml_array_finalize_array: }
+    \@arrayright
+    \gdef \@preamble {}
+  }
 }
