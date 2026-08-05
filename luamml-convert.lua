@@ -671,9 +671,11 @@ end
 
 -- 2025-05-30: Check if the outer outer mrow should be replaced by math
 -- as firefox doesn't properly support tagging-project#856.
+-- Fix: if the outer mrow has relevant attributes (e.g. intent from
+-- \MathMLintent), preserve it as a child of <math> instead of renaming.
 
 local function to_math(root, style)
-  if root[0] == 'mrow' then
+  if root[0] == 'mrow' and not has_relevant_attributes(root) then
     root[0] = 'math'
   else
     root = {[0] = 'math', root}
