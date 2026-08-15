@@ -160,7 +160,7 @@ do
       mml_table,
       {[0] = 'mspace', width = '0.167em'},
     }
-    debug_mtable(mml_table, kind)
+    debug_mtable(mml_table, 'smallmatrix')
     saved = mml_table
   end
 
