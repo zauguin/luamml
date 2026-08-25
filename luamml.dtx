@@ -32,7 +32,8 @@
 \csname fi\endcsname
 %</gobble>
 %<*driver>
-\documentclass{l3doc}
+\DocumentMetadata{tagging=on}
+\documentclass{l3in2edoc}
 \usepackage{luamml}
 \usepackage{csquotes,luacolor,array}
 \MakeShortVerb{\|}
@@ -70,11 +71,11 @@
 %
 % Typically you will use it through \pkg{latex-lab-math}. See the \pkg{latex-lab-math} documentation for user instructions.
 %
-% If you want to use \pkg{luamml} in another context, the \pkg{luamml} package can be included directly, followed by enclosing blocks which should generate files with \cmd{luamml_begin_single_file:} and \cmd{luamml_end_single_file:}.
-% The filename can be set with \cmd{luamml_set_filename:n}.
+% If you want to use \pkg{luamml} in another context, the \pkg{luamml} package can be included directly, followed by enclosing blocks which should generate files with \cs{luamml_begin_single_file:} and \cs{luamml_end_single_file:}.
+% The filename can be set with \cs{luamml_set_filename:n}.
 %
 % \section{Improving MathML conversion}
-% When using constructs which do not automatically get converted in acceptable form, conversion hints can be provided with \cmd{luamml_annotate:en}.
+% When using constructs which do not automatically get converted in acceptable form, conversion hints can be provided with \cs{luamml_annotate:en}.
 % This allows to provide a replacement MathML structure in Lua table form, for example
 % \begin{verbatim}
 % \luamml_annotate:en {
@@ -87,7 +88,7 @@
 % produces a |<mi>TeX</mi>| element in the output instead of trying to import \TeX~as a mathematical expression.
 %
 % It it possible to add a structure around the construct, stash that structure
-% and then to tell \cmd{luamml_annotate:en} to insert it later inside the math.
+% and then to tell \cs{luamml_annotate:en} to insert it later inside the math.
 % For this the keys \texttt{struct} (which takes a label as argument) or \texttt{structnum}
 % (which takes a structure number) can be used. For example
 % \begin{verbatim}
@@ -179,7 +180,7 @@
 % \subsection{Hook}
 % We also call a hook with arguments at the end of every MathML conversion with the result.
 % Currently only implemented in Lua\TeX{} since it immediately provides the output.
-% TODO: the latex-lab-math code registers its own function and so effectly kills the
+% TODO: the latex-lab-math code registers its own function and so effectively kills the
 % hook here. This should be sorted \ldots.
 %    \begin{macrocode}
 %<*luatex>
@@ -197,7 +198,7 @@
 % The most important interface is for setting the flag which controls how the
 % formulas should be converted.
 %
-% \begin{macro}{\luamml_process:}
+% \begin{macro}[no-user-doc]{\luamml_process:}
 %   Consider the current formula to be a complete, free-standing mathematical
 %   expression which should be converted to MathML. Additionally, the formula
 %   is also saved in the \texttt{start\_math} node as with
@@ -208,7 +209,7 @@
   \int_set:Nn \l__luamml_flag_int { 3 }
 }
 %    \end{macrocode}
-% Temporarly for compatibility
+% Temporarily for compatibility
 %    \begin{macrocode}
 \cs_set_eq:NN \luamml_flag_process: \luamml_process:
 %    \end{macrocode}
@@ -247,7 +248,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\luamml_save:n,
+% \begin{macro}[no-user-doc]{\luamml_save:n,
 %               \luamml_save:nN,
 %               \luamml_save:nn,
 %               \luamml_save:nNn}
@@ -281,7 +282,7 @@
   \tl_set:Nn \l__luamml_root_tl
 }
 %    \end{macrocode}
-% Temporarly for compatibility
+% Temporarily for compatibility
 %    \begin{macrocode}
 \cs_set_eq:NN \luamml_flag_save:n \luamml_save:n
 \cs_set_eq:NN \luamml_flag_save:nN \luamml_save:nN
@@ -290,20 +291,20 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\luamml_ignore:}
+% \begin{macro}[no-user-doc]{\luamml_ignore:}
 %   Completely ignore the math mode material.
 %    \begin{macrocode}
 \cs_new_protected:Npn \luamml_ignore: {
   \int_set:Nn \l__luamml_flag_int { 0 }
 }
 %    \end{macrocode}
-% Temporarly for compatibility
+% Temporarily for compatibility
 %    \begin{macrocode}
 \cs_set_eq:NN \luamml_flag_ignore: \luamml_ignore:
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\luamml_structelem:}
+% \begin{macro}[no-user-doc]{\luamml_structelem:}
 %   Like \cs{luamml_process:}, but additionally adds PDF structure
 %   elements. This only works in Lua\TeX\ and requires that the \pkg{tagpdf} package
 %   has been loaded \emph{before} \texttt{luamml}.
@@ -314,14 +315,14 @@
   \int_set:Nn \l__luamml_flag_int { 11 }
 }
 %    \end{macrocode}
-% Temporarly for compatibility
+% Temporarily for compatibility
 %    \begin{macrocode}
 \cs_set_eq:NN \luamml_flag_structelem: \luamml_structelem:
 %</luatex>
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\luamml_set_filename:n}
+% \begin{macro}[no-user-doc]{\luamml_set_filename:n}
 %   Allows to set a filename to which the generated MathML gets written.
 %   Previous content from the file will get overwritten. This includes results
 %   written by a previous formula. Therefore this has to be called separately
@@ -342,7 +343,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\luamml_begin_single_file:, \luamml_end_single_file:}
+% \begin{macro}[no-user-doc]{\luamml_begin_single_file:, \luamml_end_single_file:}
 %   Everything between these two commands gets written into the same XML file.
 %   The filename is expanded when \cs{luamml_begin_single_file:} gets executed.
 %
@@ -361,14 +362,14 @@
 %    \begin{macrocode}
 %<*luatex>
 %    \end{macrocode}
-% \begin{macro}{\luamml_annotate:nen, \luamml_annotate:en}
+% \begin{macro}[no-user-doc]{\luamml_annotate:nen, \luamml_annotate:en}
 % A simple annotation scheme: The first argument is the number of top level
 % noads to be annotated, the second parameter the annotation and the third
 % parameter the actual list of math tokens. The first argument can be omitted to
-% let Lua\TeX determine the number itself.
+% let Lua\TeX\ determine the number itself.
 %
 % Passing the first parameter explicitly is useful for any annotations which
-% should be compatible with future pdf\TeX versions of this functionality.
+% should be compatible with future pdf\TeX\ versions of this functionality.
 %    \begin{macrocode}
 \cs_new_protected:Npn \luamml_annotate:nen #1#2#3 {
   \__luamml_flattened_mathgroup_begin:
@@ -384,7 +385,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\luamml_attribute:nnn, \luamml_attribute_core:nnn}
+% \begin{macro}[no-user-doc]{\luamml_attribute:nnn, \luamml_attribute_core:nnn}
 % Set a MathML attribute on a MathML node.
 %    \begin{macrocode}
 \cs_new_protected:Npn \luamml_attribute:een #1#2#3 {
@@ -442,7 +443,7 @@
 % \end{macro}
 %
 %
-% \begin{macro}{\luamml_annotate:nen, \luamml_annotate:en}
+% \begin{macro}[no-user-doc]{\luamml_annotate:nen, \luamml_annotate:en}
 % Now we can define the annotation commands for pdf\TeX.
 %    \begin{macrocode}
 \cs_generate_variant:Nn \tl_to_str:n { e }
@@ -506,9 +507,9 @@
 % This only applies for pdf\TeX\ since in Lua\TeX\ everything is controlled by the callback,
 % but for compatibility the function is defined anyway.
 %
-% \begin{macro}{\luamml_pdf_write:}
+% \begin{macro}[no-user-doc]{\luamml_pdf_write:}
 % We could accept parameters for the flag and tag here, but for compatibility
-% with Lua\TeX they are passed in macros instead.
+% with Lua\TeX\ they are passed in macros instead.
 %    \begin{macrocode}
 %<*pdftex>
 \cs_new_protected:Npn \luamml_pdf_write: {
@@ -538,7 +539,7 @@
 %
 % \subsection{Further helpers}
 %
-% \begin{macro}{\RegisterFamilyMapping}
+% \begin{macro}[no-user-doc]{\RegisterFamilyMapping}
 % The Lua version of this is defined in the Lua module.
 %    \begin{macrocode}
 %<*pdftex>
